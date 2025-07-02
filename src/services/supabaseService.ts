@@ -18,12 +18,38 @@ export const tournamentService = {
   },
 
   async create(tournament: Omit<Tournament, 'id' | 'created_at' | 'updated_at'>): Promise<Tournament> {
-    // Ensure dates are properly formatted and not empty strings
-    const tournamentData = {
-      ...tournament,
-      start_date: tournament.start_date || new Date().toISOString(),
-      end_date: tournament.end_date || new Date().toISOString(),
-    };
+    // Clean up the tournament data - remove empty strings and undefined values
+    const tournamentData = { ...tournament };
+    
+    // Remove empty string values to prevent database errors
+    Object.keys(tournamentData).forEach(key => {
+      if (tournamentData[key] === '' || tournamentData[key] === undefined || tournamentData[key] === null) {
+        delete tournamentData[key];
+      }
+    });
+
+    // Ensure required dates are present and properly formatted
+    if (!tournamentData.start_date) {
+      tournamentData.start_date = new Date().toISOString();
+    } else {
+      tournamentData.start_date = new Date(tournamentData.start_date).toISOString();
+    }
+    
+    if (!tournamentData.end_date) {
+      tournamentData.end_date = new Date().toISOString();
+    } else {
+      tournamentData.end_date = new Date(tournamentData.end_date).toISOString();
+    }
+
+    // Handle optional date fields
+    if (tournamentData.registration_opens) {
+      tournamentData.registration_opens = new Date(tournamentData.registration_opens).toISOString();
+    }
+    if (tournamentData.registration_closes) {
+      tournamentData.registration_closes = new Date(tournamentData.registration_closes).toISOString();
+    }
+
+    console.log('Creating tournament with cleaned data:', tournamentData);
 
     const { data, error } = await supabase
       .from('tournaments')
@@ -39,14 +65,38 @@ export const tournamentService = {
   },
 
   async update(id: string, tournament: Partial<Tournament>): Promise<Tournament> {
-    // Filter out empty string dates
+    // Clean up the tournament data - remove empty strings and undefined values
     const updateData = { ...tournament };
-    if (updateData.start_date === '') delete updateData.start_date;
-    if (updateData.end_date === '') delete updateData.end_date;
+    
+    // Remove empty string values to prevent database errors
+    Object.keys(updateData).forEach(key => {
+      if (updateData[key] === '' || updateData[key] === undefined || updateData[key] === null) {
+        delete updateData[key];
+      }
+    });
+
+    // Format date fields if they exist
+    if (updateData.start_date) {
+      updateData.start_date = new Date(updateData.start_date).toISOString();
+    }
+    if (updateData.end_date) {
+      updateData.end_date = new Date(updateData.end_date).toISOString();
+    }
+    if (updateData.registration_opens) {
+      updateData.registration_opens = new Date(updateData.registration_opens).toISOString();
+    }
+    if (updateData.registration_closes) {
+      updateData.registration_closes = new Date(updateData.registration_closes).toISOString();
+    }
+
+    // Add updated timestamp
+    updateData.updated_at = new Date().toISOString();
+
+    console.log('Updating tournament with cleaned data:', updateData);
     
     const { data, error } = await supabase
       .from('tournaments')
-      .update({ ...updateData, updated_at: new Date().toISOString() })
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();

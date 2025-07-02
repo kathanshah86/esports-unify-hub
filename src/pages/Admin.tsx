@@ -146,6 +146,21 @@ const Admin = () => {
 
   const handleSaveTournament = async () => {
     try {
+      // Validate required fields
+      if (!tournamentForm.name || !tournamentForm.game || !tournamentForm.prize_pool || 
+          !tournamentForm.max_participants || !tournamentForm.start_date || !tournamentForm.end_date) {
+        toast({
+          title: "Validation Error",
+          description: "Please fill in all required fields (Name, Game, Prize Pool, Max Participants, Start Date, End Date).",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Format dates properly
+      const startDate = new Date(tournamentForm.start_date).toISOString();
+      const endDate = new Date(tournamentForm.end_date).toISOString();
+
       const tournamentData = {
         ...tournamentForm,
         max_participants: parseInt(tournamentForm.max_participants),
@@ -153,7 +168,13 @@ const Admin = () => {
         image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
         banner: tournamentForm.banner || undefined,
         highlights: tournamentForm.highlights ? tournamentForm.highlights.split('\n').filter(h => h.trim()) : undefined,
+        start_date: startDate,
+        end_date: endDate,
+        registration_opens: tournamentForm.registration_opens ? new Date(tournamentForm.registration_opens).toISOString() : undefined,
+        registration_closes: tournamentForm.registration_closes ? new Date(tournamentForm.registration_closes).toISOString() : undefined,
       };
+
+      console.log('Saving tournament data:', tournamentData);
 
       if (editingTournament) {
         await updateTournament(editingTournament.id, tournamentData);
@@ -170,9 +191,10 @@ const Admin = () => {
       }
       resetTournamentForm();
     } catch (error) {
+      console.error('Tournament save error:', error);
       toast({
         title: "Error",
-        description: "Failed to save tournament. Please try again.",
+        description: `Failed to save tournament: ${error.message || 'Please try again.'}`,
         variant: "destructive",
       });
     }
