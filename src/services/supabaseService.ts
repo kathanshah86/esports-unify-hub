@@ -4,9 +4,9 @@ import { Tournament, Player, Match } from '@/types';
 
 // Tournament operations
 export const tournamentService = {
-  async getAll() {
+  async getAll(): Promise<Tournament[]> {
     const { data, error } = await supabase
-      .from('tournaments' as any)
+      .from('tournaments')
       .select('*')
       .order('created_at', { ascending: false });
     
@@ -17,10 +17,17 @@ export const tournamentService = {
     return data || [];
   },
 
-  async create(tournament: Omit<Tournament, 'id' | 'created_at' | 'updated_at'>) {
+  async create(tournament: Omit<Tournament, 'id' | 'created_at' | 'updated_at'>): Promise<Tournament> {
+    // Ensure dates are properly formatted and not empty strings
+    const tournamentData = {
+      ...tournament,
+      start_date: tournament.start_date || new Date().toISOString(),
+      end_date: tournament.end_date || new Date().toISOString(),
+    };
+
     const { data, error } = await supabase
-      .from('tournaments' as any)
-      .insert([tournament] as any)
+      .from('tournaments')
+      .insert([tournamentData])
       .select()
       .single();
     
@@ -31,10 +38,15 @@ export const tournamentService = {
     return data;
   },
 
-  async update(id: string, tournament: Partial<Tournament>) {
+  async update(id: string, tournament: Partial<Tournament>): Promise<Tournament> {
+    // Filter out empty string dates
+    const updateData = { ...tournament };
+    if (updateData.start_date === '') delete updateData.start_date;
+    if (updateData.end_date === '') delete updateData.end_date;
+    
     const { data, error } = await supabase
-      .from('tournaments' as any)
-      .update({ ...tournament, updated_at: new Date().toISOString() } as any)
+      .from('tournaments')
+      .update({ ...updateData, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
       .single();
@@ -46,9 +58,9 @@ export const tournamentService = {
     return data;
   },
 
-  async delete(id: string) {
+  async delete(id: string): Promise<void> {
     const { error } = await supabase
-      .from('tournaments' as any)
+      .from('tournaments')
       .delete()
       .eq('id', id);
     
@@ -61,9 +73,9 @@ export const tournamentService = {
 
 // Player operations
 export const playerService = {
-  async getAll() {
+  async getAll(): Promise<Player[]> {
     const { data, error } = await supabase
-      .from('players' as any)
+      .from('players')
       .select('*')
       .order('rank', { ascending: true });
     
@@ -74,10 +86,10 @@ export const playerService = {
     return data || [];
   },
 
-  async create(player: Omit<Player, 'id' | 'created_at' | 'updated_at'>) {
+  async create(player: Omit<Player, 'id' | 'created_at' | 'updated_at'>): Promise<Player> {
     const { data, error } = await supabase
-      .from('players' as any)
-      .insert([player] as any)
+      .from('players')
+      .insert([player])
       .select()
       .single();
     
@@ -88,10 +100,10 @@ export const playerService = {
     return data;
   },
 
-  async update(id: string, player: Partial<Player>) {
+  async update(id: string, player: Partial<Player>): Promise<Player> {
     const { data, error } = await supabase
-      .from('players' as any)
-      .update({ ...player, updated_at: new Date().toISOString() } as any)
+      .from('players')
+      .update({ ...player, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
       .single();
@@ -103,9 +115,9 @@ export const playerService = {
     return data;
   },
 
-  async delete(id: string) {
+  async delete(id: string): Promise<void> {
     const { error } = await supabase
-      .from('players' as any)
+      .from('players')
       .delete()
       .eq('id', id);
     
@@ -118,9 +130,9 @@ export const playerService = {
 
 // Match operations
 export const matchService = {
-  async getAll() {
+  async getAll(): Promise<Match[]> {
     const { data, error } = await supabase
-      .from('matches' as any)
+      .from('matches')
       .select('*')
       .order('start_time', { ascending: true });
     
@@ -131,10 +143,16 @@ export const matchService = {
     return data || [];
   },
 
-  async create(match: Omit<Match, 'id' | 'created_at' | 'updated_at'>) {
+  async create(match: Omit<Match, 'id' | 'created_at' | 'updated_at'>): Promise<Match> {
+    // Ensure start_time is properly formatted
+    const matchData = {
+      ...match,
+      start_time: match.start_time || new Date().toISOString(),
+    };
+
     const { data, error } = await supabase
-      .from('matches' as any)
-      .insert([match] as any)
+      .from('matches')
+      .insert([matchData])
       .select()
       .single();
     
@@ -145,10 +163,14 @@ export const matchService = {
     return data;
   },
 
-  async update(id: string, match: Partial<Match>) {
+  async update(id: string, match: Partial<Match>): Promise<Match> {
+    // Filter out empty string dates
+    const updateData = { ...match };
+    if (updateData.start_time === '') delete updateData.start_time;
+    
     const { data, error } = await supabase
-      .from('matches' as any)
-      .update({ ...match, updated_at: new Date().toISOString() } as any)
+      .from('matches')
+      .update({ ...updateData, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
       .single();
@@ -160,9 +182,9 @@ export const matchService = {
     return data;
   },
 
-  async delete(id: string) {
+  async delete(id: string): Promise<void> {
     const { error } = await supabase
-      .from('matches' as any)
+      .from('matches')
       .delete()
       .eq('id', id);
     

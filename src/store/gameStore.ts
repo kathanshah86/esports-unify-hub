@@ -199,11 +199,20 @@ export const useGameStore = create<GameStore>((set, get) => ({
     try {
       set({ isLoading: true, error: null });
       
-      // Load initial data
+      // Load initial data with proper error handling
       const [tournaments, players, matches] = await Promise.all([
-        tournamentService.getAll(),
-        playerService.getAll(),
-        matchService.getAll()
+        tournamentService.getAll().catch(err => {
+          console.error('Failed to load tournaments:', err);
+          return [];
+        }),
+        playerService.getAll().catch(err => {
+          console.error('Failed to load players:', err);
+          return [];
+        }),
+        matchService.getAll().catch(err => {
+          console.error('Failed to load matches:', err);
+          return [];
+        })
       ]);
       
       set({ tournaments, players, matches, isLoading: false });
