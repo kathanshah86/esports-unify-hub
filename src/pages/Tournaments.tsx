@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Search, Filter, Calendar, Users, Trophy } from 'lucide-react';
+import { Search, Filter, Calendar, Users, Trophy, Gamepad } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -93,7 +93,7 @@ const Tournaments = () => {
                 
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center text-sm text-gray-400">
-                    <Gamepad2 className="w-4 h-4 mr-2" />
+                    <Gamepad className="w-4 h-4 mr-2" />
                     {tournament.game}
                   </div>
                   <div className="flex items-center text-sm text-gray-400">

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Plus, Edit, Trash2, Save, X, Users, Trophy, Play } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -43,7 +42,7 @@ const Admin = () => {
     maxParticipants: '',
     startDate: '',
     endDate: '',
-    status: 'upcoming' as const,
+    status: 'upcoming' as 'upcoming' | 'ongoing' | 'completed',
   });
 
   // Player form state
@@ -63,7 +62,7 @@ const Admin = () => {
     player2: '',
     player1Score: '',
     player2Score: '',
-    status: 'upcoming' as const,
+    status: 'upcoming' as 'upcoming' | 'live' | 'completed',
     startTime: '',
     game: '',
   });
