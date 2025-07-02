@@ -20,6 +20,7 @@ export type Database = {
           player2_score: number
           start_time: string
           status: string
+          thumbnail: string | null
           tournament_id: string | null
           updated_at: string | null
         }
@@ -33,6 +34,7 @@ export type Database = {
           player2_score?: number
           start_time: string
           status?: string
+          thumbnail?: string | null
           tournament_id?: string | null
           updated_at?: string | null
         }
@@ -46,6 +48,7 @@ export type Database = {
           player2_score?: number
           start_time?: string
           status?: string
+          thumbnail?: string | null
           tournament_id?: string | null
           updated_at?: string | null
         }

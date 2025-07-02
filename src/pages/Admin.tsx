@@ -10,6 +10,7 @@ import Layout from '@/components/layout/Layout';
 import { useGameStore } from '@/store/gameStore';
 import { Tournament, Player, Match } from '@/types';
 import { useToast } from '@/hooks/use-toast';
+import { FileUpload } from '@/components/ui/file-upload';
 
 const Admin = () => {
   const { toast } = useToast();
@@ -69,6 +70,7 @@ const Admin = () => {
     status: 'upcoming' as 'upcoming' | 'live' | 'completed',
     start_time: '',
     game: '',
+    thumbnail: '',
   });
 
   useEffect(() => {
@@ -114,6 +116,7 @@ const Admin = () => {
       status: 'upcoming',
       start_time: '',
       game: '',
+      thumbnail: '',
     });
     setEditingMatch(null);
     setShowAddMatch(false);
@@ -259,6 +262,7 @@ const Admin = () => {
       status: match.status,
       start_time: match.start_time,
       game: match.game,
+      thumbnail: match.thumbnail || '',
     });
     setEditingMatch(match);
     setShowAddMatch(true);
@@ -395,26 +399,14 @@ const Admin = () => {
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
                       <Image className="w-4 h-4 inline mr-2" />
-                      Tournament Banner URL
+                      Tournament Banner
                     </label>
-                    <Input
-                      value={tournamentForm.banner}
-                      onChange={(e) => setTournamentForm({...tournamentForm, banner: e.target.value})}
-                      placeholder="https://example.com/banner.jpg"
-                      className="bg-gray-700 border-gray-600 text-white"
+                    <FileUpload
+                      bucket="tournament-banners"
+                      onUpload={(url) => setTournamentForm({...tournamentForm, banner: url})}
+                      currentUrl={tournamentForm.banner}
+                      maxSize={5}
                     />
-                    {tournamentForm.banner && (
-                      <div className="mt-2">
-                        <img 
-                          src={tournamentForm.banner} 
-                          alt="Banner preview" 
-                          className="w-full h-32 object-cover rounded border border-gray-600"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                      </div>
-                    )}
                   </div>
                   
                   <div className="grid md:grid-cols-3 gap-4">
@@ -627,13 +619,14 @@ const Admin = () => {
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Avatar URL (optional)
+                      <Image className="w-4 h-4 inline mr-2" />
+                      Player Avatar
                     </label>
-                    <Input
-                      value={playerForm.avatar}
-                      onChange={(e) => setPlayerForm({...playerForm, avatar: e.target.value})}
-                      placeholder="https://example.com/avatar.jpg"
-                      className="bg-gray-700 border-gray-600 text-white"
+                    <FileUpload
+                      bucket="player-avatars"
+                      onUpload={(url) => setPlayerForm({...playerForm, avatar: url})}
+                      currentUrl={playerForm.avatar}
+                      maxSize={2}
                     />
                   </div>
                   
@@ -815,6 +808,19 @@ const Admin = () => {
                       value={matchForm.start_time}
                       onChange={(e) => setMatchForm({...matchForm, start_time: e.target.value})}
                       className="bg-gray-700 border-gray-600 text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <Image className="w-4 h-4 inline mr-2" />
+                      Match Thumbnail
+                    </label>
+                    <FileUpload
+                      bucket="match-thumbnails"
+                      onUpload={(url) => setMatchForm({...matchForm, thumbnail: url})}
+                      currentUrl={matchForm.thumbnail}
+                      maxSize={3}
                     />
                   </div>
                   

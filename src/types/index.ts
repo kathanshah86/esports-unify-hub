@@ -39,6 +39,7 @@ export interface Match {
   status: 'live' | 'upcoming' | 'completed';
   start_time: string;
   game: string;
+  thumbnail?: string;
   created_at?: string;
   updated_at?: string;
 }
