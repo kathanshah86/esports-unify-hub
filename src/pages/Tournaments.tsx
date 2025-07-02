@@ -63,7 +63,16 @@ const Tournaments = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTournaments.map((tournament) => (
             <Card key={tournament.id} className="bg-gray-800 border-gray-700 hover:border-purple-500/50 transition-all duration-300 group">
-              <div className="aspect-video bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-t-lg relative overflow-hidden">
+              <div className="aspect-video relative overflow-hidden rounded-t-lg">
+                {tournament.banner ? (
+                  <img 
+                    src={tournament.banner} 
+                    alt={tournament.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-purple-900/30 to-blue-900/30"></div>
+                )}
                 <div className="absolute inset-0 bg-black/20"></div>
                 <div className="absolute top-4 left-4">
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${

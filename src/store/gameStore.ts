@@ -29,7 +29,7 @@ interface GameStore {
   updateBalance: (amount: number) => void;
 }
 
-// Mock data
+// Enhanced mock data with banners
 const mockTournaments: Tournament[] = [
   {
     id: '1',
@@ -42,7 +42,8 @@ const mockTournaments: Tournament[] = [
     startDate: '2024-07-15',
     endDate: '2024-07-20',
     status: 'ongoing',
-    image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png'
+    image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
+    banner: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1200&h=400&fit=crop'
   },
   {
     id: '2',
@@ -55,7 +56,22 @@ const mockTournaments: Tournament[] = [
     startDate: '2024-07-25',
     endDate: '2024-07-28',
     status: 'upcoming',
-    image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png'
+    image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
+    banner: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&h=400&fit=crop'
+  },
+  {
+    id: '3',
+    name: 'Strategy Masters League',
+    game: 'Strategy Game',
+    description: 'The ultimate test of strategic thinking and planning',
+    prizePool: '$15,000',
+    maxParticipants: 32,
+    currentParticipants: 28,
+    startDate: '2024-08-01',
+    endDate: '2024-08-05',
+    status: 'upcoming',
+    image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
+    banner: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=1200&h=400&fit=crop'
   }
 ];
 
@@ -67,7 +83,7 @@ const mockPlayers: Player[] = [
     points: 2450,
     wins: 89,
     losses: 11,
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop',
     country: 'USA'
   },
   {
@@ -77,7 +93,7 @@ const mockPlayers: Player[] = [
     points: 2380,
     wins: 76,
     losses: 24,
-    avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12',
+    avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100&h=100&fit=crop',
     country: 'UK'
   },
   {
@@ -87,8 +103,18 @@ const mockPlayers: Player[] = [
     points: 2290,
     wins: 68,
     losses: 32,
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
     country: 'Canada'
+  },
+  {
+    id: '4',
+    name: 'CyberNinja',
+    rank: 4,
+    points: 2150,
+    wins: 55,
+    losses: 45,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
+    country: 'Japan'
   }
 ];
 
@@ -114,6 +140,17 @@ const mockMatches: Match[] = [
     status: 'upcoming',
     startTime: '2024-07-02T16:00:00Z',
     game: 'Battle Royale'
+  },
+  {
+    id: '3',
+    tournamentId: '2',
+    player1: 'ProGamer_X',
+    player2: 'CyberNinja',
+    player1Score: 0,
+    player2Score: 0,
+    status: 'upcoming',
+    startTime: '2024-07-25T10:00:00Z',
+    game: 'FPS Arena'
   }
 ];
 

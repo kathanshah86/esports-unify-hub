@@ -1,4 +1,3 @@
-
 export interface Tournament {
   id: string;
   name: string;
@@ -11,6 +10,7 @@ export interface Tournament {
   endDate: string;
   status: 'upcoming' | 'ongoing' | 'completed';
   image: string;
+  banner?: string; // New field for tournament banner
 }
 
 export interface Player {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Edit, Trash2, Save, X, Users, Trophy, Play } from 'lucide-react';
+import { Plus, Edit, Trash2, Save, X, Users, Trophy, Play, Image } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,8 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Layout from '@/components/layout/Layout';
 import { useGameStore } from '@/store/gameStore';
 import { Tournament, Player, Match } from '@/types';
+import { useToast } from '@/hooks/use-toast';
 
 const Admin = () => {
+  const { toast } = useToast();
   const {
     tournaments,
     players,
@@ -43,6 +45,7 @@ const Admin = () => {
     startDate: '',
     endDate: '',
     status: 'upcoming' as 'upcoming' | 'ongoing' | 'completed',
+    banner: '',
   });
 
   // Player form state
@@ -77,6 +80,7 @@ const Admin = () => {
       startDate: '',
       endDate: '',
       status: 'upcoming',
+      banner: '',
     });
     setEditingTournament(null);
     setShowAddTournament(false);
@@ -116,14 +120,23 @@ const Admin = () => {
       maxParticipants: parseInt(tournamentForm.maxParticipants),
       currentParticipants: editingTournament?.currentParticipants || 0,
       image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
+      banner: tournamentForm.banner || undefined,
     };
 
     if (editingTournament) {
       updateTournament(editingTournament.id, tournamentData);
+      toast({
+        title: "Tournament Updated",
+        description: "Tournament has been updated successfully and will reflect on the main website immediately.",
+      });
     } else {
       addTournament({
         ...tournamentData,
         id: Date.now().toString(),
+      });
+      toast({
+        title: "Tournament Added",
+        description: "New tournament has been added and is now live on the main website.",
       });
     }
     resetTournamentForm();
@@ -135,17 +148,25 @@ const Admin = () => {
       points: parseInt(playerForm.points),
       wins: parseInt(playerForm.wins),
       losses: parseInt(playerForm.losses),
-      avatar: playerForm.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde',
+      avatar: playerForm.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop',
     };
 
     if (editingPlayer) {
       updatePlayer(editingPlayer.id, playerData);
+      toast({
+        title: "Player Updated",
+        description: "Player information has been updated successfully.",
+      });
     } else {
       const newRank = Math.max(...players.map(p => p.rank), 0) + 1;
       addPlayer({
         ...playerData,
         id: Date.now().toString(),
         rank: newRank,
+      });
+      toast({
+        title: "Player Added",
+        description: "New player has been added to the system.",
       });
     }
     resetPlayerForm();
@@ -160,10 +181,18 @@ const Admin = () => {
 
     if (editingMatch) {
       updateMatch(editingMatch.id, matchData);
+      toast({
+        title: "Match Updated",
+        description: "Match information has been updated successfully.",
+      });
     } else {
       addMatch({
         ...matchData,
         id: Date.now().toString(),
+      });
+      toast({
+        title: "Match Added",
+        description: "New match has been scheduled successfully.",
       });
     }
     resetMatchForm();
@@ -179,6 +208,7 @@ const Admin = () => {
       startDate: tournament.startDate,
       endDate: tournament.endDate,
       status: tournament.status,
+      banner: tournament.banner || '',
     });
     setEditingTournament(tournament);
     setShowAddTournament(true);
@@ -212,6 +242,14 @@ const Admin = () => {
     setShowAddMatch(true);
   };
 
+  const handleDeleteTournament = (id: string) => {
+    deleteTournament(id);
+    toast({
+      title: "Tournament Deleted",
+      description: "Tournament has been removed from the system.",
+    });
+  };
+
   return (
     <Layout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -219,7 +257,7 @@ const Admin = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">Admin Panel</h1>
           <p className="text-gray-400 text-lg">
-            Manage tournaments, players, and matches
+            Manage tournaments, players, and matches - Changes reflect immediately on the main website
           </p>
         </div>
 
@@ -292,6 +330,31 @@ const Admin = () => {
                       onChange={(e) => setTournamentForm({...tournamentForm, description: e.target.value})}
                       className="bg-gray-700 border-gray-600 text-white"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <Image className="w-4 h-4 inline mr-2" />
+                      Tournament Banner URL
+                    </label>
+                    <Input
+                      value={tournamentForm.banner}
+                      onChange={(e) => setTournamentForm({...tournamentForm, banner: e.target.value})}
+                      placeholder="https://example.com/banner.jpg"
+                      className="bg-gray-700 border-gray-600 text-white"
+                    />
+                    {tournamentForm.banner && (
+                      <div className="mt-2">
+                        <img 
+                          src={tournamentForm.banner} 
+                          alt="Banner preview" 
+                          className="w-full h-32 object-cover rounded border border-gray-600"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
                   
                   <div className="grid md:grid-cols-3 gap-4">
@@ -378,9 +441,20 @@ const Admin = () => {
                 <Card key={tournament.id} className="bg-gray-800 border-gray-700">
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-white font-bold text-lg mb-2">{tournament.name}</h3>
-                        <p className="text-gray-400 mb-2">{tournament.description}</p>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-4 mb-4">
+                          {tournament.banner && (
+                            <img 
+                              src={tournament.banner} 
+                              alt={tournament.name}
+                              className="w-24 h-16 object-cover rounded border border-gray-600"
+                            />
+                          )}
+                          <div>
+                            <h3 className="text-white font-bold text-lg mb-2">{tournament.name}</h3>
+                            <p className="text-gray-400 mb-2">{tournament.description}</p>
+                          </div>
+                        </div>
                         <div className="flex gap-4 text-sm text-gray-400">
                           <span>Game: {tournament.game}</span>
                           <span>Prize: {tournament.prizePool}</span>
@@ -398,7 +472,7 @@ const Admin = () => {
                         </Button>
                         <Button 
                           size="sm" 
-                          onClick={() => deleteTournament(tournament.id)}
+                          onClick={() => handleDeleteTournament(tournament.id)}
                           className="bg-red-500 hover:bg-red-600"
                         >
                           <Trash2 className="w-4 h-4" />
