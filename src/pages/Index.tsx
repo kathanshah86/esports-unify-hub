@@ -120,14 +120,14 @@ const Index = () => {
                     }`}>
                       {tournament.status.toUpperCase()}
                     </span>
-                    <span className="text-purple-400 font-bold">{tournament.prizePool}</span>
+                    <span className="text-purple-400 font-bold">{tournament.prize_pool}</span>
                   </div>
                   <h3 className="text-white font-bold text-lg mb-2 group-hover:text-purple-400 transition-colors">
                     {tournament.name}
                   </h3>
                   <p className="text-gray-400 text-sm mb-4">{tournament.description}</p>
                   <div className="flex justify-between items-center text-sm text-gray-400">
-                    <span>{tournament.currentParticipants}/{tournament.maxParticipants} players</span>
+                    <span>{tournament.current_participants}/{tournament.max_participants} players</span>
                     <span>{tournament.game}</span>
                   </div>
                 </CardContent>

@@ -119,7 +119,7 @@ const LiveMatches = () => {
                       
                       <div className="mx-8 text-center">
                         <div className="text-2xl font-bold text-purple-400">
-                          {match.player1Score} - {match.player2Score}
+                          {match.player1_score} - {match.player2_score}
                         </div>
                         {match.status === 'live' && (
                           <div className="text-green-400 text-sm font-medium">LIVE</div>
@@ -136,7 +136,7 @@ const LiveMatches = () => {
                     <div className="flex items-center gap-4 text-sm text-gray-400">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
-                        {new Date(match.startTime).toLocaleString()}
+                        {new Date(match.start_time).toLocaleString()}
                       </div>
                     </div>
                   </div>

@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 import { supabase } from '@/integrations/supabase/client';
 import { Tournament, Player, Match, WalletTransaction } from '../types';
@@ -47,11 +46,11 @@ const mockTournaments: Tournament[] = [
     name: 'Battle Royale Championship',
     game: 'Battle Royale',
     description: 'Ultimate championship with top players worldwide',
-    prizePool: '$50,000',
-    maxParticipants: 100,
-    currentParticipants: 87,
-    startDate: '2024-07-15',
-    endDate: '2024-07-20',
+    prize_pool: '$50,000',
+    max_participants: 100,
+    current_participants: 87,
+    start_date: '2024-07-15',
+    end_date: '2024-07-20',
     status: 'ongoing',
     image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
     banner: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1200&h=400&fit=crop'
@@ -61,11 +60,11 @@ const mockTournaments: Tournament[] = [
     name: 'FPS Masters Cup',
     game: 'FPS Arena',
     description: 'Fast-paced action tournament for FPS enthusiasts',
-    prizePool: '$25,000',
-    maxParticipants: 64,
-    currentParticipants: 45,
-    startDate: '2024-07-25',
-    endDate: '2024-07-28',
+    prize_pool: '$25,000',
+    max_participants: 64,
+    current_participants: 45,
+    start_date: '2024-07-25',
+    end_date: '2024-07-28',
     status: 'upcoming',
     image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
     banner: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&h=400&fit=crop'
@@ -75,11 +74,11 @@ const mockTournaments: Tournament[] = [
     name: 'Strategy Masters League',
     game: 'Strategy Game',
     description: 'The ultimate test of strategic thinking and planning',
-    prizePool: '$15,000',
-    maxParticipants: 32,
-    currentParticipants: 28,
-    startDate: '2024-08-01',
-    endDate: '2024-08-05',
+    prize_pool: '$15,000',
+    max_participants: 32,
+    current_participants: 28,
+    start_date: '2024-08-01',
+    end_date: '2024-08-05',
     status: 'upcoming',
     image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
     banner: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=1200&h=400&fit=crop'
@@ -132,35 +131,35 @@ const mockPlayers: Player[] = [
 const mockMatches: Match[] = [
   {
     id: '1',
-    tournamentId: '1',
+    tournament_id: '1',
     player1: 'ProGamer_X',
     player2: 'EliteSniper',
-    player1Score: 15,
-    player2Score: 12,
+    player1_score: 15,
+    player2_score: 12,
     status: 'live',
-    startTime: '2024-07-02T14:00:00Z',
+    start_time: '2024-07-02T14:00:00Z',
     game: 'Battle Royale'
   },
   {
     id: '2',
-    tournamentId: '1',
+    tournament_id: '1',
     player1: 'DigitalWarrior',
     player2: 'CyberNinja',
-    player1Score: 0,
-    player2Score: 0,
+    player1_score: 0,
+    player2_score: 0,
     status: 'upcoming',
-    startTime: '2024-07-02T16:00:00Z',
+    start_time: '2024-07-02T16:00:00Z',
     game: 'Battle Royale'
   },
   {
     id: '3',
-    tournamentId: '2',
+    tournament_id: '2',
     player1: 'ProGamer_X',
     player2: 'CyberNinja',
-    player1Score: 0,
-    player2Score: 0,
+    player1_score: 0,
+    player2_score: 0,
     status: 'upcoming',
-    startTime: '2024-07-25T10:00:00Z',
+    start_time: '2024-07-25T10:00:00Z',
     game: 'FPS Arena'
   }
 ];

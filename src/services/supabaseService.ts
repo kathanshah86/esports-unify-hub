@@ -10,7 +10,10 @@ export const tournamentService = {
       .select('*')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error fetching tournaments:', error);
+      return [];
+    }
     return data || [];
   },
 
@@ -21,7 +24,10 @@ export const tournamentService = {
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error creating tournament:', error);
+      throw error;
+    }
     return data;
   },
 
@@ -33,7 +39,10 @@ export const tournamentService = {
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error updating tournament:', error);
+      throw error;
+    }
     return data;
   },
 
@@ -43,7 +52,10 @@ export const tournamentService = {
       .delete()
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error deleting tournament:', error);
+      throw error;
+    }
   }
 };
 
@@ -55,7 +67,10 @@ export const playerService = {
       .select('*')
       .order('rank', { ascending: true });
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error fetching players:', error);
+      return [];
+    }
     return data || [];
   },
 
@@ -66,7 +81,10 @@ export const playerService = {
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error creating player:', error);
+      throw error;
+    }
     return data;
   },
 
@@ -78,7 +96,10 @@ export const playerService = {
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error updating player:', error);
+      throw error;
+    }
     return data;
   },
 
@@ -88,7 +109,10 @@ export const playerService = {
       .delete()
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error deleting player:', error);
+      throw error;
+    }
   }
 };
 
@@ -100,7 +124,10 @@ export const matchService = {
       .select('*')
       .order('start_time', { ascending: true });
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error fetching matches:', error);
+      return [];
+    }
     return data || [];
   },
 
@@ -111,7 +138,10 @@ export const matchService = {
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error creating match:', error);
+      throw error;
+    }
     return data;
   },
 
@@ -123,7 +153,10 @@ export const matchService = {
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error updating match:', error);
+      throw error;
+    }
     return data;
   },
 
@@ -133,6 +166,9 @@ export const matchService = {
       .delete()
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error deleting match:', error);
+      throw error;
+    }
   }
 };
