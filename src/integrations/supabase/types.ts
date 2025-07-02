@@ -108,14 +108,25 @@ export type Database = {
           current_participants: number
           description: string | null
           end_date: string
+          entry_fee: string | null
+          format: string | null
           game: string
+          highlights: string[] | null
           id: string
           image: string | null
           max_participants: number
           name: string
+          organizer: string | null
           prize_pool: string
+          prizes: string | null
+          region: string | null
+          registration_closes: string | null
+          registration_opens: string | null
+          rules: string | null
+          schedule: string | null
           start_date: string
           status: string
+          team_size: string | null
           updated_at: string | null
         }
         Insert: {
@@ -124,14 +135,25 @@ export type Database = {
           current_participants?: number
           description?: string | null
           end_date: string
+          entry_fee?: string | null
+          format?: string | null
           game: string
+          highlights?: string[] | null
           id?: string
           image?: string | null
           max_participants?: number
           name: string
+          organizer?: string | null
           prize_pool: string
+          prizes?: string | null
+          region?: string | null
+          registration_closes?: string | null
+          registration_opens?: string | null
+          rules?: string | null
+          schedule?: string | null
           start_date: string
           status?: string
+          team_size?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -140,14 +162,25 @@ export type Database = {
           current_participants?: number
           description?: string | null
           end_date?: string
+          entry_fee?: string | null
+          format?: string | null
           game?: string
+          highlights?: string[] | null
           id?: string
           image?: string | null
           max_participants?: number
           name?: string
+          organizer?: string | null
           prize_pool?: string
+          prizes?: string | null
+          region?: string | null
+          registration_closes?: string | null
+          registration_opens?: string | null
+          rules?: string | null
+          schedule?: string | null
           start_date?: string
           status?: string
+          team_size?: string | null
           updated_at?: string | null
         }
         Relationships: []
