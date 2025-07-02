@@ -14,7 +14,7 @@ export const tournamentService = {
       console.error('Error fetching tournaments:', error);
       return [];
     }
-    return data || [];
+    return (data || []) as Tournament[];
   },
 
   async create(tournament: Omit<Tournament, 'id' | 'created_at' | 'updated_at'>): Promise<Tournament> {
@@ -35,7 +35,7 @@ export const tournamentService = {
       console.error('Error creating tournament:', error);
       throw error;
     }
-    return data;
+    return data as Tournament;
   },
 
   async update(id: string, tournament: Partial<Tournament>): Promise<Tournament> {
@@ -55,7 +55,7 @@ export const tournamentService = {
       console.error('Error updating tournament:', error);
       throw error;
     }
-    return data;
+    return data as Tournament;
   },
 
   async delete(id: string): Promise<void> {
@@ -83,7 +83,7 @@ export const playerService = {
       console.error('Error fetching players:', error);
       return [];
     }
-    return data || [];
+    return (data || []) as Player[];
   },
 
   async create(player: Omit<Player, 'id' | 'created_at' | 'updated_at'>): Promise<Player> {
@@ -97,7 +97,7 @@ export const playerService = {
       console.error('Error creating player:', error);
       throw error;
     }
-    return data;
+    return data as Player;
   },
 
   async update(id: string, player: Partial<Player>): Promise<Player> {
@@ -112,7 +112,7 @@ export const playerService = {
       console.error('Error updating player:', error);
       throw error;
     }
-    return data;
+    return data as Player;
   },
 
   async delete(id: string): Promise<void> {
@@ -140,7 +140,7 @@ export const matchService = {
       console.error('Error fetching matches:', error);
       return [];
     }
-    return data || [];
+    return (data || []) as Match[];
   },
 
   async create(match: Omit<Match, 'id' | 'created_at' | 'updated_at'>): Promise<Match> {
@@ -160,7 +160,7 @@ export const matchService = {
       console.error('Error creating match:', error);
       throw error;
     }
-    return data;
+    return data as Match;
   },
 
   async update(id: string, match: Partial<Match>): Promise<Match> {
@@ -179,7 +179,7 @@ export const matchService = {
       console.error('Error updating match:', error);
       throw error;
     }
-    return data;
+    return data as Match;
   },
 
   async delete(id: string): Promise<void> {
