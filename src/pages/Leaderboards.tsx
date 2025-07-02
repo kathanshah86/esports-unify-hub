@@ -1,6 +1,6 @@
 
-import { useState } from 'react';
-import { Trophy, Medal, Award, Flag } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Trophy, Medal, Award, Flag, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -8,8 +8,12 @@ import Layout from '@/components/layout/Layout';
 import { useGameStore } from '@/store/gameStore';
 
 const Leaderboards = () => {
-  const { players } = useGameStore();
+  const { players, isLoading, error, initialize } = useGameStore();
   const [selectedGame, setSelectedGame] = useState('all');
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   const sortedPlayers = [...players].sort((a, b) => a.rank - b.rank);
 
@@ -38,6 +42,36 @@ const Leaderboards = () => {
         return 'bg-gray-700';
     }
   };
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+            <span className="ml-2 text-gray-400">Loading leaderboards...</span>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center py-12">
+            <Trophy className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-red-400 mb-2">Error Loading Leaderboards</h3>
+            <p className="text-gray-500">{error}</p>
+            <Button onClick={() => initialize()} className="mt-4">
+              Retry
+            </Button>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -69,39 +103,41 @@ const Leaderboards = () => {
         </div>
 
         {/* Top 3 Podium */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {sortedPlayers.slice(0, 3).map((player, index) => (
-            <Card 
-              key={player.id} 
-              className={`bg-gray-800 border-2 transition-all duration-300 ${
-                index === 0 
-                  ? 'border-yellow-500 shadow-yellow-500/20 shadow-lg' 
-                  : index === 1
-                  ? 'border-gray-400 shadow-gray-400/20 shadow-lg'
-                  : 'border-amber-600 shadow-amber-600/20 shadow-lg'
-              } ${index === 0 ? 'md:order-2 md:scale-105' : index === 1 ? 'md:order-1' : 'md:order-3'}`}
-            >
-              <CardContent className="p-6 text-center">
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${getRankBadgeColor(player.rank)}`}>
-                  {getRankIcon(player.rank)}
-                </div>
-                <Avatar className="w-20 h-20 mx-auto mb-4 border-4 border-white/20">
-                  <AvatarImage src={player.avatar} alt={player.name} />
-                  <AvatarFallback>{player.name.slice(0, 2)}</AvatarFallback>
-                </Avatar>
-                <h3 className="text-white font-bold text-lg mb-2">{player.name}</h3>
-                <div className="flex items-center justify-center mb-2">
-                  <Flag className="w-4 h-4 mr-1 text-gray-400" />
-                  <span className="text-gray-400 text-sm">{player.country}</span>
-                </div>
-                <div className="text-2xl font-bold text-purple-400 mb-2">{player.points}</div>
-                <div className="text-sm text-gray-400">
-                  {player.wins}W / {player.losses}L
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {sortedPlayers.length >= 3 && (
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {sortedPlayers.slice(0, 3).map((player, index) => (
+              <Card 
+                key={player.id} 
+                className={`bg-gray-800 border-2 transition-all duration-300 ${
+                  index === 0 
+                    ? 'border-yellow-500 shadow-yellow-500/20 shadow-lg' 
+                    : index === 1
+                    ? 'border-gray-400 shadow-gray-400/20 shadow-lg'
+                    : 'border-amber-600 shadow-amber-600/20 shadow-lg'
+                } ${index === 0 ? 'md:order-2 md:scale-105' : index === 1 ? 'md:order-1' : 'md:order-3'}`}
+              >
+                <CardContent className="p-6 text-center">
+                  <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${getRankBadgeColor(player.rank)}`}>
+                    {getRankIcon(player.rank)}
+                  </div>
+                  <Avatar className="w-20 h-20 mx-auto mb-4 border-4 border-white/20">
+                    <AvatarImage src={player.avatar} alt={player.name} />
+                    <AvatarFallback>{player.name.slice(0, 2)}</AvatarFallback>
+                  </Avatar>
+                  <h3 className="text-white font-bold text-lg mb-2">{player.name}</h3>
+                  <div className="flex items-center justify-center mb-2">
+                    <Flag className="w-4 h-4 mr-1 text-gray-400" />
+                    <span className="text-gray-400 text-sm">{player.country}</span>
+                  </div>
+                  <div className="text-2xl font-bold text-purple-400 mb-2">{player.points}</div>
+                  <div className="text-sm text-gray-400">
+                    {player.wins}W / {player.losses}L
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
 
         {/* Full Leaderboard */}
         <Card className="bg-gray-800 border-gray-700">
@@ -145,6 +181,14 @@ const Leaderboards = () => {
             </div>
           </CardContent>
         </Card>
+
+        {sortedPlayers.length === 0 && (
+          <div className="text-center py-12">
+            <Trophy className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-400 mb-2">No players found</h3>
+            <p className="text-gray-500">Check back later for updated rankings</p>
+          </div>
+        )}
       </div>
     </Layout>
   );

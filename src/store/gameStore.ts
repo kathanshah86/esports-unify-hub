@@ -1,6 +1,8 @@
 
 import { create } from 'zustand';
+import { supabase } from '@/integrations/supabase/client';
 import { Tournament, Player, Match, WalletTransaction } from '../types';
+import { tournamentService, playerService, matchService } from '@/services/supabaseService';
 
 interface GameStore {
   tournaments: Tournament[];
@@ -8,21 +10,30 @@ interface GameStore {
   matches: Match[];
   walletTransactions: WalletTransaction[];
   walletBalance: number;
+  isLoading: boolean;
+  error: string | null;
+  
+  // Loading actions
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  
+  // Initialize data
+  initialize: () => Promise<void>;
   
   // Tournament actions
-  addTournament: (tournament: Tournament) => void;
-  updateTournament: (id: string, tournament: Partial<Tournament>) => void;
-  deleteTournament: (id: string) => void;
+  addTournament: (tournament: Omit<Tournament, 'id' | 'created_at' | 'updated_at'>) => Promise<void>;
+  updateTournament: (id: string, tournament: Partial<Tournament>) => Promise<void>;
+  deleteTournament: (id: string) => Promise<void>;
   
   // Player actions
-  addPlayer: (player: Player) => void;
-  updatePlayer: (id: string, player: Partial<Player>) => void;
-  deletePlayer: (id: string) => void;
+  addPlayer: (player: Omit<Player, 'id' | 'created_at' | 'updated_at'>) => Promise<void>;
+  updatePlayer: (id: string, player: Partial<Player>) => Promise<void>;
+  deletePlayer: (id: string) => Promise<void>;
   
   // Match actions
-  addMatch: (match: Match) => void;
-  updateMatch: (id: string, match: Partial<Match>) => void;
-  deleteMatch: (id: string) => void;
+  addMatch: (match: Omit<Match, 'id' | 'created_at' | 'updated_at'>) => Promise<void>;
+  updateMatch: (id: string, match: Partial<Match>) => Promise<void>;
+  deleteMatch: (id: string) => Promise<void>;
   
   // Wallet actions
   addTransaction: (transaction: WalletTransaction) => void;
@@ -173,57 +184,207 @@ const mockTransactions: WalletTransaction[] = [
   }
 ];
 
-export const useGameStore = create<GameStore>((set) => ({
-  tournaments: mockTournaments,
-  players: mockPlayers,
-  matches: mockMatches,
+export const useGameStore = create<GameStore>((set, get) => ({
+  tournaments: [],
+  players: [],
+  matches: [],
   walletTransactions: mockTransactions,
   walletBalance: 750,
+  isLoading: false,
+  error: null,
   
-  addTournament: (tournament) =>
-    set((state) => ({ tournaments: [...state.tournaments, tournament] })),
+  setLoading: (loading) => set({ isLoading: loading }),
+  setError: (error) => set({ error }),
   
-  updateTournament: (id, updatedTournament) =>
-    set((state) => ({
-      tournaments: state.tournaments.map((t) =>
-        t.id === id ? { ...t, ...updatedTournament } : t
-      ),
-    })),
+  initialize: async () => {
+    try {
+      set({ isLoading: true, error: null });
+      
+      // Load initial data
+      const [tournaments, players, matches] = await Promise.all([
+        tournamentService.getAll(),
+        playerService.getAll(),
+        matchService.getAll()
+      ]);
+      
+      set({ tournaments, players, matches, isLoading: false });
+      
+      // Set up real-time subscriptions
+      const tournamentChannel = supabase
+        .channel('tournaments-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'tournaments' }, (payload) => {
+          console.log('Tournament change:', payload);
+          const { eventType, new: newRecord, old: oldRecord } = payload;
+          
+          set((state) => {
+            let newTournaments = [...state.tournaments];
+            
+            switch (eventType) {
+              case 'INSERT':
+                newTournaments.push(newRecord as Tournament);
+                break;
+              case 'UPDATE':
+                newTournaments = newTournaments.map(t => t.id === newRecord.id ? newRecord as Tournament : t);
+                break;
+              case 'DELETE':
+                newTournaments = newTournaments.filter(t => t.id !== oldRecord.id);
+                break;
+            }
+            
+            return { tournaments: newTournaments };
+          });
+        })
+        .subscribe();
+
+      const playerChannel = supabase
+        .channel('players-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'players' }, (payload) => {
+          console.log('Player change:', payload);
+          const { eventType, new: newRecord, old: oldRecord } = payload;
+          
+          set((state) => {
+            let newPlayers = [...state.players];
+            
+            switch (eventType) {
+              case 'INSERT':
+                newPlayers.push(newRecord as Player);
+                newPlayers.sort((a, b) => a.rank - b.rank);
+                break;
+              case 'UPDATE':
+                newPlayers = newPlayers.map(p => p.id === newRecord.id ? newRecord as Player : p);
+                newPlayers.sort((a, b) => a.rank - b.rank);
+                break;
+              case 'DELETE':
+                newPlayers = newPlayers.filter(p => p.id !== oldRecord.id);
+                break;
+            }
+            
+            return { players: newPlayers };
+          });
+        })
+        .subscribe();
+
+      const matchChannel = supabase
+        .channel('matches-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'matches' }, (payload) => {
+          console.log('Match change:', payload);
+          const { eventType, new: newRecord, old: oldRecord } = payload;
+          
+          set((state) => {
+            let newMatches = [...state.matches];
+            
+            switch (eventType) {
+              case 'INSERT':
+                newMatches.push(newRecord as Match);
+                break;
+              case 'UPDATE':
+                newMatches = newMatches.map(m => m.id === newRecord.id ? newRecord as Match : m);
+                break;
+              case 'DELETE':
+                newMatches = newMatches.filter(m => m.id !== oldRecord.id);
+                break;
+            }
+            
+            return { matches: newMatches };
+          });
+        })
+        .subscribe();
+        
+    } catch (error) {
+      console.error('Failed to initialize store:', error);
+      set({ error: 'Failed to load data', isLoading: false });
+    }
+  },
   
-  deleteTournament: (id) =>
-    set((state) => ({
-      tournaments: state.tournaments.filter((t) => t.id !== id),
-    })),
+  addTournament: async (tournament) => {
+    try {
+      await tournamentService.create(tournament);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to add tournament:', error);
+      set({ error: 'Failed to add tournament' });
+    }
+  },
   
-  addPlayer: (player) =>
-    set((state) => ({ players: [...state.players, player] })),
+  updateTournament: async (id, tournament) => {
+    try {
+      await tournamentService.update(id, tournament);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to update tournament:', error);
+      set({ error: 'Failed to update tournament' });
+    }
+  },
   
-  updatePlayer: (id, updatedPlayer) =>
-    set((state) => ({
-      players: state.players.map((p) =>
-        p.id === id ? { ...p, ...updatedPlayer } : p
-      ),
-    })),
+  deleteTournament: async (id) => {
+    try {
+      await tournamentService.delete(id);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to delete tournament:', error);
+      set({ error: 'Failed to delete tournament' });
+    }
+  },
   
-  deletePlayer: (id) =>
-    set((state) => ({
-      players: state.players.filter((p) => p.id !== id),
-    })),
+  addPlayer: async (player) => {
+    try {
+      await playerService.create(player);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to add player:', error);
+      set({ error: 'Failed to add player' });
+    }
+  },
   
-  addMatch: (match) =>
-    set((state) => ({ matches: [...state.matches, match] })),
+  updatePlayer: async (id, player) => {
+    try {
+      await playerService.update(id, player);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to update player:', error);
+      set({ error: 'Failed to update player' });
+    }
+  },
   
-  updateMatch: (id, updatedMatch) =>
-    set((state) => ({
-      matches: state.matches.map((m) =>
-        m.id === id ? { ...m, ...updatedMatch } : m
-      ),
-    })),
+  deletePlayer: async (id) => {
+    try {
+      await playerService.delete(id);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to delete player:', error);
+      set({ error: 'Failed to delete player' });
+    }
+  },
   
-  deleteMatch: (id) =>
-    set((state) => ({
-      matches: state.matches.filter((m) => m.id !== id),
-    })),
+  addMatch: async (match) => {
+    try {
+      await matchService.create(match);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to add match:', error);
+      set({ error: 'Failed to add match' });
+    }
+  },
+  
+  updateMatch: async (id, match) => {
+    try {
+      await matchService.update(id, match);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to update match:', error);
+      set({ error: 'Failed to update match' });
+    }
+  },
+  
+  deleteMatch: async (id) => {
+    try {
+      await matchService.delete(id);
+      // Real-time subscription will handle the state update
+    } catch (error) {
+      console.error('Failed to delete match:', error);
+      set({ error: 'Failed to delete match' });
+    }
+  },
   
   addTransaction: (transaction) =>
     set((state) => ({

@@ -1,16 +1,19 @@
+
 export interface Tournament {
   id: string;
   name: string;
   game: string;
   description: string;
-  prizePool: string;
-  maxParticipants: number;
-  currentParticipants: number;
-  startDate: string;
-  endDate: string;
+  prize_pool: string;
+  max_participants: number;
+  current_participants: number;
+  start_date: string;
+  end_date: string;
   status: 'upcoming' | 'ongoing' | 'completed';
   image: string;
-  banner?: string; // New field for tournament banner
+  banner?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface Player {
@@ -22,18 +25,22 @@ export interface Player {
   losses: number;
   avatar: string;
   country: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface Match {
   id: string;
-  tournamentId: string;
+  tournament_id: string;
   player1: string;
   player2: string;
-  player1Score: number;
-  player2Score: number;
+  player1_score: number;
+  player2_score: number;
   status: 'live' | 'upcoming' | 'completed';
-  startTime: string;
+  start_time: string;
   game: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface WalletTransaction {

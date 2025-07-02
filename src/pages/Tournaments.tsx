@@ -1,6 +1,6 @@
 
-import { useState } from 'react';
-import { Search, Filter, Calendar, Users, Trophy, Gamepad } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Filter, Calendar, Users, Trophy, Gamepad, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,9 +8,13 @@ import Layout from '@/components/layout/Layout';
 import { useGameStore } from '@/store/gameStore';
 
 const Tournaments = () => {
-  const { tournaments } = useGameStore();
+  const { tournaments, isLoading, error, initialize } = useGameStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   const filteredTournaments = tournaments.filter((tournament) => {
     const matchesSearch = tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -18,6 +22,36 @@ const Tournaments = () => {
     const matchesStatus = statusFilter === 'all' || tournament.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+            <span className="ml-2 text-gray-400">Loading tournaments...</span>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center py-12">
+            <Trophy className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-red-400 mb-2">Error Loading Tournaments</h3>
+            <p className="text-gray-500">{error}</p>
+            <Button onClick={() => initialize()} className="mt-4">
+              Retry
+            </Button>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -87,7 +121,7 @@ const Tournaments = () => {
                 </div>
                 <div className="absolute top-4 right-4">
                   <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                    {tournament.prizePool}
+                    {tournament.prize_pool}
                   </span>
                 </div>
               </div>
@@ -107,11 +141,11 @@ const Tournaments = () => {
                   </div>
                   <div className="flex items-center text-sm text-gray-400">
                     <Users className="w-4 h-4 mr-2" />
-                    {tournament.currentParticipants}/{tournament.maxParticipants} players
+                    {tournament.current_participants}/{tournament.max_participants} players
                   </div>
                   <div className="flex items-center text-sm text-gray-400">
                     <Calendar className="w-4 h-4 mr-2" />
-                    {new Date(tournament.startDate).toLocaleDateString()}
+                    {new Date(tournament.start_date).toLocaleDateString()}
                   </div>
                 </div>
                 
