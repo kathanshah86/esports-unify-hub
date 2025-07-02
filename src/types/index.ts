@@ -12,6 +12,17 @@ export interface Tournament {
   status: 'upcoming' | 'ongoing' | 'completed';
   image: string;
   banner?: string;
+  entry_fee?: string;
+  region?: string;
+  format?: string;
+  team_size?: string;
+  organizer?: string;
+  rules?: string;
+  schedule?: string;
+  prizes?: string;
+  highlights?: string[];
+  registration_opens?: string;
+  registration_closes?: string;
   created_at?: string;
   updated_at?: string;
 }

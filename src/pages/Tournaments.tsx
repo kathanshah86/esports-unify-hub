@@ -1,16 +1,24 @@
 
 import { useState, useEffect } from 'react';
-import { Search, Filter, Calendar, Users, Trophy, Gamepad, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Filter, Calendar, Users, Trophy, Gamepad, Loader2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
 import Layout from '@/components/layout/Layout';
 import { useGameStore } from '@/store/gameStore';
 
 const Tournaments = () => {
+  const navigate = useNavigate();
   const { tournaments, isLoading, error, initialize } = useGameStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [gameFilter, setGameFilter] = useState('all');
+  const [feeFilter, setFeeFilter] = useState('all');
+  const [regionFilter, setRegionFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
 
   useEffect(() => {
     initialize();
@@ -20,8 +28,38 @@ const Tournaments = () => {
     const matchesSearch = tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          tournament.game.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || tournament.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesGame = gameFilter === 'all' || tournament.game.toLowerCase() === gameFilter.toLowerCase();
+    const matchesFee = feeFilter === 'all' || 
+      (feeFilter === 'free' && (!tournament.entry_fee || tournament.entry_fee === '₹0')) ||
+      (feeFilter === 'paid' && tournament.entry_fee && tournament.entry_fee !== '₹0');
+    const matchesRegion = regionFilter === 'all' || tournament.region === regionFilter;
+    
+    return matchesSearch && matchesStatus && matchesGame && matchesFee && matchesRegion;
+  }).sort((a, b) => {
+    switch (sortBy) {
+      case 'prize':
+        return parseInt(b.prize_pool.replace(/[^\d]/g, '')) - parseInt(a.prize_pool.replace(/[^\d]/g, ''));
+      case 'participants':
+        return b.current_participants - a.current_participants;
+      case 'date':
+        return new Date(a.start_date).getTime() - new Date(b.start_date).getTime();
+      case 'newest':
+      default:
+        return new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime();
+    }
   });
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('all');
+    setGameFilter('all');
+    setFeeFilter('all');
+    setRegionFilter('all');
+    setSortBy('newest');
+  };
+
+  const hasActiveFilters = searchTerm || statusFilter !== 'all' || gameFilter !== 'all' || 
+                          feeFilter !== 'all' || regionFilter !== 'all' || sortBy !== 'newest';
 
   if (isLoading) {
     return (
@@ -60,106 +98,190 @@ const Tournaments = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">Tournaments</h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Discover and join exciting esports tournaments from around the world
+            Browse through our wide range of tournaments across various games and regions. Find the perfect competition to showcase your skills and win amazing prizes.
           </p>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <Input
-              placeholder="Search tournaments..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-gray-800 border-gray-700 text-white"
-            />
-          </div>
-          <div className="flex gap-2">
-            {['all', 'upcoming', 'ongoing', 'completed'].map((status) => (
-              <Button
-                key={status}
-                variant={statusFilter === status ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setStatusFilter(status)}
-                className={statusFilter === status 
-                  ? 'bg-purple-500 hover:bg-purple-600' 
-                  : 'border-gray-600 text-gray-300 hover:bg-gray-800'
-                }
-              >
-                {status.charAt(0).toUpperCase() + status.slice(1)}
-              </Button>
-            ))}
-          </div>
-        </div>
+        {/* Filters Section */}
+        <Card className="bg-gray-800 border-gray-700 mb-8">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <Filter className="w-5 h-5 text-purple-400 mr-2" />
+                <h2 className="text-white font-semibold">Filters</h2>
+              </div>
+              {hasActiveFilters && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={clearFilters}
+                  className="text-gray-400 hover:text-white"
+                >
+                  <X className="w-4 h-4 mr-1" />
+                  Reset Filters
+                </Button>
+              )}
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  placeholder="Search tournaments..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-9 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                />
+              </div>
+              
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                  <SelectValue placeholder="All Statuses" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Statuses</SelectItem>
+                  <SelectItem value="upcoming">Upcoming</SelectItem>
+                  <SelectItem value="ongoing">Ongoing</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Select value={gameFilter} onValueChange={setGameFilter}>
+                <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                  <SelectValue placeholder="All Games" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Games</SelectItem>
+                  <SelectItem value="free fire">Free Fire</SelectItem>
+                  <SelectItem value="valorant">Valorant</SelectItem>
+                  <SelectItem value="apex legends">Apex Legends</SelectItem>
+                  <SelectItem value="league of legends">League of Legends</SelectItem>
+                  <SelectItem value="moba">MOBA</SelectItem>
+                  <SelectItem value="battle royale">Battle Royale</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Select value={feeFilter} onValueChange={setFeeFilter}>
+                <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                  <SelectValue placeholder="All Fees" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Fees</SelectItem>
+                  <SelectItem value="free">Free Entry</SelectItem>
+                  <SelectItem value="paid">Paid Entry</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Select value={regionFilter} onValueChange={setRegionFilter}>
+                <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                  <SelectValue placeholder="All Regions" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Regions</SelectItem>
+                  <SelectItem value="Global">Global</SelectItem>
+                  <SelectItem value="India">India</SelectItem>
+                  <SelectItem value="North America">North America</SelectItem>
+                  <SelectItem value="Europe">Europe</SelectItem>
+                  <SelectItem value="Asia">Asia</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <p className="text-gray-400 text-sm">
+                {filteredTournaments.length} tournament{filteredTournaments.length !== 1 ? 's' : ''} found
+              </p>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-40 bg-gray-700 border-gray-600 text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest First</SelectItem>
+                  <SelectItem value="date">Start Date</SelectItem>
+                  <SelectItem value="prize">Prize Pool</SelectItem>
+                  <SelectItem value="participants">Participants</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Tournament Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTournaments.map((tournament) => (
-            <Card key={tournament.id} className="bg-gray-800 border-gray-700 hover:border-purple-500/50 transition-all duration-300 group">
+            <Card key={tournament.id} className="bg-gray-800 border-gray-700 hover:border-purple-500/50 transition-all duration-300 group cursor-pointer">
               <div className="aspect-video relative overflow-hidden rounded-t-lg">
                 {tournament.banner ? (
                   <img 
                     src={tournament.banner} 
                     alt={tournament.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-purple-900/30 to-blue-900/30"></div>
                 )}
                 <div className="absolute inset-0 bg-black/20"></div>
-                <div className="absolute top-4 left-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    tournament.status === 'ongoing' 
-                      ? 'bg-green-500 text-white' 
-                      : tournament.status === 'upcoming'
-                      ? 'bg-yellow-500 text-black'
-                      : 'bg-gray-500 text-white'
-                  }`}>
+                
+                {/* Status and Game Tags */}
+                <div className="absolute top-4 left-4 flex gap-2">
+                  <Badge className={`
+                    ${tournament.status === 'ongoing' ? 'bg-green-500 text-white' : 
+                      tournament.status === 'upcoming' ? 'bg-blue-500 text-white' : 
+                      'bg-gray-500 text-white'}
+                  `}>
                     {tournament.status.toUpperCase()}
-                  </span>
+                  </Badge>
+                  <Badge variant="secondary" className="bg-purple-500 text-white">
+                    {tournament.game || 'battle-royale'}
+                  </Badge>
                 </div>
-                <div className="absolute top-4 right-4">
-                  <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                
+                {/* Entry Fee */}
+                {tournament.entry_fee && (
+                  <div className="absolute top-4 right-4">
+                    <Badge className="bg-green-500 text-white">
+                      Entry: {tournament.entry_fee}
+                    </Badge>
+                  </div>
+                )}
+                
+                {/* Prize Pool */}
+                <div className="absolute bottom-4 right-4">
+                  <Badge className="bg-yellow-500 text-black font-bold">
                     {tournament.prize_pool}
-                  </span>
+                  </Badge>
                 </div>
               </div>
               
               <CardContent className="p-6">
-                <h3 className="text-white font-bold text-lg mb-2 group-hover:text-purple-400 transition-colors">
+                <h3 className="text-white font-bold text-lg mb-2 group-hover:text-purple-400 transition-colors line-clamp-1">
                   {tournament.name}
                 </h3>
                 <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                  {tournament.description}
+                  Starts {new Date(tournament.start_date).toLocaleDateString()}
                 </p>
                 
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Gamepad className="w-4 h-4 mr-2" />
-                    {tournament.game}
+                <div className="grid grid-cols-3 gap-2 mb-4 text-center text-sm">
+                  <div>
+                    <p className="text-gray-400">Prize Pool</p>
+                    <p className="text-white font-semibold">{tournament.prize_pool}</p>
                   </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="w-4 h-4 mr-2" />
-                    {tournament.current_participants}/{tournament.max_participants} players
+                  <div>
+                    <p className="text-gray-400">Participants</p>
+                    <p className="text-white font-semibold">{tournament.current_participants}/{tournament.max_participants}</p>
                   </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    {new Date(tournament.start_date).toLocaleDateString()}
+                  <div>
+                    <p className="text-gray-400">Region</p>
+                    <p className="text-white font-semibold">{tournament.region || 'Global'}</p>
                   </div>
                 </div>
                 
-                <div className="flex gap-2">
-                  <Button 
-                    className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
-                    disabled={tournament.status === 'completed'}
-                  >
-                    {tournament.status === 'completed' ? 'Completed' : 'Join Now'}
-                  </Button>
-                  <Button variant="outline" size="icon" className="border-gray-600 hover:bg-gray-800">
-                    <Trophy className="w-4 h-4" />
-                  </Button>
-                </div>
+                <Button 
+                  className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                  onClick={() => navigate(`/tournaments/${tournament.id}`)}
+                >
+                  View Details
+                </Button>
               </CardContent>
             </Card>
           ))}

@@ -50,6 +50,17 @@ const Admin = () => {
     end_date: '',
     status: 'upcoming' as 'upcoming' | 'ongoing' | 'completed',
     banner: '',
+    entry_fee: '',
+    region: '',
+    format: '',
+    team_size: '',
+    organizer: '',
+    rules: '',
+    schedule: '',
+    prizes: '',
+    highlights: '',
+    registration_opens: '',
+    registration_closes: '',
   });
 
   const [playerForm, setPlayerForm] = useState({
@@ -88,6 +99,17 @@ const Admin = () => {
       end_date: '',
       status: 'upcoming',
       banner: '',
+      entry_fee: '',
+      region: '',
+      format: '',
+      team_size: '',
+      organizer: '',
+      rules: '',
+      schedule: '',
+      prizes: '',
+      highlights: '',
+      registration_opens: '',
+      registration_closes: '',
     });
     setEditingTournament(null);
     setShowAddTournament(false);
@@ -130,6 +152,7 @@ const Admin = () => {
         current_participants: editingTournament?.current_participants || 0,
         image: '/lovable-uploads/feb97539-ef64-4950-81ec-d958016900ac.png',
         banner: tournamentForm.banner || undefined,
+        highlights: tournamentForm.highlights ? tournamentForm.highlights.split('\n').filter(h => h.trim()) : undefined,
       };
 
       if (editingTournament) {
@@ -234,6 +257,17 @@ const Admin = () => {
       end_date: tournament.end_date,
       status: tournament.status,
       banner: tournament.banner || '',
+      entry_fee: tournament.entry_fee || '',
+      region: tournament.region || '',
+      format: tournament.format || '',
+      team_size: tournament.team_size || '',
+      organizer: tournament.organizer || '',
+      rules: tournament.rules || '',
+      schedule: tournament.schedule || '',
+      prizes: tournament.prizes || '',
+      highlights: tournament.highlights ? tournament.highlights.join('\n') : '',
+      registration_opens: tournament.registration_opens || '',
+      registration_closes: tournament.registration_closes || '',
     });
     setEditingTournament(tournament);
     setShowAddTournament(true);
@@ -449,11 +483,48 @@ const Admin = () => {
                     </div>
                   </div>
                   
+                  <div className="grid md:grid-cols-4 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Entry Fee</label>
+                      <Input
+                        value={tournamentForm.entry_fee}
+                        onChange={(e) => setTournamentForm({...tournamentForm, entry_fee: e.target.value})}
+                        placeholder="e.g., ₹10"
+                        className="bg-gray-700 border-gray-600 text-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Region</label>
+                      <Input
+                        value={tournamentForm.region}
+                        onChange={(e) => setTournamentForm({...tournamentForm, region: e.target.value})}
+                        placeholder="e.g., Global"
+                        className="bg-gray-700 border-gray-600 text-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Format</label>
+                      <Input
+                        value={tournamentForm.format}
+                        onChange={(e) => setTournamentForm({...tournamentForm, format: e.target.value})}
+                        placeholder="e.g., Battle Royale"
+                        className="bg-gray-700 border-gray-600 text-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Team Size</label>
+                      <Input
+                        value={tournamentForm.team_size}
+                        onChange={(e) => setTournamentForm({...tournamentForm, team_size: e.target.value})}
+                        placeholder="e.g., Solo"
+                        className="bg-gray-700 border-gray-600 text-white"
+                      />
+                    </div>
+                  </div>
+                  
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Start Date
-                      </label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Start Date</label>
                       <Input
                         type="date"
                         value={tournamentForm.start_date}
@@ -462,14 +533,63 @@ const Admin = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        End Date
-                      </label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">End Date</label>
                       <Input
                         type="date"
                         value={tournamentForm.end_date}
                         onChange={(e) => setTournamentForm({...tournamentForm, end_date: e.target.value})}
                         className="bg-gray-700 border-gray-600 text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Organizer</label>
+                    <Input
+                      value={tournamentForm.organizer}
+                      onChange={(e) => setTournamentForm({...tournamentForm, organizer: e.target.value})}
+                      placeholder="e.g., Battle Mitra Official"
+                      className="bg-gray-700 border-gray-600 text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Key Highlights (one per line)</label>
+                    <Textarea
+                      value={tournamentForm.highlights}
+                      onChange={(e) => setTournamentForm({...tournamentForm, highlights: e.target.value})}
+                      placeholder="Compete for a prize pool of ₹15,000&#10;Professional tournament management&#10;Live streaming of featured matches"
+                      className="bg-gray-700 border-gray-600 text-white"
+                      rows={4}
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Rules</label>
+                      <Textarea
+                        value={tournamentForm.rules}
+                        onChange={(e) => setTournamentForm({...tournamentForm, rules: e.target.value})}
+                        className="bg-gray-700 border-gray-600 text-white"
+                        rows={3}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Schedule</label>
+                      <Textarea
+                        value={tournamentForm.schedule}
+                        onChange={(e) => setTournamentForm({...tournamentForm, schedule: e.target.value})}
+                        className="bg-gray-700 border-gray-600 text-white"
+                        rows={3}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Prize Distribution</label>
+                      <Textarea
+                        value={tournamentForm.prizes}
+                        onChange={(e) => setTournamentForm({...tournamentForm, prizes: e.target.value})}
+                        className="bg-gray-700 border-gray-600 text-white"
+                        rows={3}
                       />
                     </div>
                   </div>
