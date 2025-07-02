@@ -6,7 +6,7 @@ import { Tournament, Player, Match } from '@/types';
 export const tournamentService = {
   async getAll() {
     const { data, error } = await supabase
-      .from('tournaments')
+      .from('tournaments' as any)
       .select('*')
       .order('created_at', { ascending: false });
     
@@ -19,8 +19,8 @@ export const tournamentService = {
 
   async create(tournament: Omit<Tournament, 'id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
-      .from('tournaments')
-      .insert([tournament])
+      .from('tournaments' as any)
+      .insert([tournament] as any)
       .select()
       .single();
     
@@ -33,8 +33,8 @@ export const tournamentService = {
 
   async update(id: string, tournament: Partial<Tournament>) {
     const { data, error } = await supabase
-      .from('tournaments')
-      .update({ ...tournament, updated_at: new Date().toISOString() })
+      .from('tournaments' as any)
+      .update({ ...tournament, updated_at: new Date().toISOString() } as any)
       .eq('id', id)
       .select()
       .single();
@@ -48,7 +48,7 @@ export const tournamentService = {
 
   async delete(id: string) {
     const { error } = await supabase
-      .from('tournaments')
+      .from('tournaments' as any)
       .delete()
       .eq('id', id);
     
@@ -63,7 +63,7 @@ export const tournamentService = {
 export const playerService = {
   async getAll() {
     const { data, error } = await supabase
-      .from('players')
+      .from('players' as any)
       .select('*')
       .order('rank', { ascending: true });
     
@@ -76,8 +76,8 @@ export const playerService = {
 
   async create(player: Omit<Player, 'id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
-      .from('players')
-      .insert([player])
+      .from('players' as any)
+      .insert([player] as any)
       .select()
       .single();
     
@@ -90,8 +90,8 @@ export const playerService = {
 
   async update(id: string, player: Partial<Player>) {
     const { data, error } = await supabase
-      .from('players')
-      .update({ ...player, updated_at: new Date().toISOString() })
+      .from('players' as any)
+      .update({ ...player, updated_at: new Date().toISOString() } as any)
       .eq('id', id)
       .select()
       .single();
@@ -105,7 +105,7 @@ export const playerService = {
 
   async delete(id: string) {
     const { error } = await supabase
-      .from('players')
+      .from('players' as any)
       .delete()
       .eq('id', id);
     
@@ -120,7 +120,7 @@ export const playerService = {
 export const matchService = {
   async getAll() {
     const { data, error } = await supabase
-      .from('matches')
+      .from('matches' as any)
       .select('*')
       .order('start_time', { ascending: true });
     
@@ -133,8 +133,8 @@ export const matchService = {
 
   async create(match: Omit<Match, 'id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
-      .from('matches')
-      .insert([match])
+      .from('matches' as any)
+      .insert([match] as any)
       .select()
       .single();
     
@@ -147,8 +147,8 @@ export const matchService = {
 
   async update(id: string, match: Partial<Match>) {
     const { data, error } = await supabase
-      .from('matches')
-      .update({ ...match, updated_at: new Date().toISOString() })
+      .from('matches' as any)
+      .update({ ...match, updated_at: new Date().toISOString() } as any)
       .eq('id', id)
       .select()
       .single();
@@ -162,7 +162,7 @@ export const matchService = {
 
   async delete(id: string) {
     const { error } = await supabase
-      .from('matches')
+      .from('matches' as any)
       .delete()
       .eq('id', id);
     
