@@ -26,7 +26,7 @@ const Header = () => {
             <img 
               src="/lovable-uploads/2aa9115f-ce05-4d8a-bab3-2cf4f362ef5e.png" 
               alt="Battle Mitra Logo" 
-              className="w-8 h-8 object-contain"
+              className="w-12 h-12 object-contain"
             />
             <span className="text-white font-bold text-xl">Battle Mitra</span>
           </Link>
