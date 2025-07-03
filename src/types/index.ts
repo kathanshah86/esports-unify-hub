@@ -36,6 +36,10 @@ export interface Player {
   losses: number;
   avatar: string;
   country: string;
+  team?: string;
+  earnings: number;
+  win_rate: number;
+  tournaments_won: number;
   created_at?: string;
   updated_at?: string;
 }

@@ -94,7 +94,11 @@ const mockPlayers: Player[] = [
     wins: 89,
     losses: 11,
     avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop',
-    country: 'USA'
+    country: 'USA',
+    team: 'Team Liquid',
+    earnings: 230000,
+    win_rate: 88.9,
+    tournaments_won: 12
   },
   {
     id: '2',
@@ -104,7 +108,11 @@ const mockPlayers: Player[] = [
     wins: 76,
     losses: 24,
     avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100&h=100&fit=crop',
-    country: 'UK'
+    country: 'UK',
+    team: 'Cloud9',
+    earnings: 180000,
+    win_rate: 76.0,
+    tournaments_won: 8
   },
   {
     id: '3',
@@ -114,7 +122,11 @@ const mockPlayers: Player[] = [
     wins: 68,
     losses: 32,
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
-    country: 'Canada'
+    country: 'Canada',
+    team: 'T1',
+    earnings: 160000,
+    win_rate: 68.0,
+    tournaments_won: 7
   },
   {
     id: '4',
@@ -124,7 +136,11 @@ const mockPlayers: Player[] = [
     wins: 55,
     losses: 45,
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
-    country: 'Japan'
+    country: 'Japan',
+    team: 'G2 Esports',
+    earnings: 140000,
+    win_rate: 55.0,
+    tournaments_won: 6
   }
 ];
 

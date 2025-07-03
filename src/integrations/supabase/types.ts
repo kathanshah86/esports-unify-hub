@@ -67,36 +67,48 @@ export type Database = {
           avatar: string | null
           country: string | null
           created_at: string | null
+          earnings: number | null
           id: string
           losses: number
           name: string
           points: number
           rank: number
+          team: string | null
+          tournaments_won: number | null
           updated_at: string | null
+          win_rate: number | null
           wins: number
         }
         Insert: {
           avatar?: string | null
           country?: string | null
           created_at?: string | null
+          earnings?: number | null
           id?: string
           losses?: number
           name: string
           points?: number
           rank: number
+          team?: string | null
+          tournaments_won?: number | null
           updated_at?: string | null
+          win_rate?: number | null
           wins?: number
         }
         Update: {
           avatar?: string | null
           country?: string | null
           created_at?: string | null
+          earnings?: number | null
           id?: string
           losses?: number
           name?: string
           points?: number
           rank?: number
+          team?: string | null
+          tournaments_won?: number | null
           updated_at?: string | null
+          win_rate?: number | null
           wins?: number
         }
         Relationships: []

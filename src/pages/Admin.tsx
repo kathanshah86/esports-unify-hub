@@ -70,6 +70,10 @@ const Admin = () => {
     losses: '',
     country: '',
     avatar: '',
+    team: '',
+    earnings: '',
+    win_rate: '',
+    tournaments_won: '',
   });
 
   const [matchForm, setMatchForm] = useState({
@@ -123,6 +127,10 @@ const Admin = () => {
       losses: '',
       country: '',
       avatar: '',
+      team: '',
+      earnings: '',
+      win_rate: '',
+      tournaments_won: '',
     });
     setEditingPlayer(null);
     setShowAddPlayer(false);
@@ -203,11 +211,16 @@ const Admin = () => {
   const handleSavePlayer = async () => {
     try {
       const playerData = {
-        ...playerForm,
-        points: parseInt(playerForm.points),
-        wins: parseInt(playerForm.wins),
-        losses: parseInt(playerForm.losses),
+        name: playerForm.name,
+        points: parseInt(playerForm.points) || 0,
+        wins: parseInt(playerForm.wins) || 0,
+        losses: parseInt(playerForm.losses) || 0,
+        country: playerForm.country,
         avatar: playerForm.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop',
+        team: playerForm.team || undefined,
+        earnings: parseInt(playerForm.earnings) || 0,
+        win_rate: parseFloat(playerForm.win_rate) || 0.0,
+        tournaments_won: parseInt(playerForm.tournaments_won) || 0,
       };
 
       if (editingPlayer) {
@@ -303,6 +316,10 @@ const Admin = () => {
       losses: player.losses.toString(),
       country: player.country,
       avatar: player.avatar,
+      team: player.team || '',
+      earnings: player.earnings.toString(),
+      win_rate: player.win_rate.toString(),
+      tournaments_won: player.tournaments_won.toString(),
     });
     setEditingPlayer(player);
     setShowAddPlayer(true);
@@ -713,6 +730,20 @@ const Admin = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Team
+                      </label>
+                      <Input
+                        value={playerForm.team}
+                        onChange={(e) => setPlayerForm({...playerForm, team: e.target.value})}
+                        placeholder="e.g., Team Liquid"
+                        className="bg-gray-700 border-gray-600 text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
                         Country
                       </label>
                       <Input
@@ -721,9 +752,21 @@ const Admin = () => {
                         className="bg-gray-700 border-gray-600 text-white"
                       />
                     </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Earnings ($)
+                      </label>
+                      <Input
+                        type="number"
+                        value={playerForm.earnings}
+                        onChange={(e) => setPlayerForm({...playerForm, earnings: e.target.value})}
+                        placeholder="Total earnings in dollars"
+                        className="bg-gray-700 border-gray-600 text-white"
+                      />
+                    </div>
                   </div>
                   
-                  <div className="grid md:grid-cols-3 gap-4">
+                  <div className="grid md:grid-cols-4 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
                         Points
@@ -757,6 +800,32 @@ const Admin = () => {
                         className="bg-gray-700 border-gray-600 text-white"
                       />
                     </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Win Rate (%)
+                      </label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={playerForm.win_rate}
+                        onChange={(e) => setPlayerForm({...playerForm, win_rate: e.target.value})}
+                        placeholder="e.g., 75.5"
+                        className="bg-gray-700 border-gray-600 text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Tournaments Won
+                    </label>
+                    <Input
+                      type="number"
+                      value={playerForm.tournaments_won}
+                      onChange={(e) => setPlayerForm({...playerForm, tournaments_won: e.target.value})}
+                      placeholder="Number of tournaments won"
+                      className="bg-gray-700 border-gray-600 text-white"
+                    />
                   </div>
                   
                   <div>
