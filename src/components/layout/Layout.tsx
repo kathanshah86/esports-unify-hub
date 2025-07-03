@@ -1,6 +1,7 @@
 
 import { ReactNode } from 'react';
 import Header from './Header';
+import Footer from './Footer';
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,9 +9,10 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-900 flex flex-col">
       <Header />
-      <main>{children}</main>
+      <main className="flex-1">{children}</main>
+      <Footer />
     </div>
   );
 };
