@@ -5,9 +5,26 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Layout from '@/components/layout/Layout';
 import { useGameStore } from '@/store/gameStore';
+import { useAuth } from '@/contexts/AuthContext';
+import { sponsorService, Sponsor } from '@/services/sponsorService';
+import { useState, useEffect } from 'react';
 
 const Index = () => {
   const { tournaments, players, matches } = useGameStore();
+  const { user } = useAuth();
+  const [sponsors, setSponsors] = useState<Sponsor[]>([]);
+
+  useEffect(() => {
+    const loadSponsors = async () => {
+      try {
+        const sponsorsData = await sponsorService.getSponsors();
+        setSponsors(sponsorsData);
+      } catch (error) {
+        console.error('Failed to load sponsors:', error);
+      }
+    };
+    loadSponsors();
+  }, []);
 
   const stats = [
     {
@@ -55,23 +72,45 @@ const Index = () => {
               Join the ultimate esports tournament platform. Participate in competitions,
               climb the leaderboards, and win amazing prizes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                asChild
-                size="lg" 
-                className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-lg px-8 py-6"
-              >
-                <Link to="/tournaments">Join a Tournament Now!</Link>
-              </Button>
-              <Button 
-                asChild
-                variant="outline" 
-                size="lg" 
-                className="border-purple-500 text-purple-400 hover:bg-purple-500/10 text-lg px-8 py-6"
-              >
-                <Link to="/tournaments">Browse Tournaments</Link>
-              </Button>
-            </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {user ? (
+              <>
+                <Button 
+                  asChild
+                  size="lg" 
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-lg px-8 py-6"
+                >
+                  <Link to="/tournaments">Join a Tournament Now!</Link>
+                </Button>
+                <Button 
+                  asChild
+                  variant="outline" 
+                  size="lg" 
+                  className="border-purple-500 text-purple-400 hover:bg-purple-500/10 text-lg px-8 py-6"
+                >
+                  <Link to="/tournaments">Browse Tournaments</Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button 
+                  asChild
+                  size="lg" 
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-lg px-8 py-6"
+                >
+                  <Link to="/auth">Sign Up Now!</Link>
+                </Button>
+                <Button 
+                  asChild
+                  variant="outline" 
+                  size="lg" 
+                  className="border-purple-500 text-purple-400 hover:bg-purple-500/10 text-lg px-8 py-6"
+                >
+                  <Link to="/auth">Login</Link>
+                </Button>
+              </>
+            )}
+          </div>
           </div>
         </div>
       </section>
@@ -302,20 +341,40 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {[
-              'ROG Republic',
-              'Intel Gaming',
-              'NVIDIA GeForce',
-              'Logitech G',
-              'SteelSeries',
-              'Razer'
-            ].map((sponsor, index) => (
-              <div key={index} className="group">
+            {sponsors.map((sponsor) => (
+              <div key={sponsor.id} className="group">
                 <Card className="bg-gray-800/50 border-gray-700 hover:border-purple-500/50 transition-all duration-300 h-24">
                   <CardContent className="p-4 h-full flex items-center justify-center">
-                    <div className="text-gray-400 group-hover:text-white transition-colors text-center">
-                      <div className="font-bold text-sm">{sponsor}</div>
-                    </div>
+                    {sponsor.website ? (
+                      <a 
+                        href={sponsor.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-400 group-hover:text-white transition-colors text-center"
+                      >
+                        {sponsor.logo ? (
+                          <img 
+                            src={sponsor.logo} 
+                            alt={sponsor.name}
+                            className="h-8 w-auto object-contain mx-auto"
+                          />
+                        ) : (
+                          <div className="font-bold text-sm">{sponsor.name}</div>
+                        )}
+                      </a>
+                    ) : (
+                      <div className="text-gray-400 group-hover:text-white transition-colors text-center">
+                        {sponsor.logo ? (
+                          <img 
+                            src={sponsor.logo} 
+                            alt={sponsor.name}
+                            className="h-8 w-auto object-contain mx-auto"
+                          />
+                        ) : (
+                          <div className="font-bold text-sm">{sponsor.name}</div>
+                        )}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
@@ -380,12 +439,25 @@ const Index = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600">
-              Create Account
-            </Button>
-            <Button variant="outline" size="lg" className="border-purple-500 text-purple-400 hover:bg-purple-500/10">
-              Join Tournaments
-            </Button>
+            {user ? (
+              <>
+                <Button asChild size="lg" className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600">
+                  <Link to="/tournaments">Join Tournaments</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="border-purple-500 text-purple-400 hover:bg-purple-500/10">
+                  <Link to="/leaderboards">View Leaderboards</Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild size="lg" className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600">
+                  <Link to="/auth">Create Account</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="border-purple-500 text-purple-400 hover:bg-purple-500/10">
+                  <Link to="/auth">Join Tournaments</Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </section>

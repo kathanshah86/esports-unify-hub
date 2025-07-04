@@ -11,6 +11,7 @@ import { useGameStore } from '@/store/gameStore';
 import { Tournament, Player, Match } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { FileUpload } from '@/components/ui/file-upload';
+import SponsorsTab from '@/components/admin/SponsorsTab';
 
 const Admin = () => {
   const { toast } = useToast();
@@ -399,7 +400,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="tournaments" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-gray-800">
+          <TabsList className="grid w-full grid-cols-4 bg-gray-800">
             <TabsTrigger value="tournaments" className="data-[state=active]:bg-purple-500">
               <Trophy className="w-4 h-4 mr-2" />
               Tournaments
@@ -411,6 +412,10 @@ const Admin = () => {
             <TabsTrigger value="matches" className="data-[state=active]:bg-purple-500">
               <Play className="w-4 h-4 mr-2" />
               Matches
+            </TabsTrigger>
+            <TabsTrigger value="sponsors" className="data-[state=active]:bg-purple-500">
+              <Trophy className="w-4 h-4 mr-2" />
+              Sponsors
             </TabsTrigger>
           </TabsList>
 
@@ -1096,6 +1101,11 @@ const Admin = () => {
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          {/* Sponsors Tab */}
+          <TabsContent value="sponsors">
+            <SponsorsTab />
           </TabsContent>
         </Tabs>
       </div>
