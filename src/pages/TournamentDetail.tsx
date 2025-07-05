@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import Layout from '@/components/layout/Layout';
 import TournamentRegistrationComponent from '@/components/tournament/TournamentRegistration';
+import TournamentTimer from '@/components/tournament/TournamentTimer';
+import PrizeDistribution from '@/components/tournament/PrizeDistribution';
 import { useGameStore } from '@/store/gameStore';
 
 const TournamentDetail = () => {
@@ -190,6 +192,9 @@ const TournamentDetail = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
+              {/* Tournament Timer */}
+              <TournamentTimer tournament={tournament} />
+              
               <Tabs defaultValue="overview" className="w-full">
                 <TabsList className="grid w-full grid-cols-5 bg-gray-800">
                   <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -283,14 +288,26 @@ const TournamentDetail = () => {
                 <TabsContent value="prizes" className="mt-6">
                   <Card className="bg-gray-800 border-gray-700">
                     <CardContent className="p-6">
-                      <h3 className="text-xl font-bold text-white mb-4">Prize Distribution</h3>
-                      <div className="text-gray-300 whitespace-pre-wrap">
-                        {tournament.prizes || 'Prize distribution details will be updated soon.'}
-                      </div>
+                      <PrizeDistribution prizesContent={tournament.prizes_content} />
                     </CardContent>
                   </Card>
                 </TabsContent>
               </Tabs>
+
+              {/* Winners Announcement for Completed Tournaments */}
+              {tournament.status === 'completed' && (tournament as any).winners && (
+                <Card className="bg-gradient-to-r from-yellow-900/20 to-orange-900/20 border-yellow-600/50 mt-6">
+                  <CardContent className="p-6">
+                    <h3 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center">
+                      <Trophy className="w-6 h-6 mr-2" />
+                      Tournament Winners
+                    </h3>
+                    <div className="text-gray-300 whitespace-pre-wrap">
+                      {(tournament as any).winners}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -314,6 +331,12 @@ const TournamentDetail = () => {
                       <span className="text-gray-400">Team Size:</span>
                       <span className="text-white">{tournament.team_size || 'Solo'}</span>
                     </div>
+                    {tournament.start_time && tournament.end_time && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Time:</span>
+                        <span className="text-white">{tournament.start_time} - {tournament.end_time}</span>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>

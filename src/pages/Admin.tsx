@@ -50,6 +50,8 @@ const Admin = () => {
     max_participants: '',
     start_date: '',
     end_date: '',
+    start_time: '',
+    end_time: '',
     status: 'upcoming' as 'upcoming' | 'ongoing' | 'completed',
     banner: '',
     entry_fee: '',
@@ -63,6 +65,7 @@ const Admin = () => {
     highlights: '',
     registration_opens: '',
     registration_closes: '',
+    winners: '',
   });
 
   const [playerForm, setPlayerForm] = useState({
@@ -103,6 +106,8 @@ const Admin = () => {
       max_participants: '',
       start_date: '',
       end_date: '',
+      start_time: '',
+      end_time: '',
       status: 'upcoming',
       banner: '',
       entry_fee: '',
@@ -116,6 +121,7 @@ const Admin = () => {
       highlights: '',
       registration_opens: '',
       registration_closes: '',
+      winners: '',
     });
     setEditingTournament(null);
     setShowAddTournament(false);
@@ -180,8 +186,11 @@ const Admin = () => {
         highlights: tournamentForm.highlights ? tournamentForm.highlights.split('\n').filter(h => h.trim()) : undefined,
         start_date: startDate,
         end_date: endDate,
+        start_time: tournamentForm.start_time || undefined,
+        end_time: tournamentForm.end_time || undefined,
         registration_opens: tournamentForm.registration_opens ? new Date(tournamentForm.registration_opens).toISOString() : undefined,
         registration_closes: tournamentForm.registration_closes ? new Date(tournamentForm.registration_closes).toISOString() : undefined,
+        winners: tournamentForm.winners || undefined,
       };
 
       console.log('Saving tournament data:', tournamentData);
@@ -292,6 +301,8 @@ const Admin = () => {
       max_participants: tournament.max_participants.toString(),
       start_date: tournament.start_date,
       end_date: tournament.end_date,
+      start_time: tournament.start_time || '',
+      end_time: tournament.end_time || '',
       status: tournament.status,
       banner: tournament.banner || '',
       entry_fee: tournament.entry_fee || '',
@@ -305,6 +316,7 @@ const Admin = () => {
       highlights: tournament.highlights ? tournament.highlights.join('\n') : '',
       registration_opens: tournament.registration_opens || '',
       registration_closes: tournament.registration_closes || '',
+      winners: (tournament as any).winners || '',
     });
     setEditingTournament(tournament);
     setShowAddTournament(true);
@@ -571,26 +583,47 @@ const Admin = () => {
                     </div>
                   </div>
                   
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Start Date</label>
-                      <Input
-                        type="date"
-                        value={tournamentForm.start_date}
-                        onChange={(e) => setTournamentForm({...tournamentForm, start_date: e.target.value})}
-                        className="bg-gray-700 border-gray-600 text-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">End Date</label>
-                      <Input
-                        type="date"
-                        value={tournamentForm.end_date}
-                        onChange={(e) => setTournamentForm({...tournamentForm, end_date: e.target.value})}
-                        className="bg-gray-700 border-gray-600 text-white"
-                      />
-                    </div>
-                  </div>
+                   <div className="grid md:grid-cols-2 gap-4">
+                     <div>
+                       <label className="block text-sm font-medium text-gray-300 mb-2">Start Date</label>
+                       <Input
+                         type="date"
+                         value={tournamentForm.start_date}
+                         onChange={(e) => setTournamentForm({...tournamentForm, start_date: e.target.value})}
+                         className="bg-gray-700 border-gray-600 text-white"
+                       />
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-300 mb-2">End Date</label>
+                       <Input
+                         type="date"
+                         value={tournamentForm.end_date}
+                         onChange={(e) => setTournamentForm({...tournamentForm, end_date: e.target.value})}
+                         className="bg-gray-700 border-gray-600 text-white"
+                       />
+                     </div>
+                   </div>
+
+                   <div className="grid md:grid-cols-2 gap-4">
+                     <div>
+                       <label className="block text-sm font-medium text-gray-300 mb-2">Start Time</label>
+                       <Input
+                         type="time"
+                         value={tournamentForm.start_time}
+                         onChange={(e) => setTournamentForm({...tournamentForm, start_time: e.target.value})}
+                         className="bg-gray-700 border-gray-600 text-white"
+                       />
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-300 mb-2">End Time</label>
+                       <Input
+                         type="time"
+                         value={tournamentForm.end_time}
+                         onChange={(e) => setTournamentForm({...tournamentForm, end_time: e.target.value})}
+                         className="bg-gray-700 border-gray-600 text-white"
+                       />
+                     </div>
+                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">Organizer</label>
@@ -613,35 +646,49 @@ const Admin = () => {
                     />
                   </div>
 
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Rules</label>
-                      <Textarea
-                        value={tournamentForm.rules}
-                        onChange={(e) => setTournamentForm({...tournamentForm, rules: e.target.value})}
-                        className="bg-gray-700 border-gray-600 text-white"
-                        rows={3}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Schedule</label>
-                      <Textarea
-                        value={tournamentForm.schedule}
-                        onChange={(e) => setTournamentForm({...tournamentForm, schedule: e.target.value})}
-                        className="bg-gray-700 border-gray-600 text-white"
-                        rows={3}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Prize Distribution</label>
-                      <Textarea
-                        value={tournamentForm.prizes}
-                        onChange={(e) => setTournamentForm({...tournamentForm, prizes: e.target.value})}
-                        className="bg-gray-700 border-gray-600 text-white"
-                        rows={3}
-                      />
-                    </div>
-                  </div>
+                   <div className="grid md:grid-cols-2 gap-4">
+                     <div>
+                       <label className="block text-sm font-medium text-gray-300 mb-2">Rules</label>
+                       <Textarea
+                         value={tournamentForm.rules}
+                         onChange={(e) => setTournamentForm({...tournamentForm, rules: e.target.value})}
+                         className="bg-gray-700 border-gray-600 text-white"
+                         rows={3}
+                       />
+                     </div>
+                     <div>
+                       <label className="block text-sm font-medium text-gray-300 mb-2">Schedule</label>
+                       <Textarea
+                         value={tournamentForm.schedule}
+                         onChange={(e) => setTournamentForm({...tournamentForm, schedule: e.target.value})}
+                         className="bg-gray-700 border-gray-600 text-white"
+                         rows={3}
+                       />
+                     </div>
+                   </div>
+
+                   <div>
+                     <label className="block text-sm font-medium text-gray-300 mb-2">Prize Distribution</label>
+                     <Textarea
+                       value={tournamentForm.prizes}
+                       onChange={(e) => setTournamentForm({...tournamentForm, prizes: e.target.value})}
+                       className="bg-gray-700 border-gray-600 text-white"
+                       rows={3}
+                     />
+                   </div>
+
+                   {tournamentForm.status === 'completed' && (
+                     <div>
+                       <label className="block text-sm font-medium text-gray-300 mb-2">Winners Announcement</label>
+                       <Textarea
+                         value={tournamentForm.winners}
+                         onChange={(e) => setTournamentForm({...tournamentForm, winners: e.target.value})}
+                         placeholder="1st Place: Player Name - ₹6000&#10;2nd Place: Player Name - ₹3000&#10;3rd Place: Player Name - ₹1000"
+                         className="bg-gray-700 border-gray-600 text-white"
+                         rows={4}
+                       />
+                     </div>
+                   )}
                   
                   <div className="flex gap-2">
                     <Button onClick={handleSaveTournament} className="bg-green-500 hover:bg-green-600">
