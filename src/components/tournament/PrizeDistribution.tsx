@@ -49,7 +49,9 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
     ]
   };
 
-  const prizes = prizesContent || defaultPrizes;
+  const prizes = (prizesContent && prizesContent.positions && prizesContent.positions.length > 0) 
+    ? prizesContent 
+    : defaultPrizes;
 
   const getPositionIcon = (position: number) => {
     switch (position) {
