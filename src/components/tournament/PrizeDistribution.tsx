@@ -68,44 +68,44 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
 
   const getPositionStyles = (position: number) => {
     switch (position) {
-        case 1:
+      case 1:
         return {
           cardBg: "bg-gradient-to-br from-yellow-500/30 via-yellow-400/20 to-orange-500/30",
           border: "border-2 border-yellow-400/70 shadow-2xl shadow-yellow-500/30",
           numberBg: "bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-xl",
-          titleColor: "text-yellow-200",
-          amountColor: "text-white font-bold",
-          descColor: "text-gray-200",
+          titleColor: "text-white font-bold",
+          amountColor: "text-yellow-100 font-extrabold text-shadow-lg",
+          descColor: "text-white/90 font-medium",
           glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-yellow-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
-        case 2:
+      case 2:
         return {
           cardBg: "bg-gradient-to-br from-gray-400/30 via-gray-300/20 to-slate-500/30", 
           border: "border-2 border-gray-400/70 shadow-2xl shadow-gray-400/20",
           numberBg: "bg-gradient-to-br from-gray-400 to-gray-600 shadow-xl",
-          titleColor: "text-gray-100",
-          amountColor: "text-white font-bold",
-          descColor: "text-gray-200",
+          titleColor: "text-white font-bold",
+          amountColor: "text-gray-100 font-extrabold text-shadow-lg",
+          descColor: "text-white/90 font-medium",
           glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-gray-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
-        case 3:
+      case 3:
         return {
           cardBg: "bg-gradient-to-br from-orange-500/30 via-orange-400/20 to-red-500/30",
           border: "border-2 border-orange-400/70 shadow-2xl shadow-orange-400/20", 
           numberBg: "bg-gradient-to-br from-orange-400 to-orange-600 shadow-xl",
-          titleColor: "text-orange-100",
-          amountColor: "text-white font-bold",
-          descColor: "text-gray-200",
+          titleColor: "text-white font-bold",
+          amountColor: "text-orange-100 font-extrabold text-shadow-lg",
+          descColor: "text-white/90 font-medium",
           glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-orange-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
-      default:
+        default:
         return {
           cardBg: "bg-gradient-to-br from-purple-500/30 via-purple-400/20 to-blue-500/30",
           border: "border-2 border-purple-400/70 shadow-xl shadow-purple-400/20",
           numberBg: "bg-gradient-to-br from-purple-400 to-purple-600 shadow-lg",
-          titleColor: "text-purple-200", 
-          amountColor: "text-purple-100",
-          descColor: "text-purple-200/90",
+          titleColor: "text-white font-bold", 
+          amountColor: "text-purple-100 font-extrabold text-shadow-lg",
+          descColor: "text-white/90 font-medium",
           glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-purple-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
     }
@@ -195,7 +195,7 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
                       </div>
                       <div className="flex-1">
                         <h5 className={`font-bold ${styles.titleColor} text-lg`}>{prize.title}</h5>
-                        <p className={`${styles.amountColor} font-bold text-xl`}>{prize.amount}</p>
+                        <p className={`${styles.amountColor} font-bold text-xl drop-shadow-md`}>{prize.amount}</p>
                         <p className={`${styles.descColor} text-sm`}>{prize.description}</p>
                       </div>
                     </div>
@@ -224,8 +224,8 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
                         <Star className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <h5 className="text-xl font-bold text-purple-200 mb-2">{reward.title}</h5>
-                        <p className="text-purple-300/90 leading-relaxed">{reward.description}</p>
+                        <h5 className="text-xl font-bold text-white mb-2 drop-shadow-md">{reward.title}</h5>
+                        <p className="text-white/90 leading-relaxed font-medium">{reward.description}</p>
                       </div>
                     </div>
                   </div>
