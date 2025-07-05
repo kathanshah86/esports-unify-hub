@@ -118,9 +118,12 @@ export type Database = {
           avatar_url: string | null
           created_at: string
           display_name: string | null
+          earnings: number | null
           email: string | null
+          game_id: string | null
           game_user_id: string | null
           id: string
+          name: string | null
           updated_at: string
           user_id: string
         }
@@ -128,9 +131,12 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
+          earnings?: number | null
           email?: string | null
+          game_id?: string | null
           game_user_id?: string | null
           id?: string
+          name?: string | null
           updated_at?: string
           user_id: string
         }
@@ -138,9 +144,12 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
+          earnings?: number | null
           email?: string | null
+          game_id?: string | null
           game_user_id?: string | null
           id?: string
+          name?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -181,6 +190,88 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      tournament_registrations: {
+        Row: {
+          created_at: string
+          id: string
+          payment_amount: number | null
+          payment_status: string | null
+          player_game_id: string
+          player_name: string
+          registration_date: string
+          tournament_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          payment_amount?: number | null
+          payment_status?: string | null
+          player_game_id: string
+          player_name: string
+          registration_date?: string
+          tournament_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          payment_amount?: number | null
+          payment_status?: string | null
+          player_game_id?: string
+          player_name?: string
+          registration_date?: string
+          tournament_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tournament_registrations_tournament_id_fkey"
+            columns: ["tournament_id"]
+            isOneToOne: false
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tournament_rooms: {
+        Row: {
+          created_at: string
+          id: string
+          room_id: string | null
+          room_password: string | null
+          tournament_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          room_id?: string | null
+          room_password?: string | null
+          tournament_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          room_id?: string | null
+          room_password?: string | null
+          tournament_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tournament_rooms_tournament_id_fkey"
+            columns: ["tournament_id"]
+            isOneToOne: true
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tournaments: {
         Row: {

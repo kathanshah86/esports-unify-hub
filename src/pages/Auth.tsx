@@ -12,7 +12,7 @@ import { Gamepad2, Mail, Lock, User } from 'lucide-react';
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [signupData, setSignupData] = useState({ email: '', password: '', gameUserId: '' });
+  const [signupData, setSignupData] = useState({ email: '', password: '', name: '', gameUserId: '' });
   
   const { signIn, signUp, user } = useAuth();
   const { toast } = useToast();
@@ -60,7 +60,7 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await signUp(signupData.email, signupData.password, signupData.gameUserId);
+      const { error } = await signUp(signupData.email, signupData.password, signupData.name, signupData.gameUserId);
       
       if (error) {
         toast({
@@ -151,6 +151,22 @@ const Auth = () => {
               
               <TabsContent value="signup">
                 <form onSubmit={handleSignup} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-name" className="text-white">Full Name</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="signup-name"
+                        type="text"
+                        placeholder="Enter your full name"
+                        className="pl-10 bg-gray-700/50 border-gray-600 text-white"
+                        value={signupData.name}
+                        onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                        required
+                      />
+                    </div>
+                  </div>
+                  
                   <div className="space-y-2">
                     <Label htmlFor="signup-email" className="text-white">Email</Label>
                     <div className="relative">

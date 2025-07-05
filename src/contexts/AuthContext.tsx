@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 interface AuthContextType {
   user: User | null;
   session: Session | null;
-  signUp: (email: string, password: string, gameUserId: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, name: string, gameId: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   loading: boolean;
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string, gameUserId: string) => {
+  const signUp = async (email: string, password: string, name: string, gameId: string) => {
     const redirectUrl = `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signUp({
@@ -62,18 +62,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       options: {
         emailRedirectTo: redirectUrl,
         data: {
-          game_user_id: gameUserId,
+          name: name,
+          game_id: gameId,
         }
       }
     });
-
-    if (!error && session?.user) {
-      // Update profile with game user ID
-      await supabase
-        .from('profiles')
-        .update({ game_user_id: gameUserId })
-        .eq('user_id', session.user.id);
-    }
 
     return { error };
   };

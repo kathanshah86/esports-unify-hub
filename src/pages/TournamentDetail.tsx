@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import Layout from '@/components/layout/Layout';
+import TournamentRegistrationComponent from '@/components/tournament/TournamentRegistration';
 import { useGameStore } from '@/store/gameStore';
 
 const TournamentDetail = () => {
@@ -145,9 +146,6 @@ const TournamentDetail = () => {
               <CardContent className="p-4 text-center">
                 <p className="text-white text-sm mb-1">Prize Pool</p>
                 <p className="text-yellow-400 text-2xl font-bold">{tournament.prize_pool}</p>
-                <Button className="mt-2 bg-purple-500 hover:bg-purple-600 text-white">
-                  Register Now
-                </Button>
               </CardContent>
             </Card>
           </div>
@@ -181,9 +179,6 @@ const TournamentDetail = () => {
                 </div>
               </div>
               
-              <Button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-3">
-                Register Now
-              </Button>
               <p className="text-gray-400 text-sm mt-2">
                 Registration closes 1 hour before the tournament starts
               </p>
@@ -196,12 +191,17 @@ const TournamentDetail = () => {
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <Tabs defaultValue="overview" className="w-full">
-                <TabsList className="grid w-full grid-cols-4 bg-gray-800">
+                <TabsList className="grid w-full grid-cols-5 bg-gray-800">
                   <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="register">Register</TabsTrigger>
                   <TabsTrigger value="rules">Rules</TabsTrigger>
                   <TabsTrigger value="schedule">Schedule</TabsTrigger>
                   <TabsTrigger value="prizes">Prizes</TabsTrigger>
                 </TabsList>
+                
+                <TabsContent value="register" className="mt-6">
+                  <TournamentRegistrationComponent tournament={tournament} />
+                </TabsContent>
                 
                 <TabsContent value="overview" className="mt-6">
                   <Card className="bg-gray-800 border-gray-700">
