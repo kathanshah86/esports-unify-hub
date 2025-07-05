@@ -34,14 +34,25 @@ const TournamentContentEditor: React.FC<TournamentContentEditorProps> = ({
   const { toast } = useToast();
 
   useEffect(() => {
-    if (tournament.overview_content) {
-      setOverviewContent(tournament.overview_content);
+    if (tournament.overview_content && typeof tournament.overview_content === 'object') {
+      const content = tournament.overview_content as OverviewContent;
+      setOverviewContent({
+        highlights: Array.isArray(content.highlights) ? content.highlights : [],
+        timeline: Array.isArray(content.timeline) ? content.timeline : []
+      });
     }
-    if (tournament.schedule_content) {
-      setScheduleContent(tournament.schedule_content);
+    if (tournament.schedule_content && typeof tournament.schedule_content === 'object') {
+      const content = tournament.schedule_content as ScheduleContent;
+      setScheduleContent({
+        phases: Array.isArray(content.phases) ? content.phases : []
+      });
     }
-    if (tournament.prizes_content) {
-      setPrizesContent(tournament.prizes_content);
+    if (tournament.prizes_content && typeof tournament.prizes_content === 'object') {
+      const content = tournament.prizes_content as PrizesContent;
+      setPrizesContent({
+        positions: Array.isArray(content.positions) ? content.positions : [],
+        additional_rewards: Array.isArray(content.additional_rewards) ? content.additional_rewards : []
+      });
     }
   }, [tournament]);
 
