@@ -308,6 +308,7 @@ export type Database = {
           timer_is_running: boolean | null
           timer_start_time: string | null
           updated_at: string | null
+          winners: string | null
         }
         Insert: {
           banner?: string | null
@@ -343,6 +344,7 @@ export type Database = {
           timer_is_running?: boolean | null
           timer_start_time?: string | null
           updated_at?: string | null
+          winners?: string | null
         }
         Update: {
           banner?: string | null
@@ -378,6 +380,7 @@ export type Database = {
           timer_is_running?: boolean | null
           timer_start_time?: string | null
           updated_at?: string | null
+          winners?: string | null
         }
         Relationships: []
       }
