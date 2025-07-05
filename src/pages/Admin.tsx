@@ -13,6 +13,8 @@ import { useToast } from '@/hooks/use-toast';
 import { FileUpload } from '@/components/ui/file-upload';
 import SponsorsTab from '@/components/admin/SponsorsTab';
 import RoomsTab from '@/components/admin/RoomsTab';
+import TournamentContentEditor from '@/components/admin/TournamentContentEditor';
+import TournamentTimerAdmin from '@/components/admin/TournamentTimerAdmin';
 
 const Admin = () => {
   const { toast } = useToast();
@@ -480,16 +482,16 @@ const Admin = () => {
                     </div>
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Description
-                    </label>
-                    <Textarea
-                      value={tournamentForm.description}
-                      onChange={(e) => setTournamentForm({...tournamentForm, description: e.target.value})}
-                      className="bg-gray-700 border-gray-600 text-white"
-                    />
-                  </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-300 mb-2">
+                       Description
+                     </label>
+                     <Textarea
+                       value={tournamentForm.description || ''}
+                       onChange={(e) => setTournamentForm({...tournamentForm, description: e.target.value})}
+                       className="bg-gray-700 border-gray-600 text-white"
+                     />
+                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -635,60 +637,60 @@ const Admin = () => {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Key Highlights (one per line)</label>
-                    <Textarea
-                      value={tournamentForm.highlights}
-                      onChange={(e) => setTournamentForm({...tournamentForm, highlights: e.target.value})}
-                      placeholder="Compete for a prize pool of ₹15,000&#10;Professional tournament management&#10;Live streaming of featured matches"
-                      className="bg-gray-700 border-gray-600 text-white"
-                      rows={4}
-                    />
-                  </div>
-
-                   <div className="grid md:grid-cols-2 gap-4">
-                     <div>
-                       <label className="block text-sm font-medium text-gray-300 mb-2">Rules</label>
-                       <Textarea
-                         value={tournamentForm.rules}
-                         onChange={(e) => setTournamentForm({...tournamentForm, rules: e.target.value})}
-                         className="bg-gray-700 border-gray-600 text-white"
-                         rows={3}
-                       />
-                     </div>
-                     <div>
-                       <label className="block text-sm font-medium text-gray-300 mb-2">Schedule</label>
-                       <Textarea
-                         value={tournamentForm.schedule}
-                         onChange={(e) => setTournamentForm({...tournamentForm, schedule: e.target.value})}
-                         className="bg-gray-700 border-gray-600 text-white"
-                         rows={3}
-                       />
-                     </div>
-                   </div>
-
                    <div>
-                     <label className="block text-sm font-medium text-gray-300 mb-2">Prize Distribution</label>
+                     <label className="block text-sm font-medium text-gray-300 mb-2">Key Highlights (one per line)</label>
                      <Textarea
-                       value={tournamentForm.prizes}
-                       onChange={(e) => setTournamentForm({...tournamentForm, prizes: e.target.value})}
+                       value={tournamentForm.highlights || ''}
+                       onChange={(e) => setTournamentForm({...tournamentForm, highlights: e.target.value})}
+                       placeholder="Compete for a prize pool of ₹15,000&#10;Professional tournament management&#10;Live streaming of featured matches"
                        className="bg-gray-700 border-gray-600 text-white"
-                       rows={3}
+                       rows={4}
                      />
                    </div>
 
-                   {tournamentForm.status === 'completed' && (
+                   <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Rules</label>
+                        <Textarea
+                          value={tournamentForm.rules || ''}
+                          onChange={(e) => setTournamentForm({...tournamentForm, rules: e.target.value})}
+                          className="bg-gray-700 border-gray-600 text-white"
+                          rows={3}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Schedule</label>
+                        <Textarea
+                          value={tournamentForm.schedule || ''}
+                          onChange={(e) => setTournamentForm({...tournamentForm, schedule: e.target.value})}
+                          className="bg-gray-700 border-gray-600 text-white"
+                          rows={3}
+                        />
+                      </div>
+                   </div>
+
                      <div>
-                       <label className="block text-sm font-medium text-gray-300 mb-2">Winners Announcement</label>
+                       <label className="block text-sm font-medium text-gray-300 mb-2">Prize Distribution</label>
                        <Textarea
-                         value={tournamentForm.winners}
-                         onChange={(e) => setTournamentForm({...tournamentForm, winners: e.target.value})}
-                         placeholder="1st Place: Player Name - ₹6000&#10;2nd Place: Player Name - ₹3000&#10;3rd Place: Player Name - ₹1000"
+                         value={tournamentForm.prizes || ''}
+                         onChange={(e) => setTournamentForm({...tournamentForm, prizes: e.target.value})}
                          className="bg-gray-700 border-gray-600 text-white"
-                         rows={4}
+                         rows={3}
                        />
                      </div>
-                   )}
+
+                     {tournamentForm.status === 'completed' && (
+                       <div>
+                         <label className="block text-sm font-medium text-gray-300 mb-2">Winners Announcement</label>
+                         <Textarea
+                           value={tournamentForm.winners || ''}
+                           onChange={(e) => setTournamentForm({...tournamentForm, winners: e.target.value})}
+                           placeholder="1st Place: Player Name - ₹6000&#10;2nd Place: Player Name - ₹3000&#10;3rd Place: Player Name - ₹1000"
+                           className="bg-gray-700 border-gray-600 text-white"
+                           rows={4}
+                         />
+                       </div>
+                     )}
                   
                   <div className="flex gap-2">
                     <Button onClick={handleSaveTournament} className="bg-green-500 hover:bg-green-600">
@@ -746,6 +748,24 @@ const Admin = () => {
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
+                    </div>
+                    
+                    {/* Tournament Content Editor */}
+                    <div className="mt-6">
+                      <TournamentContentEditor 
+                        tournament={tournament} 
+                        onUpdate={() => initialize()}
+                      />
+                    </div>
+                    
+                    {/* Tournament Timer Control */}
+                    <div className="mt-6">
+                      <TournamentTimerAdmin 
+                        tournamentId={tournament.id}
+                        currentDuration={tournament.timer_duration || 0}
+                        isRunning={tournament.timer_is_running || false}
+                        onTimerUpdate={() => initialize()}
+                      />
                     </div>
                   </CardContent>
                 </Card>

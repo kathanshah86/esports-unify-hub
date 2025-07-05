@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Trophy, Medal, Award } from 'lucide-react';
+import { Trophy, Medal, Award, Crown, Star, Sparkles } from 'lucide-react';
 import { PrizesContent } from '@/types';
 
 interface PrizeDistributionProps {
@@ -54,112 +54,147 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
   const getPositionIcon = (position: number) => {
     switch (position) {
       case 1:
-        return <Trophy className="w-8 h-8 text-yellow-400" />;
+        return <Crown className="w-10 h-10 text-yellow-400 drop-shadow-lg" />;
       case 2:
-        return <Medal className="w-8 h-8 text-gray-400" />;
+        return <Medal className="w-10 h-10 text-gray-300 drop-shadow-lg" />;
       case 3:
-        return <Award className="w-8 h-8 text-orange-400" />;
+        return <Award className="w-10 h-10 text-orange-400 drop-shadow-lg" />;
       default:
-        return <Trophy className="w-8 h-8 text-purple-400" />;
+        return <Trophy className="w-10 h-10 text-purple-400 drop-shadow-lg" />;
     }
   };
 
-  const getPositionColors = (position: number) => {
+  const getPositionStyles = (position: number) => {
     switch (position) {
       case 1:
         return {
-          bg: "from-yellow-500/20 to-yellow-600/20",
-          border: "border-yellow-500/50",
-          text: "text-yellow-400",
-          number: "bg-yellow-500"
+          cardBg: "bg-gradient-to-br from-yellow-500/30 via-yellow-400/20 to-orange-500/30",
+          border: "border-2 border-yellow-400/70 shadow-2xl shadow-yellow-500/30",
+          numberBg: "bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-xl",
+          titleColor: "text-yellow-300",
+          amountColor: "text-yellow-100",
+          descColor: "text-yellow-200/90",
+          glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-yellow-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
       case 2:
         return {
-          bg: "from-gray-400/20 to-gray-500/20", 
-          border: "border-gray-400/50",
-          text: "text-gray-300",
-          number: "bg-gray-500"
+          cardBg: "bg-gradient-to-br from-gray-400/30 via-gray-300/20 to-slate-500/30", 
+          border: "border-2 border-gray-400/70 shadow-2xl shadow-gray-400/20",
+          numberBg: "bg-gradient-to-br from-gray-400 to-gray-600 shadow-xl",
+          titleColor: "text-gray-200",
+          amountColor: "text-gray-100",
+          descColor: "text-gray-300/90",
+          glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-gray-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
       case 3:
         return {
-          bg: "from-orange-400/20 to-orange-500/20",
-          border: "border-orange-400/50", 
-          text: "text-orange-400",
-          number: "bg-orange-500"
+          cardBg: "bg-gradient-to-br from-orange-500/30 via-orange-400/20 to-red-500/30",
+          border: "border-2 border-orange-400/70 shadow-2xl shadow-orange-400/20", 
+          numberBg: "bg-gradient-to-br from-orange-400 to-orange-600 shadow-xl",
+          titleColor: "text-orange-200",
+          amountColor: "text-orange-100",
+          descColor: "text-orange-200/90",
+          glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-orange-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
       default:
         return {
-          bg: "from-purple-400/20 to-purple-500/20",
-          border: "border-purple-400/50",
-          text: "text-purple-400", 
-          number: "bg-purple-500"
+          cardBg: "bg-gradient-to-br from-purple-500/30 via-purple-400/20 to-blue-500/30",
+          border: "border-2 border-purple-400/70 shadow-xl shadow-purple-400/20",
+          numberBg: "bg-gradient-to-br from-purple-400 to-purple-600 shadow-lg",
+          titleColor: "text-purple-200", 
+          amountColor: "text-purple-100",
+          descColor: "text-purple-200/90",
+          glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-purple-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
     }
   };
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h3 className="text-2xl font-bold text-white mb-6 text-center">Prize Distribution</h3>
-        
-        {/* Prize Position Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {prizes.positions.slice(0, 3).map((prize, index) => {
-            const colors = getPositionColors(prize.position);
-            return (
-              <Card 
-                key={index}
-                className={`bg-gradient-to-br ${colors.bg} ${colors.border} border backdrop-blur-sm relative overflow-hidden`}
-              >
-                <CardContent className="p-6 text-center relative">
-                  {/* Position number circle */}
-                  <div className={`w-12 h-12 ${colors.number} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                    <span className="text-white font-bold text-xl">{prize.position}</span>
+    <div className="space-y-10">
+      {/* Header */}
+      <div className="text-center">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full mb-4 shadow-2xl animate-pulse">
+          <Sparkles className="w-8 h-8 text-white" />
+        </div>
+        <h3 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
+          Prize Distribution
+        </h3>
+        <div className="w-32 h-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 mx-auto rounded-full shadow-lg" />
+      </div>
+      
+      {/* Main Prize Cards */}
+      <div className="grid md:grid-cols-3 gap-8">
+        {prizes.positions.slice(0, 3).map((prize, index) => {
+          const styles = getPositionStyles(prize.position);
+          return (
+            <div key={index} className="relative group">
+              {/* Glow Effect */}
+              <div className={`absolute -inset-1 ${styles.glowEffect} opacity-75 group-hover:opacity-100 transition-opacity duration-300`} />
+              
+              <Card className={`${styles.cardBg} ${styles.border} backdrop-blur-sm relative overflow-hidden transform hover:scale-[1.02] transition-all duration-300`}>
+                <CardContent className="p-8 text-center relative z-10">
+                  {/* Floating decorative elements */}
+                  <div className="absolute top-4 right-4 w-8 h-8 bg-white/10 rounded-full animate-pulse" />
+                  <div className="absolute bottom-4 left-4 w-6 h-6 bg-white/5 rounded-full animate-pulse delay-500" />
+                  
+                  {/* Position number with enhanced styling */}
+                  <div className={`w-16 h-16 ${styles.numberBg} rounded-full flex items-center justify-center mx-auto mb-6 transform hover:rotate-12 transition-transform duration-300`}>
+                    <span className="text-white font-bold text-2xl drop-shadow-lg">{prize.position}</span>
                   </div>
                   
-                  {/* Prize icon */}
-                  <div className="mb-4">
+                  {/* Prize icon with hover effect */}
+                  <div className="mb-6 transform hover:scale-110 transition-transform duration-300">
                     {getPositionIcon(prize.position)}
                   </div>
                   
                   {/* Prize title */}
-                  <h4 className={`text-xl font-bold ${colors.text} mb-2`}>
+                  <h4 className={`text-2xl font-bold ${styles.titleColor} mb-4 drop-shadow-lg`}>
                     {prize.title}
                   </h4>
                   
-                  {/* Prize amount */}
-                  <div className="text-3xl font-bold text-white mb-3">
+                  {/* Prize amount with enhanced styling */}
+                  <div className={`text-4xl font-extrabold ${styles.amountColor} mb-4 drop-shadow-xl`}>
                     {prize.amount}
                   </div>
                   
                   {/* Prize description */}
-                  <p className="text-gray-300 text-sm leading-relaxed">
+                  <p className={`${styles.descColor} text-sm leading-relaxed font-medium`}>
                     {prize.description}
                   </p>
                   
-                  {/* Decorative background element */}
-                  <div className={`absolute -top-4 -right-4 w-24 h-24 ${colors.number} rounded-full opacity-10`} />
+                  {/* Achievement indicators for top 3 */}
+                  {prize.position <= 3 && (
+                    <div className="flex justify-center mt-4 space-x-1">
+                      {[...Array(4 - prize.position)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
+      </div>
 
-        {/* Additional positions if any */}
-        {prizes.positions.length > 3 && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      {/* Additional prize positions */}
+      {prizes.positions.length > 3 && (
+        <div>
+          <h4 className="text-2xl font-bold text-white mb-6 text-center">Other Prize Positions</h4>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {prizes.positions.slice(3).map((prize, index) => {
-              const colors = getPositionColors(prize.position);
+              const styles = getPositionStyles(prize.position);
               return (
-                <Card key={index + 3} className={`bg-gradient-to-br ${colors.bg} ${colors.border} border`}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 ${colors.number} rounded-full flex items-center justify-center`}>
-                        <span className="text-white font-bold text-sm">{prize.position}</span>
+                <Card key={index + 3} className={`${styles.cardBg} ${styles.border} backdrop-blur-sm hover:scale-[1.02] transition-all duration-300`}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 ${styles.numberBg} rounded-full flex items-center justify-center flex-shrink-0`}>
+                        <span className="text-white font-bold text-lg">{prize.position}</span>
                       </div>
                       <div className="flex-1">
-                        <h5 className={`font-semibold ${colors.text}`}>{prize.title}</h5>
-                        <p className="text-white font-bold">{prize.amount}</p>
+                        <h5 className={`font-bold ${styles.titleColor} text-lg`}>{prize.title}</h5>
+                        <p className={`${styles.amountColor} font-bold text-xl`}>{prize.amount}</p>
+                        <p className={`${styles.descColor} text-sm`}>{prize.description}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -167,19 +202,31 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
               );
             })}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Additional Rewards */}
       {prizes.additional_rewards && prizes.additional_rewards.length > 0 && (
         <div>
-          <h4 className="text-xl font-bold text-white mb-4">Additional Rewards</h4>
-          <div className="grid md:grid-cols-2 gap-4">
+          <h4 className="text-2xl font-bold text-white mb-6 text-center">Additional Rewards</h4>
+          <div className="grid md:grid-cols-2 gap-6">
             {prizes.additional_rewards.map((reward, index) => (
-              <Card key={index} className="bg-gray-800/50 border-gray-700 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <h5 className="text-lg font-semibold text-white mb-2">{reward.title}</h5>
-                  <p className="text-gray-300 text-sm leading-relaxed">{reward.description}</p>
+              <Card key={index} className="bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-indigo-500/20 border-2 border-purple-400/50 backdrop-blur-sm hover:scale-[1.02] transition-all duration-300 shadow-xl">
+                <CardContent className="p-6 relative overflow-hidden">
+                  {/* Decorative elements */}
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-purple-400/10 rounded-full -translate-y-10 translate-x-10" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Star className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <h5 className="text-xl font-bold text-purple-200 mb-2">{reward.title}</h5>
+                        <p className="text-purple-300/90 leading-relaxed">{reward.description}</p>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             ))}
