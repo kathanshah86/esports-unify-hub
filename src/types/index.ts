@@ -23,6 +23,9 @@ export interface Tournament {
   highlights?: string[];
   registration_opens?: string;
   registration_closes?: string;
+  timer_duration?: number;
+  timer_start_time?: string;
+  timer_is_running?: boolean;
   created_at?: string;
   updated_at?: string;
 }

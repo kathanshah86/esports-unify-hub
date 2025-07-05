@@ -9,6 +9,8 @@ import { tournamentRegistrationService, TournamentRegistration, TournamentRoom }
 import { supabase } from '@/integrations/supabase/client';
 import { Tournament } from '@/types';
 import { Users, Lock, Key, CreditCard, CheckCircle, Clock } from 'lucide-react';
+import GameIdInputDialog from './GameIdInputDialog';
+import TournamentTimer from './TournamentTimer';
 
 interface TournamentRegistrationProps {
   tournament: Tournament;
@@ -20,6 +22,7 @@ const TournamentRegistrationComponent: React.FC<TournamentRegistrationProps> = (
   const [registrations, setRegistrations] = useState<TournamentRegistration[]>([]);
   const [roomDetails, setRoomDetails] = useState<TournamentRoom | null>(null);
   const [userProfile, setUserProfile] = useState<any>(null);
+  const [showGameIdDialog, setShowGameIdDialog] = useState(false);
   
   const { user } = useAuth();
   const { toast } = useToast();
@@ -79,13 +82,19 @@ const TournamentRegistrationComponent: React.FC<TournamentRegistrationProps> = (
       return;
     }
 
+    // Show game ID input dialog
+    setShowGameIdDialog(true);
+  };
+
+  const handleGameIdSubmit = async (gameId: string) => {
     setIsLoading(true);
+    setShowGameIdDialog(false);
 
     try {
       const registrationData = {
         tournament_id: tournament.id,
         player_name: userProfile.name || user.email || 'Unknown Player',
-        player_game_id: userProfile.game_id || 'Unknown ID',
+        player_game_id: gameId,
         payment_amount: isFree ? 0 : parseInt(tournament.entry_fee?.replace(/[^0-9]/g, '') || '0')
       };
 
@@ -146,6 +155,15 @@ const TournamentRegistrationComponent: React.FC<TournamentRegistrationProps> = (
 
   return (
     <div className="space-y-6">
+      {/* Tournament Timer */}
+      {tournament.timer_duration && tournament.timer_duration > 0 && (
+        <TournamentTimer
+          tournamentId={tournament.id}
+          initialTime={tournament.timer_duration}
+          isRunning={tournament.timer_is_running}
+        />
+      )}
+
       {/* Registration Status Card */}
       <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
@@ -243,6 +261,14 @@ const TournamentRegistrationComponent: React.FC<TournamentRegistrationProps> = (
           </CardContent>
         </Card>
       )}
+
+      {/* Game ID Input Dialog */}
+      <GameIdInputDialog
+        open={showGameIdDialog}
+        onOpenChange={setShowGameIdDialog}
+        onSubmit={handleGameIdSubmit}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

@@ -299,6 +299,9 @@ export type Database = {
           start_date: string
           status: string
           team_size: string | null
+          timer_duration: number | null
+          timer_is_running: boolean | null
+          timer_start_time: string | null
           updated_at: string | null
         }
         Insert: {
@@ -326,6 +329,9 @@ export type Database = {
           start_date: string
           status?: string
           team_size?: string | null
+          timer_duration?: number | null
+          timer_is_running?: boolean | null
+          timer_start_time?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -353,6 +359,9 @@ export type Database = {
           start_date?: string
           status?: string
           team_size?: string | null
+          timer_duration?: number | null
+          timer_is_running?: boolean | null
+          timer_start_time?: string | null
           updated_at?: string | null
         }
         Relationships: []
