@@ -1,6 +1,34 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import { Tournament, Player, Match } from '@/types';
+import { Tournament, Player, Match, OverviewContent, ScheduleContent, PrizesContent } from '@/types';
+
+// Helper function to convert database row to Tournament
+const convertToTournament = (dbRow: any): Tournament => {
+  return {
+    ...dbRow,
+    overview_content: dbRow.overview_content ? (dbRow.overview_content as OverviewContent) : undefined,
+    schedule_content: dbRow.schedule_content ? (dbRow.schedule_content as ScheduleContent) : undefined,
+    prizes_content: dbRow.prizes_content ? (dbRow.prizes_content as PrizesContent) : undefined,
+  };
+};
+
+// Helper function to convert Tournament to database format
+const convertToDbFormat = (tournament: any) => {
+  const dbTournament = { ...tournament };
+  
+  // Convert content objects to JSON
+  if (dbTournament.overview_content) {
+    dbTournament.overview_content = JSON.stringify(dbTournament.overview_content);
+  }
+  if (dbTournament.schedule_content) {
+    dbTournament.schedule_content = JSON.stringify(dbTournament.schedule_content);
+  }
+  if (dbTournament.prizes_content) {
+    dbTournament.prizes_content = JSON.stringify(dbTournament.prizes_content);
+  }
+  
+  return dbTournament;
+};
 
 // Tournament operations
 export const tournamentService = {
@@ -14,12 +42,12 @@ export const tournamentService = {
       console.error('Error fetching tournaments:', error);
       return [];
     }
-    return (data || []) as Tournament[];
+    return (data || []).map(convertToTournament);
   },
 
   async create(tournament: Omit<Tournament, 'id' | 'created_at' | 'updated_at'>): Promise<Tournament> {
     // Clean up the tournament data - remove empty strings and undefined values
-    const tournamentData = { ...tournament };
+    let tournamentData = { ...tournament };
     
     // Remove empty string values to prevent database errors
     Object.keys(tournamentData).forEach(key => {
@@ -49,11 +77,14 @@ export const tournamentService = {
       tournamentData.registration_closes = new Date(tournamentData.registration_closes).toISOString();
     }
 
-    console.log('Creating tournament with cleaned data:', tournamentData);
+    // Convert to database format
+    const dbData = convertToDbFormat(tournamentData);
+
+    console.log('Creating tournament with cleaned data:', dbData);
 
     const { data, error } = await supabase
       .from('tournaments')
-      .insert([tournamentData])
+      .insert([dbData])
       .select()
       .single();
     
@@ -61,12 +92,12 @@ export const tournamentService = {
       console.error('Error creating tournament:', error);
       throw error;
     }
-    return data as Tournament;
+    return convertToTournament(data);
   },
 
   async update(id: string, tournament: Partial<Tournament>): Promise<Tournament> {
     // Clean up the tournament data - remove empty strings and undefined values
-    const updateData = { ...tournament };
+    let updateData = { ...tournament };
     
     // Remove empty string values to prevent database errors
     Object.keys(updateData).forEach(key => {
@@ -92,11 +123,14 @@ export const tournamentService = {
     // Add updated timestamp
     updateData.updated_at = new Date().toISOString();
 
-    console.log('Updating tournament with cleaned data:', updateData);
+    // Convert to database format
+    const dbData = convertToDbFormat(updateData);
+
+    console.log('Updating tournament with cleaned data:', dbData);
     
     const { data, error } = await supabase
       .from('tournaments')
-      .update(updateData)
+      .update(dbData)
       .eq('id', id)
       .select()
       .single();
@@ -105,7 +139,7 @@ export const tournamentService = {
       console.error('Error updating tournament:', error);
       throw error;
     }
-    return data as Tournament;
+    return convertToTournament(data);
   },
 
   async delete(id: string): Promise<void> {

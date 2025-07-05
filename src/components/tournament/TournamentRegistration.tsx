@@ -158,9 +158,7 @@ const TournamentRegistrationComponent: React.FC<TournamentRegistrationProps> = (
       {/* Tournament Timer */}
       {tournament.timer_duration && tournament.timer_duration > 0 && (
         <TournamentTimer
-          tournamentId={tournament.id}
-          initialTime={tournament.timer_duration}
-          isRunning={tournament.timer_is_running}
+          tournament={tournament}
         />
       )}
 

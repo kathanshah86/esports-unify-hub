@@ -280,6 +280,7 @@ export type Database = {
           current_participants: number
           description: string | null
           end_date: string
+          end_time: string | null
           entry_fee: string | null
           format: string | null
           game: string
@@ -289,14 +290,18 @@ export type Database = {
           max_participants: number
           name: string
           organizer: string | null
+          overview_content: Json | null
           prize_pool: string
           prizes: string | null
+          prizes_content: Json | null
           region: string | null
           registration_closes: string | null
           registration_opens: string | null
           rules: string | null
           schedule: string | null
+          schedule_content: Json | null
           start_date: string
+          start_time: string | null
           status: string
           team_size: string | null
           timer_duration: number | null
@@ -310,6 +315,7 @@ export type Database = {
           current_participants?: number
           description?: string | null
           end_date: string
+          end_time?: string | null
           entry_fee?: string | null
           format?: string | null
           game: string
@@ -319,14 +325,18 @@ export type Database = {
           max_participants?: number
           name: string
           organizer?: string | null
+          overview_content?: Json | null
           prize_pool: string
           prizes?: string | null
+          prizes_content?: Json | null
           region?: string | null
           registration_closes?: string | null
           registration_opens?: string | null
           rules?: string | null
           schedule?: string | null
+          schedule_content?: Json | null
           start_date: string
+          start_time?: string | null
           status?: string
           team_size?: string | null
           timer_duration?: number | null
@@ -340,6 +350,7 @@ export type Database = {
           current_participants?: number
           description?: string | null
           end_date?: string
+          end_time?: string | null
           entry_fee?: string | null
           format?: string | null
           game?: string
@@ -349,14 +360,18 @@ export type Database = {
           max_participants?: number
           name?: string
           organizer?: string | null
+          overview_content?: Json | null
           prize_pool?: string
           prizes?: string | null
+          prizes_content?: Json | null
           region?: string | null
           registration_closes?: string | null
           registration_opens?: string | null
           rules?: string | null
           schedule?: string | null
+          schedule_content?: Json | null
           start_date?: string
+          start_time?: string | null
           status?: string
           team_size?: string | null
           timer_duration?: number | null

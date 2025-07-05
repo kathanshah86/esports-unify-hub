@@ -9,6 +9,8 @@ export interface Tournament {
   current_participants: number;
   start_date: string;
   end_date: string;
+  start_time?: string;
+  end_time?: string;
   status: 'upcoming' | 'ongoing' | 'completed';
   image: string;
   banner?: string;
@@ -26,8 +28,58 @@ export interface Tournament {
   timer_duration?: number;
   timer_start_time?: string;
   timer_is_running?: boolean;
+  overview_content?: OverviewContent;
+  schedule_content?: ScheduleContent;
+  prizes_content?: PrizesContent;
   created_at?: string;
   updated_at?: string;
+}
+
+export interface OverviewContent {
+  highlights: string[];
+  timeline: TimelineEvent[];
+}
+
+export interface TimelineEvent {
+  title: string;
+  date: string;
+  time?: string;
+}
+
+export interface ScheduleContent {
+  phases: TournamentPhase[];
+}
+
+export interface TournamentPhase {
+  title: string;
+  color: string;
+  rounds: TournamentRound[];
+}
+
+export interface TournamentRound {
+  title: string;
+  date: string;
+  description: string;
+  time: string;
+  matches: string;
+}
+
+export interface PrizesContent {
+  positions: PrizePosition[];
+  additional_rewards: AdditionalReward[];
+}
+
+export interface PrizePosition {
+  position: number;
+  title: string;
+  amount: string;
+  description: string;
+  color: string;
+}
+
+export interface AdditionalReward {
+  title: string;
+  description: string;
 }
 
 export interface Player {
