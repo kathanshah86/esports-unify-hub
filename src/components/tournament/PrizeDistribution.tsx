@@ -68,34 +68,34 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
 
   const getPositionStyles = (position: number) => {
     switch (position) {
-      case 1:
+        case 1:
         return {
           cardBg: "bg-gradient-to-br from-yellow-500/30 via-yellow-400/20 to-orange-500/30",
           border: "border-2 border-yellow-400/70 shadow-2xl shadow-yellow-500/30",
           numberBg: "bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-xl",
-          titleColor: "text-yellow-300",
-          amountColor: "text-yellow-100",
-          descColor: "text-yellow-200/90",
+          titleColor: "text-yellow-200",
+          amountColor: "text-white font-bold",
+          descColor: "text-gray-200",
           glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-yellow-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
-      case 2:
+        case 2:
         return {
           cardBg: "bg-gradient-to-br from-gray-400/30 via-gray-300/20 to-slate-500/30", 
           border: "border-2 border-gray-400/70 shadow-2xl shadow-gray-400/20",
           numberBg: "bg-gradient-to-br from-gray-400 to-gray-600 shadow-xl",
-          titleColor: "text-gray-200",
-          amountColor: "text-gray-100",
-          descColor: "text-gray-300/90",
+          titleColor: "text-gray-100",
+          amountColor: "text-white font-bold",
+          descColor: "text-gray-200",
           glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-gray-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
-      case 3:
+        case 3:
         return {
           cardBg: "bg-gradient-to-br from-orange-500/30 via-orange-400/20 to-red-500/30",
           border: "border-2 border-orange-400/70 shadow-2xl shadow-orange-400/20", 
           numberBg: "bg-gradient-to-br from-orange-400 to-orange-600 shadow-xl",
-          titleColor: "text-orange-200",
-          amountColor: "text-orange-100",
-          descColor: "text-orange-200/90",
+          titleColor: "text-orange-100",
+          amountColor: "text-white font-bold",
+          descColor: "text-gray-200",
           glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-orange-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
       default:

@@ -209,88 +209,211 @@ const TournamentDetail = () => {
                 </TabsContent>
                 
                 <TabsContent value="overview" className="mt-6">
-                  <Card className="bg-gray-800 border-gray-700">
-                    <CardContent className="p-6">
-                      <h3 className="text-xl font-bold text-white mb-4">About the Tournament</h3>
-                      <p className="text-gray-300 mb-6">
-                        {tournament.description || 'Join the ultimate Free Fire tournament and compete against the best players from around the world! Show your skills, strategy, and teamwork to win the grand prize.'}
-                      </p>
-                      
-                      <div className="grid md:grid-cols-4 gap-4 mb-6">
-                        <Card className="bg-gray-900 border-gray-600">
-                          <CardContent className="p-4">
-                            <h4 className="text-purple-400 font-semibold mb-2">Format</h4>
-                            <p className="text-white">{tournament.format || 'Battle Royale'}</p>
-                          </CardContent>
-                        </Card>
-                        <Card className="bg-gray-900 border-gray-600">
-                          <CardContent className="p-4">
-                            <h4 className="text-purple-400 font-semibold mb-2">Entry Fee</h4>
-                            <p className="text-white">{tournament.entry_fee || '₹10'}</p>
-                          </CardContent>
-                        </Card>
-                        <Card className="bg-gray-900 border-gray-600">
-                          <CardContent className="p-4">
-                            <h4 className="text-purple-400 font-semibold mb-2">Region</h4>
-                            <p className="text-white">{tournament.region || 'Global'}</p>
-                          </CardContent>
-                        </Card>
-                        <Card className="bg-gray-900 border-gray-600">
-                          <CardContent className="p-4">
-                            <h4 className="text-purple-400 font-semibold mb-2">Organizer</h4>
-                            <p className="text-white">{tournament.organizer || 'Battle Mitra Official'}</p>
-                          </CardContent>
-                        </Card>
-                      </div>
-
-                      {tournament.highlights && (
-                        <div>
-                          <h4 className="text-xl font-bold text-white mb-4 flex items-center">
-                            <Trophy className="w-5 h-5 mr-2 text-yellow-400" />
-                            Key Highlights
-                          </h4>
-                          <ul className="space-y-2">
-                            {tournament.highlights.map((highlight, index) => (
-                              <li key={index} className="flex items-center text-gray-300">
-                                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                                {highlight}
-                              </li>
-                            ))}
-                          </ul>
+                  <div className="space-y-6">
+                    {/* Hero Description */}
+                    <Card className="bg-gradient-to-br from-purple-900/50 via-blue-900/30 to-indigo-900/50 border-purple-500/30 backdrop-blur-sm overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
+                      <CardContent className="relative p-8">
+                        <div className="flex items-center mb-6">
+                          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mr-4">
+                            <Gamepad className="w-6 h-6 text-white" />
+                          </div>
+                          <h3 className="text-2xl font-bold text-white">About the Tournament</h3>
                         </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                        <p className="text-gray-200 text-lg leading-relaxed">
+                          {tournament.description || 'Join the ultimate Free Fire tournament and compete against the best players from around the world! Show your skills, strategy, and teamwork to win the grand prize.'}
+                        </p>
+                      </CardContent>
+                    </Card>
+
+                    {/* Tournament Details Grid */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <Card className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border-blue-400/30 hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm">
+                        <CardContent className="p-6 text-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Gamepad className="w-6 h-6 text-white" />
+                          </div>
+                          <h4 className="text-blue-400 font-semibold mb-2 text-sm uppercase tracking-wide">Format</h4>
+                          <p className="text-white font-bold text-lg">{tournament.format || 'Battle Royale'}</p>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card className="bg-gradient-to-br from-green-600/20 to-emerald-600/20 border-green-400/30 hover:border-green-400/50 transition-all duration-300 backdrop-blur-sm">
+                        <CardContent className="p-6 text-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Trophy className="w-6 h-6 text-white" />
+                          </div>
+                          <h4 className="text-green-400 font-semibold mb-2 text-sm uppercase tracking-wide">Entry Fee</h4>
+                          <p className="text-white font-bold text-lg">{tournament.entry_fee || '₹10'}</p>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="bg-gradient-to-br from-orange-600/20 to-red-600/20 border-orange-400/30 hover:border-orange-400/50 transition-all duration-300 backdrop-blur-sm">
+                        <CardContent className="p-6 text-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <MapPin className="w-6 h-6 text-white" />
+                          </div>
+                          <h4 className="text-orange-400 font-semibold mb-2 text-sm uppercase tracking-wide">Region</h4>
+                          <p className="text-white font-bold text-lg">{tournament.region || 'Global'}</p>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 border-purple-400/30 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm">
+                        <CardContent className="p-6 text-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Users className="w-6 h-6 text-white" />
+                          </div>
+                          <h4 className="text-purple-400 font-semibold mb-2 text-sm uppercase tracking-wide">Organizer</h4>
+                          <p className="text-white font-bold text-lg">{tournament.organizer || 'Battle Mitra Official'}</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Key Highlights */}
+                    {tournament.highlights && (
+                      <Card className="bg-gradient-to-br from-yellow-600/20 via-orange-600/20 to-red-600/20 border-yellow-400/30 backdrop-blur-sm">
+                        <CardContent className="p-8">
+                          <div className="flex items-center mb-6">
+                            <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mr-4">
+                              <Trophy className="w-6 h-6 text-white" />
+                            </div>
+                            <h4 className="text-2xl font-bold text-white">Key Highlights</h4>
+                          </div>
+                          <div className="grid md:grid-cols-2 gap-4">
+                            {tournament.highlights.map((highlight, index) => (
+                              <div key={index} className="flex items-center p-4 bg-black/20 rounded-lg border-l-4 border-yellow-400">
+                                <div className="w-3 h-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full mr-4 flex-shrink-0"></div>
+                                <span className="text-gray-200 font-medium">{highlight}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
                 </TabsContent>
                 
                 <TabsContent value="rules" className="mt-6">
-                  <Card className="bg-gray-800 border-gray-700">
-                    <CardContent className="p-6">
-                      <h3 className="text-xl font-bold text-white mb-4">Tournament Rules</h3>
-                      <div className="text-gray-300 whitespace-pre-wrap">
-                        {tournament.rules || 'Tournament rules will be updated soon.'}
+                  <Card className="bg-gradient-to-br from-red-900/30 via-orange-900/20 to-yellow-900/30 border-red-500/30 backdrop-blur-sm overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-orange-600/5" />
+                    <CardContent className="relative p-8">
+                      <div className="flex items-center mb-8">
+                        <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-600 rounded-xl flex items-center justify-center mr-6 shadow-lg">
+                          <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-3xl font-bold text-white mb-2">Tournament Rules</h3>
+                          <p className="text-gray-300">Important guidelines for all participants</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-black/30 rounded-xl p-8 border border-red-500/20">
+                        <div className="prose prose-invert max-w-none">
+                          <div className="text-gray-200 text-lg leading-relaxed whitespace-pre-line">
+                            {tournament.rules || `📋 Tournament Rules
+
+🎯 General Guidelines:
+• All participants must follow fair play rules
+• No cheating, hacking, or exploiting allowed
+• Respect all players and organizers
+• Use only approved devices and software
+
+⏰ Match Rules:
+• Be present 15 minutes before match time
+• Late arrivals may result in disqualification
+• Match settings will be announced beforehand
+• Screenshots required for dispute resolution
+
+🏆 Prize Distribution:
+• Winners will be announced after verification
+• Prize money will be distributed within 7 days
+• Valid ID proof required for prize claim
+• Organizers' decision is final in all disputes
+
+📱 Communication:
+• Join our official Discord/WhatsApp group
+• Check announcements regularly
+• Contact support for any queries
+
+⚠️ Violations may lead to immediate disqualification.`}
+                          </div>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
                 </TabsContent>
                 
                 <TabsContent value="schedule" className="mt-6">
-                  <Card className="bg-gray-800 border-gray-700">
-                    <CardContent className="p-6">
-                      <h3 className="text-xl font-bold text-white mb-4">Tournament Schedule</h3>
-                      <div className="text-gray-300 whitespace-pre-wrap">
-                        {tournament.schedule || 'Tournament schedule will be updated soon.'}
+                  <Card className="bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-blue-900/30 border-indigo-500/30 backdrop-blur-sm overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/5 to-blue-600/5" />
+                    <CardContent className="relative p-8">
+                      <div className="flex items-center mb-8">
+                        <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center mr-6 shadow-lg">
+                          <Clock className="w-8 h-8 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-3xl font-bold text-white mb-2">Tournament Schedule</h3>
+                          <p className="text-gray-300">Complete timeline and match schedule</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-black/30 rounded-xl p-8 border border-indigo-500/20">
+                        <div className="space-y-6">
+                          {tournament.schedule ? (
+                            <div className="text-gray-200 text-lg leading-relaxed whitespace-pre-line">
+                              {tournament.schedule}
+                            </div>
+                          ) : (
+                            <div className="space-y-6">
+                              <div className="flex items-start space-x-4 p-4 bg-gradient-to-r from-indigo-600/20 to-blue-600/20 rounded-lg border-l-4 border-indigo-400">
+                                <div className="w-3 h-3 bg-indigo-400 rounded-full mt-2 flex-shrink-0"></div>
+                                <div>
+                                  <h4 className="text-indigo-300 font-semibold text-lg mb-2">Registration Phase</h4>
+                                  <p className="text-gray-300">Open registration for all participants</p>
+                                  <span className="text-sm text-indigo-400">{new Date(tournament.start_date).toLocaleDateString()}</span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-start space-x-4 p-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-lg border-l-4 border-purple-400">
+                                <div className="w-3 h-3 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
+                                <div>
+                                  <h4 className="text-purple-300 font-semibold text-lg mb-2">Qualification Rounds</h4>
+                                  <p className="text-gray-300">Initial screening and team formation</p>
+                                  <span className="text-sm text-purple-400">Day 1-2</span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-start space-x-4 p-4 bg-gradient-to-r from-blue-600/20 to-cyan-600/20 rounded-lg border-l-4 border-blue-400">
+                                <div className="w-3 h-3 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
+                                <div>
+                                  <h4 className="text-blue-300 font-semibold text-lg mb-2">Semi-Finals</h4>
+                                  <p className="text-gray-300">Top teams compete for final spots</p>
+                                  <span className="text-sm text-blue-400">Day 3</span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-start space-x-4 p-4 bg-gradient-to-r from-yellow-600/20 to-orange-600/20 rounded-lg border-l-4 border-yellow-400">
+                                <div className="w-3 h-3 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
+                                <div>
+                                  <h4 className="text-yellow-300 font-semibold text-lg mb-2">Grand Finals</h4>
+                                  <p className="text-gray-300">Ultimate showdown for the championship</p>
+                                  <span className="text-sm text-yellow-400">{new Date(tournament.end_date).toLocaleDateString()}</span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
                 </TabsContent>
                 
                 <TabsContent value="prizes" className="mt-6">
-                  <Card className="bg-gray-800 border-gray-700">
-                    <CardContent className="p-6">
-                      <PrizeDistribution prizesContent={tournament.prizes_content} />
-                    </CardContent>
-                  </Card>
+                  <div className="space-y-6">
+                    <PrizeDistribution prizesContent={tournament.prizes_content} />
+                  </div>
                 </TabsContent>
               </Tabs>
 
