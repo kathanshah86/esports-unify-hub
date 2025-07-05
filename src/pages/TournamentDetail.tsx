@@ -296,14 +296,34 @@ const TournamentDetail = () => {
 
               {/* Winners Announcement for Completed Tournaments */}
               {tournament.status === 'completed' && (tournament as any).winners && (
-                <Card className="bg-gradient-to-r from-yellow-900/20 to-orange-900/20 border-yellow-600/50 mt-6">
-                  <CardContent className="p-6">
-                    <h3 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center">
-                      <Trophy className="w-6 h-6 mr-2" />
-                      Tournament Winners
-                    </h3>
-                    <div className="text-gray-300 whitespace-pre-wrap">
-                      {(tournament as any).winners}
+                <Card className="bg-gradient-to-br from-yellow-500/20 via-orange-500/20 to-red-500/20 border-2 border-yellow-400/60 mt-6 shadow-xl shadow-yellow-500/20 animate-pulse">
+                  <CardContent className="p-8 relative overflow-hidden">
+                    {/* Decorative background elements */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 rounded-full -translate-y-16 translate-x-16" />
+                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-orange-400/10 rounded-full translate-y-12 -translate-x-12" />
+                    
+                    <div className="relative z-10">
+                      <div className="text-center mb-6">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full mb-4 shadow-lg">
+                          <Trophy className="w-8 h-8 text-white" />
+                        </div>
+                        <h3 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
+                          🏆 Tournament Champions 🏆
+                        </h3>
+                        <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 mx-auto rounded-full" />
+                      </div>
+                      
+                      <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-yellow-400/30">
+                        <div className="text-white text-lg leading-relaxed whitespace-pre-wrap font-medium">
+                          {(tournament as any).winners}
+                        </div>
+                      </div>
+                      
+                      <div className="text-center mt-6">
+                        <p className="text-yellow-300 text-sm font-medium">
+                          🎉 Congratulations to all winners! 🎉
+                        </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
