@@ -118,34 +118,31 @@ const SponsorsSection: React.FC<SponsorsSectionProps> = ({ className = "" }) => 
                     <div className="absolute top-3 right-3 w-6 h-6 bg-white/10 rounded-full animate-pulse" />
                     <div className="absolute bottom-3 left-3 w-4 h-4 bg-white/5 rounded-full animate-pulse delay-500" />
                     
-                    {/* Sponsor Logo/Name */}
-                    <div className="flex items-center justify-center flex-1">
+                    {/* Sponsor Logo */}
+                    <div className="flex items-center justify-center mb-3">
                       {sponsor.logo ? (
                         <img 
                           src={sponsor.logo} 
                           alt={sponsor.name}
-                          className="max-h-14 w-auto object-contain filter drop-shadow-2xl shadow-black/50 transform group-hover:scale-110 transition-transform duration-300"
+                          className="max-h-12 w-auto object-contain filter drop-shadow-2xl shadow-black/50 transform group-hover:scale-110 transition-transform duration-300"
                         />
                       ) : (
-                        <div className="text-center">
-                          <div className="w-14 h-14 bg-gradient-to-br from-white/25 to-white/15 rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg">
-                            <Building className="w-7 h-7 text-white drop-shadow-lg" />
-                          </div>
-                          <div className="font-bold text-white text-base drop-shadow-lg">{sponsor.name}</div>
+                        <div className="w-12 h-12 bg-gradient-to-br from-white/25 to-white/15 rounded-xl flex items-center justify-center shadow-lg">
+                          <Building className="w-6 h-6 text-white drop-shadow-lg" />
                         </div>
                       )}
                     </div>
                     
-                    {/* Sponsor Details */}
-                    <div className="text-center">
-                      {!sponsor.logo && (
-                        <h4 className="text-white font-bold text-base mb-1 drop-shadow-lg text-shadow-lg">{sponsor.name}</h4>
-                      )}
+                    {/* Sponsor Details - Centered */}
+                    <div className="text-center space-y-2">
+                      {/* Brand Name - Always shown once, centered and bold */}
+                      <h4 className="text-white font-bold text-base drop-shadow-lg">{sponsor.name}</h4>
                       
+                      {/* Description */}
                       {sponsor.description && (
-                        <p className="text-white text-xs leading-tight mb-2 font-semibold drop-shadow-md">
-                          {sponsor.description.length > 35 
-                            ? `${sponsor.description.substring(0, 35)}...` 
+                        <p className="text-white/90 text-xs leading-tight font-medium drop-shadow-md">
+                          {sponsor.description.length > 40 
+                            ? `${sponsor.description.substring(0, 40)}...` 
                             : sponsor.description}
                         </p>
                       )}
@@ -156,10 +153,10 @@ const SponsorsSection: React.FC<SponsorsSectionProps> = ({ className = "" }) => 
                           href={sponsor.website} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="inline-flex items-center text-white hover:text-white/90 text-xs font-bold transition-colors duration-200 group-hover:scale-105 transform drop-shadow-lg"
+                          className="inline-flex items-center text-white/80 hover:text-white text-xs font-bold transition-colors duration-200 group-hover:scale-105 transform drop-shadow-lg mt-2"
                         >
                           <Globe className="w-3 h-3 mr-1 drop-shadow-md" />
-                          Visit
+                          Visit Website
                           <ExternalLink className="w-3 h-3 ml-1 drop-shadow-md" />
                         </a>
                       )}
