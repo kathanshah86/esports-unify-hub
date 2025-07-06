@@ -91,7 +91,11 @@ const Auth = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <Gamepad2 className="w-10 h-10 text-purple-400" />
+            <img 
+              src="/lovable-uploads/b263082d-907f-4305-88f6-cda9b8e2ecac.png" 
+              alt="Battle Mitra Logo" 
+              className="w-12 h-12 object-contain"
+            />
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Battle Mitra</h1>
           <p className="text-gray-400">Join the ultimate esports platform</p>

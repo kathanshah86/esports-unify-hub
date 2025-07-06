@@ -9,6 +9,7 @@ import Layout from '@/components/layout/Layout';
 import TournamentRegistrationComponent from '@/components/tournament/TournamentRegistration';
 import TournamentTimer from '@/components/tournament/TournamentTimer';
 import PrizeDistribution from '@/components/tournament/PrizeDistribution';
+import SponsorsSection from '@/components/tournament/SponsorsSection';
 import { useGameStore } from '@/store/gameStore';
 
 const TournamentDetail = () => {
@@ -569,6 +570,9 @@ const TournamentDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Sponsors Section */}
+        <SponsorsSection className="bg-gray-900/50" />
       </div>
     </Layout>
   );

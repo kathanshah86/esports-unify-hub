@@ -327,58 +327,94 @@ const Index = () => {
       </section>
 
       {/* Our Sponsors */}
-      <section className="py-16 bg-gray-800/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-indigo-900/20"></div>
+        <div className="absolute top-0 right-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
+            <h2 className="text-4xl font-bold mb-4">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
                 Our Sponsors
               </span>
             </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Partnering with the biggest brands to bring you the best tournaments.
+            <div className="w-32 h-1 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 mx-auto rounded-full shadow-lg mb-6"></div>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              Powered by industry leaders who believe in the future of esports and competitive gaming.
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {sponsors.map((sponsor) => (
-              <div key={sponsor.id} className="group">
-                <Card className="bg-gray-800/50 border-gray-700 hover:border-purple-500/50 transition-all duration-300 h-24">
-                  <CardContent className="p-4 h-full flex items-center justify-center">
-                    {sponsor.website ? (
-                      <a 
-                        href={sponsor.website} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-gray-400 group-hover:text-white transition-colors text-center"
-                      >
-                        {sponsor.logo ? (
-                          <img 
-                            src={sponsor.logo} 
-                            alt={sponsor.name}
-                            className="h-8 w-auto object-contain mx-auto"
-                          />
-                        ) : (
-                          <div className="font-bold text-sm">{sponsor.name}</div>
-                        )}
-                      </a>
-                    ) : (
-                      <div className="text-gray-400 group-hover:text-white transition-colors text-center">
-                        {sponsor.logo ? (
-                          <img 
-                            src={sponsor.logo} 
-                            alt={sponsor.name}
-                            className="h-8 w-auto object-contain mx-auto"
-                          />
-                        ) : (
-                          <div className="font-bold text-sm">{sponsor.name}</div>
-                        )}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {sponsors.map((sponsor, index) => {
+              const gradients = [
+                "from-purple-500/30 via-purple-400/20 to-blue-500/30",
+                "from-blue-500/30 via-cyan-400/20 to-teal-500/30", 
+                "from-green-500/30 via-emerald-400/20 to-cyan-500/30",
+                "from-yellow-500/30 via-orange-400/20 to-red-500/30",
+              ];
+              
+              const borderColors = [
+                "border-purple-400/70 shadow-purple-500/30",
+                "border-blue-400/70 shadow-blue-500/30",
+                "border-green-400/70 shadow-green-500/30", 
+                "border-orange-400/70 shadow-orange-500/30",
+              ];
+
+              const gradient = gradients[index % gradients.length];
+              const borderColor = borderColors[index % borderColors.length];
+
+              return (
+                <div key={sponsor.id} className="group relative">
+                  <div className="absolute -inset-1 bg-gradient-to-br opacity-75 group-hover:opacity-100 transition-opacity duration-300 rounded-xl blur-xl"
+                       style={{
+                         background: `linear-gradient(135deg, ${gradient.split(' ')[0].replace('from-', '').replace('/30', '/20')}, ${gradient.split(' ')[2].replace('to-', '').replace('/30', '/20')})`
+                       }} />
+                  
+                  <Card className={`bg-gradient-to-br ${gradient} border-2 ${borderColor} backdrop-blur-sm relative overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-xl h-32`}>
+                    <CardContent className="p-4 h-full flex flex-col items-center justify-center relative z-10">
+                      <div className="absolute top-2 right-2 w-4 h-4 bg-white/10 rounded-full animate-pulse" />
+                      
+                      {sponsor.website ? (
+                        <a 
+                          href={sponsor.website} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-center group-hover:scale-110 transition-transform duration-300"
+                        >
+                          {sponsor.logo ? (
+                            <img 
+                              src={sponsor.logo} 
+                              alt={sponsor.name}
+                              className="h-8 w-auto object-contain mx-auto mb-2 filter drop-shadow-lg"
+                            />
+                          ) : (
+                            <div className="font-bold text-white text-sm mb-2">{sponsor.name}</div>
+                          )}
+                        </a>
+                      ) : (
+                        <div className="text-center">
+                          {sponsor.logo ? (
+                            <img 
+                              src={sponsor.logo} 
+                              alt={sponsor.name}
+                              className="h-8 w-auto object-contain mx-auto mb-2 filter drop-shadow-lg"
+                            />
+                          ) : (
+                            <div className="font-bold text-white text-sm mb-2">{sponsor.name}</div>
+                          )}
+                        </div>
+                      )}
+                      
+                      <p className="text-white/90 text-xs font-medium text-center">
+                        {sponsor.name}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
