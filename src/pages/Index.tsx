@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { Trophy, Users, DollarSign, Gamepad2, ArrowRight, PlayCircle, Clock, Zap, UserCheck } from 'lucide-react';
+import { Trophy, Users, DollarSign, Gamepad2, ArrowRight, PlayCircle, Clock, Zap, UserCheck, Building, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Layout from '@/components/layout/Layout';
@@ -327,99 +327,113 @@ const Index = () => {
       </section>
 
       {/* Our Sponsors */}
-      <section className="py-16 relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-indigo-900/20"></div>
-        <div className="absolute top-0 right-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+      <section className="py-20 relative overflow-hidden bg-gradient-to-b from-gray-900/50 to-black/50">
+        {/* Modern Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+        </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
-                Our Sponsors
+          {/* Modern Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-6 shadow-lg">
+              <Building className="w-6 h-6 text-white" />
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+                Trusted by Industry Leaders
               </span>
             </h2>
-            <div className="w-32 h-1 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 mx-auto rounded-full shadow-lg mb-6"></div>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              Powered by industry leaders who believe in the future of esports and competitive gaming.
+            
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+              Partnering with the world's most innovative companies to bring you the best gaming experience
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {sponsors.map((sponsor, index) => {
-              const gradients = [
-                "from-purple-500/30 via-purple-400/20 to-blue-500/30",
-                "from-blue-500/30 via-cyan-400/20 to-teal-500/30", 
-                "from-green-500/30 via-emerald-400/20 to-cyan-500/30",
-                "from-yellow-500/30 via-orange-400/20 to-red-500/30",
-              ];
-              
-              const borderColors = [
-                "border-purple-400/70 shadow-purple-500/30",
-                "border-blue-400/70 shadow-blue-500/30",
-                "border-green-400/70 shadow-green-500/30", 
-                "border-orange-400/70 shadow-orange-500/30",
-              ];
-
-              const gradient = gradients[index % gradients.length];
-              const borderColor = borderColors[index % borderColors.length];
-
-              return (
-                <div key={sponsor.id} className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-br opacity-75 group-hover:opacity-100 transition-opacity duration-300 rounded-xl blur-xl"
-                       style={{
-                         background: `linear-gradient(135deg, ${gradient.split(' ')[0].replace('from-', '').replace('/30', '/20')}, ${gradient.split(' ')[2].replace('to-', '').replace('/30', '/20')})`
-                       }} />
+          {/* Modern Sponsor Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {sponsors.map((sponsor, index) => (
+              <div key={sponsor.id} className="group relative">
+                {/* Modern Card */}
+                <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 h-32 flex flex-col items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105">
+                  {/* Subtle glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   
-                  <Card className={`bg-gradient-to-br ${gradient} border-2 ${borderColor} backdrop-blur-sm relative overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-xl h-32`}>
-                    <CardContent className="p-4 h-full flex flex-col items-center justify-center relative z-10">
-                      <div className="absolute top-2 right-2 w-4 h-4 bg-white/10 rounded-full animate-pulse" />
-                      
-                      {/* Dark overlay for better text contrast */}
-                      <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] rounded-xl" />
-                      
-                      {sponsor.website ? (
-                        <a 
-                          href={sponsor.website} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-center group-hover:scale-110 transition-transform duration-300 relative z-10"
-                        >
-                          {sponsor.logo ? (
-                            <div className="text-center">
-                              <img 
-                                src={sponsor.logo} 
-                                alt={sponsor.name}
-                                className="h-10 w-auto object-contain mx-auto mb-2 filter drop-shadow-xl"
-                              />
-                              <div className="font-bold text-white text-sm drop-shadow-lg">{sponsor.name}</div>
-                            </div>
-                          ) : (
-                            <div className="font-bold text-white text-sm drop-shadow-lg">{sponsor.name}</div>
-                          )}
-                        </a>
+                  {sponsor.website ? (
+                    <a 
+                      href={sponsor.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="relative z-10 flex flex-col items-center justify-center h-full w-full text-center group-hover:scale-110 transition-transform duration-300"
+                    >
+                      {sponsor.logo ? (
+                        <div className="flex flex-col items-center">
+                          <img 
+                            src={sponsor.logo} 
+                            alt={sponsor.name}
+                            className="h-12 w-auto object-contain mb-3 filter brightness-90 group-hover:brightness-110 transition-all duration-300"
+                          />
+                          <span className="text-white/90 text-sm font-medium tracking-wide">{sponsor.name}</span>
+                        </div>
                       ) : (
-                        <div className="text-center relative z-10">
-                          {sponsor.logo ? (
-                            <div className="text-center">
-                              <img 
-                                src={sponsor.logo} 
-                                alt={sponsor.name}
-                                className="h-10 w-auto object-contain mx-auto mb-2 filter drop-shadow-xl"
-                              />
-                              <div className="font-bold text-white text-sm drop-shadow-lg">{sponsor.name}</div>
-                            </div>
-                          ) : (
-                            <div className="font-bold text-white text-sm drop-shadow-lg">{sponsor.name}</div>
-                          )}
+                        <div className="flex flex-col items-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl flex items-center justify-center mb-3">
+                            <Building className="w-6 h-6 text-white/80" />
+                          </div>
+                          <span className="text-white/90 text-sm font-medium tracking-wide">{sponsor.name}</span>
                         </div>
                       )}
-                    </CardContent>
-                  </Card>
+                    </a>
+                  ) : (
+                    <div className="relative z-10 flex flex-col items-center justify-center h-full w-full text-center">
+                      {sponsor.logo ? (
+                        <div className="flex flex-col items-center">
+                          <img 
+                            src={sponsor.logo} 
+                            alt={sponsor.name}
+                            className="h-12 w-auto object-contain mb-3 filter brightness-90 group-hover:brightness-110 transition-all duration-300"
+                          />
+                          <span className="text-white/90 text-sm font-medium tracking-wide">{sponsor.name}</span>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl flex items-center justify-center mb-3">
+                            <Building className="w-6 h-6 text-white/80" />
+                          </div>
+                          <span className="text-white/90 text-sm font-medium tracking-wide">{sponsor.name}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              );
-            })}
+              </div>
+            ))}
+          </div>
+
+          {/* Modern CTA */}
+          <div className="text-center mt-16">
+            <div className="inline-block bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-8 max-w-2xl">
+              <h3 className="text-2xl font-bold text-white mb-4">Join Our Partner Network</h3>
+              <p className="text-gray-400 mb-6">
+                Interested in partnering with us? Connect with thousands of passionate gamers and grow your brand.
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center text-sm">
+                <div className="flex items-center text-gray-300">
+                  <Users className="w-4 h-4 mr-2 text-blue-400" />
+                  10K+ Active Players
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <Trophy className="w-4 h-4 mr-2 text-purple-400" />
+                  50+ Tournaments
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <Target className="w-4 h-4 mr-2 text-green-400" />
+                  Global Reach
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
