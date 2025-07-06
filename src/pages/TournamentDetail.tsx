@@ -67,12 +67,12 @@ const TournamentDetail = () => {
     <Layout>
       <div className="min-h-screen">
         {/* Hero Section */}
-        <div className="relative h-[500px] overflow-hidden">
+        <div className="relative h-[500px] overflow-hidden animate-fade-in">
           {tournament.banner ? (
             <img 
               src={tournament.banner} 
               alt={tournament.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-purple-900/50 to-blue-900/50"></div>
@@ -80,21 +80,21 @@ const TournamentDetail = () => {
           <div className="absolute inset-0 bg-black/50"></div>
           
           <div className="absolute inset-0 flex flex-col justify-between">
-            <div className="p-6">
+            <div className="p-6 animate-slide-in-right">
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={() => navigate('/tournaments')}
-                className="text-white hover:bg-white/20"
+                className="text-white hover:bg-white/20 transform hover:scale-105 transition-transform duration-200"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Tournaments
               </Button>
             </div>
             
-            <div className="p-6">
+            <div className="p-6 animate-slide-in-right animation-delay-300">
               <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant="secondary" className="bg-purple-500 text-white">
+                <Badge variant="secondary" className="bg-purple-500 text-white transform hover:scale-105 transition-transform duration-200">
                   {tournament.game || 'battle-royale'}
                 </Badge>
                 <Badge 
@@ -190,19 +190,19 @@ const TournamentDetail = () => {
         )}
 
         {/* Tournament Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
           <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 animate-slide-in-right">
               {/* Tournament Timer */}
               <TournamentTimer tournament={tournament} />
               
               <Tabs defaultValue="overview" className="w-full">
-                <TabsList className="grid w-full grid-cols-5 bg-gray-800">
-                  <TabsTrigger value="overview">Overview</TabsTrigger>
-                  <TabsTrigger value="register">Register</TabsTrigger>
-                  <TabsTrigger value="rules">Rules</TabsTrigger>
-                  <TabsTrigger value="schedule">Schedule</TabsTrigger>
-                  <TabsTrigger value="prizes">Prizes</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-5 bg-gray-800 hover-scale">
+                  <TabsTrigger value="overview" className="transition-all duration-200 hover:scale-105">Overview</TabsTrigger>
+                  <TabsTrigger value="register" className="transition-all duration-200 hover:scale-105">Register</TabsTrigger>
+                  <TabsTrigger value="rules" className="transition-all duration-200 hover:scale-105">Rules</TabsTrigger>
+                  <TabsTrigger value="schedule" className="transition-all duration-200 hover:scale-105">Schedule</TabsTrigger>
+                  <TabsTrigger value="prizes" className="transition-all duration-200 hover:scale-105">Prizes</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="register" className="mt-6">
@@ -509,31 +509,31 @@ const TournamentDetail = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
-              <Card className="bg-gradient-to-br from-blue-900/40 via-purple-900/30 to-indigo-900/40 border-blue-500/30 backdrop-blur-sm shadow-xl relative overflow-hidden">
+            <div className="space-y-6 animate-fade-in animation-delay-500">
+              <Card className="bg-gradient-to-br from-blue-900/40 via-purple-900/30 to-indigo-900/40 border-blue-500/30 backdrop-blur-sm shadow-xl relative overflow-hidden hover-scale">
                 <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
                 <CardContent className="p-6 relative z-10">
                   <h3 className="text-xl font-bold text-white mb-4 flex items-center drop-shadow-lg">
-                    <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mr-3 shadow-lg">
+                    <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mr-3 shadow-lg animate-pulse">
                       <Clock className="w-4 h-4 text-white drop-shadow-sm" />
                     </div>
                     Tournament Format
                   </h3>
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-blue-500/20">
+                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-blue-500/20 hover:border-blue-500/40 transition-all duration-300">
                       <span className="text-blue-200 font-semibold text-sm">Format:</span>
                       <span className="text-white font-bold drop-shadow-sm">{tournament.format || 'Battle Royale'}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-green-500/20">
+                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-green-500/20 hover:border-green-500/40 transition-all duration-300">
                       <span className="text-green-200 font-semibold text-sm">Entry Fee:</span>
                       <span className="text-white font-bold drop-shadow-sm">{tournament.entry_fee || '₹10'}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-purple-500/20">
+                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
                       <span className="text-purple-200 font-semibold text-sm">Team Size:</span>
                       <span className="text-white font-bold drop-shadow-sm">{tournament.team_size || 'Solo'}</span>
                     </div>
                     {tournament.start_time && tournament.end_time && (
-                      <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-orange-500/20">
+                      <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all duration-300">
                         <span className="text-orange-200 font-semibold text-sm">Time:</span>
                         <span className="text-white font-bold drop-shadow-sm">{tournament.start_time} - {tournament.end_time}</span>
                       </div>
@@ -542,17 +542,17 @@ const TournamentDetail = () => {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-green-900/40 via-blue-900/30 to-teal-900/40 border-green-500/30 backdrop-blur-sm shadow-xl relative overflow-hidden">
+              <Card className="bg-gradient-to-br from-green-900/40 via-blue-900/30 to-teal-900/40 border-green-500/30 backdrop-blur-sm shadow-xl relative overflow-hidden hover-scale">
                 <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
                 <CardContent className="p-6 relative z-10">
                   <h3 className="text-xl font-bold text-white mb-4 flex items-center drop-shadow-lg">
-                    <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-teal-500 rounded-full flex items-center justify-center mr-3 shadow-lg">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-teal-500 rounded-full flex items-center justify-center mr-3 shadow-lg animate-pulse">
                       <Clock className="w-4 h-4 text-white drop-shadow-sm" />
                     </div>
                     Timeline
                   </h3>
                   <div className="space-y-4">
-                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-blue-400">
+                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-blue-400 transform hover:translate-x-2 transition-transform duration-200">
                       <p className="text-white font-bold text-base mb-1 drop-shadow-sm">Registration Opens</p>
                       <p className="text-blue-200 font-medium">
                         {tournament.registration_opens ? 
@@ -561,7 +561,7 @@ const TournamentDetail = () => {
                         }
                       </p>
                     </div>
-                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-yellow-400">
+                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-yellow-400 transform hover:translate-x-2 transition-transform duration-200">
                       <p className="text-white font-bold text-base mb-1 drop-shadow-sm">Registration Closes</p>
                       <p className="text-yellow-200 font-medium">
                         {tournament.registration_closes ? 
@@ -570,7 +570,7 @@ const TournamentDetail = () => {
                         }
                       </p>
                     </div>
-                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-green-400">
+                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-green-400 transform hover:translate-x-2 transition-transform duration-200">
                       <p className="text-white font-bold text-base mb-1 drop-shadow-sm">Tournament Starts</p>
                       <p className="text-green-200 font-medium">
                         {new Date(tournament.start_date).toLocaleDateString()}

@@ -376,40 +376,45 @@ const Index = () => {
                     <CardContent className="p-4 h-full flex flex-col items-center justify-center relative z-10">
                       <div className="absolute top-2 right-2 w-4 h-4 bg-white/10 rounded-full animate-pulse" />
                       
+                      {/* Dark overlay for better text contrast */}
+                      <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] rounded-xl" />
+                      
                       {sponsor.website ? (
                         <a 
                           href={sponsor.website} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-center group-hover:scale-110 transition-transform duration-300"
+                          className="text-center group-hover:scale-110 transition-transform duration-300 relative z-10"
                         >
                           {sponsor.logo ? (
-                            <img 
-                              src={sponsor.logo} 
-                              alt={sponsor.name}
-                              className="h-8 w-auto object-contain mx-auto mb-2 filter drop-shadow-lg"
-                            />
+                            <div className="text-center">
+                              <img 
+                                src={sponsor.logo} 
+                                alt={sponsor.name}
+                                className="h-10 w-auto object-contain mx-auto mb-2 filter drop-shadow-xl"
+                              />
+                              <div className="font-bold text-white text-sm drop-shadow-lg">{sponsor.name}</div>
+                            </div>
                           ) : (
-                            <div className="font-bold text-white text-sm mb-2">{sponsor.name}</div>
+                            <div className="font-bold text-white text-sm drop-shadow-lg">{sponsor.name}</div>
                           )}
                         </a>
                       ) : (
-                        <div className="text-center">
+                        <div className="text-center relative z-10">
                           {sponsor.logo ? (
-                            <img 
-                              src={sponsor.logo} 
-                              alt={sponsor.name}
-                              className="h-8 w-auto object-contain mx-auto mb-2 filter drop-shadow-lg"
-                            />
+                            <div className="text-center">
+                              <img 
+                                src={sponsor.logo} 
+                                alt={sponsor.name}
+                                className="h-10 w-auto object-contain mx-auto mb-2 filter drop-shadow-xl"
+                              />
+                              <div className="font-bold text-white text-sm drop-shadow-lg">{sponsor.name}</div>
+                            </div>
                           ) : (
-                            <div className="font-bold text-white text-sm mb-2">{sponsor.name}</div>
+                            <div className="font-bold text-white text-sm drop-shadow-lg">{sponsor.name}</div>
                           )}
                         </div>
                       )}
-                      
-                      <p className="text-white/90 text-xs font-medium text-center">
-                        {sponsor.name}
-                      </p>
                     </CardContent>
                   </Card>
                 </div>

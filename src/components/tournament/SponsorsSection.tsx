@@ -138,7 +138,9 @@ const SponsorsSection: React.FC<SponsorsSectionProps> = ({ className = "" }) => 
                     
                     {/* Sponsor Details */}
                     <div className="text-center">
-                      <h4 className="text-white font-bold text-base mb-1 drop-shadow-lg text-shadow-lg">{sponsor.name}</h4>
+                      {!sponsor.logo && (
+                        <h4 className="text-white font-bold text-base mb-1 drop-shadow-lg text-shadow-lg">{sponsor.name}</h4>
+                      )}
                       
                       {sponsor.description && (
                         <p className="text-white text-xs leading-tight mb-2 font-semibold drop-shadow-md">
