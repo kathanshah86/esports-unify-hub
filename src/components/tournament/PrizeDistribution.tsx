@@ -80,12 +80,12 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
         };
       case 2:
         return {
-          cardBg: "bg-gradient-to-br from-gray-400/30 via-gray-300/20 to-slate-500/30", 
+          cardBg: "bg-gradient-to-br from-gray-400/40 via-gray-300/30 to-slate-500/40", 
           border: "border-2 border-gray-400/70 shadow-2xl shadow-gray-400/20",
           numberBg: "bg-gradient-to-br from-gray-400 to-gray-600 shadow-xl",
           titleColor: "text-white font-bold",
-          amountColor: "text-gray-100 font-extrabold text-shadow-lg",
-          descColor: "text-white/90 font-medium",
+          amountColor: "text-white font-extrabold text-shadow-lg",
+          descColor: "text-white font-medium",
           glowEffect: "before:absolute before:inset-0 before:bg-gradient-to-br before:from-gray-400/20 before:to-transparent before:rounded-xl before:blur-xl"
         };
       case 3:
@@ -134,33 +134,36 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
               <div className={`absolute -inset-1 ${styles.glowEffect} opacity-75 group-hover:opacity-100 transition-opacity duration-300`} />
               
               <Card className={`${styles.cardBg} ${styles.border} backdrop-blur-sm relative overflow-hidden transform hover:scale-[1.02] transition-all duration-300`}>
+                {/* Dark overlay for better text contrast */}
+                <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px] rounded-xl" />
+                
                 <CardContent className="p-8 text-center relative z-10">
                   {/* Floating decorative elements */}
                   <div className="absolute top-4 right-4 w-8 h-8 bg-white/10 rounded-full animate-pulse" />
                   <div className="absolute bottom-4 left-4 w-6 h-6 bg-white/5 rounded-full animate-pulse delay-500" />
                   
                   {/* Position number with enhanced styling */}
-                  <div className={`w-16 h-16 ${styles.numberBg} rounded-full flex items-center justify-center mx-auto mb-6 transform hover:rotate-12 transition-transform duration-300`}>
-                    <span className="text-white font-bold text-2xl drop-shadow-lg">{prize.position}</span>
+                  <div className={`w-16 h-16 ${styles.numberBg} rounded-full flex items-center justify-center mx-auto mb-6 transform hover:rotate-12 transition-transform duration-300 shadow-xl`}>
+                    <span className="text-white font-bold text-2xl drop-shadow-xl">{prize.position}</span>
                   </div>
                   
                   {/* Prize icon with hover effect */}
-                  <div className="mb-6 transform hover:scale-110 transition-transform duration-300">
+                  <div className="mb-6 transform hover:scale-110 transition-transform duration-300 filter drop-shadow-xl">
                     {getPositionIcon(prize.position)}
                   </div>
                   
                   {/* Prize title */}
-                  <h4 className={`text-2xl font-bold ${styles.titleColor} mb-4 drop-shadow-lg`}>
+                  <h4 className={`text-2xl font-bold text-white mb-4 drop-shadow-xl text-shadow-lg`}>
                     {prize.title}
                   </h4>
                   
                   {/* Prize amount with enhanced styling */}
-                  <div className={`text-4xl font-extrabold ${styles.amountColor} mb-4 drop-shadow-xl`}>
+                  <div className={`text-4xl font-extrabold text-white mb-4 drop-shadow-2xl text-shadow-lg`}>
                     {prize.amount}
                   </div>
                   
                   {/* Prize description */}
-                  <p className={`${styles.descColor} text-sm leading-relaxed font-medium`}>
+                  <p className={`text-white text-sm leading-relaxed font-semibold drop-shadow-lg`}>
                     {prize.description}
                   </p>
                   
@@ -168,7 +171,7 @@ const PrizeDistribution: React.FC<PrizeDistributionProps> = ({
                   {prize.position <= 3 && (
                     <div className="flex justify-center mt-4 space-x-1">
                       {[...Array(4 - prize.position)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current drop-shadow-lg" />
                       ))}
                     </div>
                   )}

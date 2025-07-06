@@ -214,14 +214,16 @@ const TournamentDetail = () => {
                     {/* Hero Description */}
                     <Card className="bg-gradient-to-br from-purple-900/50 via-blue-900/30 to-indigo-900/50 border-purple-500/30 backdrop-blur-sm overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
-                      <CardContent className="relative p-8">
+                      {/* Dark overlay for better text readability */}
+                      <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px]" />
+                      <CardContent className="relative p-8 z-10">
                         <div className="flex items-center mb-6">
-                          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mr-4">
-                            <Gamepad className="w-6 h-6 text-white" />
+                          <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mr-4 shadow-xl">
+                            <Gamepad className="w-7 h-7 text-white drop-shadow-lg" />
                           </div>
-                          <h3 className="text-2xl font-bold text-white">About the Tournament</h3>
+                          <h3 className="text-3xl font-bold text-white drop-shadow-lg text-shadow-lg">About the Tournament</h3>
                         </div>
-                        <p className="text-gray-200 text-lg leading-relaxed">
+                        <p className="text-white text-lg leading-relaxed font-medium drop-shadow-md">
                           {tournament.description || 'Join the ultimate Free Fire tournament and compete against the best players from around the world! Show your skills, strategy, and teamwork to win the grand prize.'}
                         </p>
                       </CardContent>
@@ -229,43 +231,47 @@ const TournamentDetail = () => {
 
                     {/* Tournament Details Grid */}
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <Card className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border-blue-400/30 hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm">
-                        <CardContent className="p-6 text-center">
-                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Gamepad className="w-6 h-6 text-white" />
+                      <Card className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border-blue-400/30 hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm relative overflow-hidden">
+                        <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+                        <CardContent className="p-6 text-center relative z-10">
+                          <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                            <Gamepad className="w-7 h-7 text-white drop-shadow-lg" />
                           </div>
-                          <h4 className="text-blue-400 font-semibold mb-2 text-sm uppercase tracking-wide">Format</h4>
-                          <p className="text-white font-bold text-lg">{tournament.format || 'Battle Royale'}</p>
+                          <h4 className="text-white font-bold mb-2 text-base uppercase tracking-wide drop-shadow-lg">Format</h4>
+                          <p className="text-white font-bold text-xl drop-shadow-md">{tournament.format || 'Battle Royale'}</p>
                         </CardContent>
                       </Card>
                       
-                      <Card className="bg-gradient-to-br from-green-600/20 to-emerald-600/20 border-green-400/30 hover:border-green-400/50 transition-all duration-300 backdrop-blur-sm">
-                        <CardContent className="p-6 text-center">
-                          <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Trophy className="w-6 h-6 text-white" />
+                      <Card className="bg-gradient-to-br from-green-600/20 to-emerald-600/20 border-green-400/30 hover:border-green-400/50 transition-all duration-300 backdrop-blur-sm relative overflow-hidden">
+                        <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+                        <CardContent className="p-6 text-center relative z-10">
+                          <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                            <Trophy className="w-7 h-7 text-white drop-shadow-lg" />
                           </div>
-                          <h4 className="text-green-400 font-semibold mb-2 text-sm uppercase tracking-wide">Entry Fee</h4>
-                          <p className="text-white font-bold text-lg">{tournament.entry_fee || '₹10'}</p>
+                          <h4 className="text-white font-bold mb-2 text-base uppercase tracking-wide drop-shadow-lg">Entry Fee</h4>
+                          <p className="text-white font-bold text-xl drop-shadow-md">{tournament.entry_fee || '₹10'}</p>
                         </CardContent>
                       </Card>
 
-                      <Card className="bg-gradient-to-br from-orange-600/20 to-red-600/20 border-orange-400/30 hover:border-orange-400/50 transition-all duration-300 backdrop-blur-sm">
-                        <CardContent className="p-6 text-center">
-                          <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <MapPin className="w-6 h-6 text-white" />
+                      <Card className="bg-gradient-to-br from-orange-600/20 to-red-600/20 border-orange-400/30 hover:border-orange-400/50 transition-all duration-300 backdrop-blur-sm relative overflow-hidden">
+                        <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+                        <CardContent className="p-6 text-center relative z-10">
+                          <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                            <MapPin className="w-7 h-7 text-white drop-shadow-lg" />
                           </div>
-                          <h4 className="text-orange-400 font-semibold mb-2 text-sm uppercase tracking-wide">Region</h4>
-                          <p className="text-white font-bold text-lg">{tournament.region || 'Global'}</p>
+                          <h4 className="text-white font-bold mb-2 text-base uppercase tracking-wide drop-shadow-lg">Region</h4>
+                          <p className="text-white font-bold text-xl drop-shadow-md">{tournament.region || 'Global'}</p>
                         </CardContent>
                       </Card>
 
-                      <Card className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 border-purple-400/30 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm">
-                        <CardContent className="p-6 text-center">
-                          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Users className="w-6 h-6 text-white" />
+                      <Card className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 border-purple-400/30 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm relative overflow-hidden">
+                        <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+                        <CardContent className="p-6 text-center relative z-10">
+                          <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                            <Users className="w-7 h-7 text-white drop-shadow-lg" />
                           </div>
-                          <h4 className="text-purple-400 font-semibold mb-2 text-sm uppercase tracking-wide">Organizer</h4>
-                          <p className="text-white font-bold text-lg">{tournament.organizer || 'Battle Mitra Official'}</p>
+                          <h4 className="text-white font-bold mb-2 text-base uppercase tracking-wide drop-shadow-lg">Organizer</h4>
+                          <p className="text-white font-bold text-xl drop-shadow-md">{tournament.organizer || 'Battle Mitra Official'}</p>
                         </CardContent>
                       </Card>
                     </div>
@@ -504,63 +510,69 @@ const TournamentDetail = () => {
 
             {/* Sidebar */}
             <div className="space-y-6">
-              <Card className="bg-gray-800 border-gray-700">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-white mb-4 flex items-center">
-                    <Clock className="w-5 h-5 mr-2 text-yellow-400" />
+              <Card className="bg-gradient-to-br from-blue-900/40 via-purple-900/30 to-indigo-900/40 border-blue-500/30 backdrop-blur-sm shadow-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+                <CardContent className="p-6 relative z-10">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center drop-shadow-lg">
+                    <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mr-3 shadow-lg">
+                      <Clock className="w-4 h-4 text-white drop-shadow-sm" />
+                    </div>
                     Tournament Format
                   </h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Format:</span>
-                      <span className="text-white">{tournament.format || 'Battle Royale'}</span>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-blue-500/20">
+                      <span className="text-blue-200 font-semibold text-sm">Format:</span>
+                      <span className="text-white font-bold drop-shadow-sm">{tournament.format || 'Battle Royale'}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Entry Fee:</span>
-                      <span className="text-white">{tournament.entry_fee || '₹10'}</span>
+                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-green-500/20">
+                      <span className="text-green-200 font-semibold text-sm">Entry Fee:</span>
+                      <span className="text-white font-bold drop-shadow-sm">{tournament.entry_fee || '₹10'}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Team Size:</span>
-                      <span className="text-white">{tournament.team_size || 'Solo'}</span>
+                    <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-purple-500/20">
+                      <span className="text-purple-200 font-semibold text-sm">Team Size:</span>
+                      <span className="text-white font-bold drop-shadow-sm">{tournament.team_size || 'Solo'}</span>
                     </div>
                     {tournament.start_time && tournament.end_time && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Time:</span>
-                        <span className="text-white">{tournament.start_time} - {tournament.end_time}</span>
+                      <div className="flex justify-between items-center p-3 bg-black/20 rounded-lg border border-orange-500/20">
+                        <span className="text-orange-200 font-semibold text-sm">Time:</span>
+                        <span className="text-white font-bold drop-shadow-sm">{tournament.start_time} - {tournament.end_time}</span>
                       </div>
                     )}
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-800 border-gray-700">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-white mb-4 flex items-center">
-                    <Clock className="w-5 h-5 mr-2 text-blue-400" />
+              <Card className="bg-gradient-to-br from-green-900/40 via-blue-900/30 to-teal-900/40 border-green-500/30 backdrop-blur-sm shadow-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+                <CardContent className="p-6 relative z-10">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center drop-shadow-lg">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-teal-500 rounded-full flex items-center justify-center mr-3 shadow-lg">
+                      <Clock className="w-4 h-4 text-white drop-shadow-sm" />
+                    </div>
                     Timeline
                   </h3>
                   <div className="space-y-4">
-                    <div>
-                      <p className="text-blue-400 font-semibold">Registration Opens</p>
-                      <p className="text-gray-300">
+                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-blue-400">
+                      <p className="text-white font-bold text-base mb-1 drop-shadow-sm">Registration Opens</p>
+                      <p className="text-blue-200 font-medium">
                         {tournament.registration_opens ? 
                           new Date(tournament.registration_opens).toLocaleDateString() : 
                           new Date(tournament.start_date).toLocaleDateString()
                         }
                       </p>
                     </div>
-                    <div>
-                      <p className="text-yellow-400 font-semibold">Registration Closes</p>
-                      <p className="text-gray-300">
+                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-yellow-400">
+                      <p className="text-white font-bold text-base mb-1 drop-shadow-sm">Registration Closes</p>
+                      <p className="text-yellow-200 font-medium">
                         {tournament.registration_closes ? 
                           new Date(tournament.registration_closes).toLocaleDateString() : 
                           new Date(tournament.start_date).toLocaleDateString()
                         }
                       </p>
                     </div>
-                    <div>
-                      <p className="text-green-400 font-semibold">Tournament Starts</p>
-                      <p className="text-gray-300">
+                    <div className="p-4 bg-black/20 rounded-lg border-l-4 border-green-400">
+                      <p className="text-white font-bold text-base mb-1 drop-shadow-sm">Tournament Starts</p>
+                      <p className="text-green-200 font-medium">
                         {new Date(tournament.start_date).toLocaleDateString()}
                       </p>
                     </div>

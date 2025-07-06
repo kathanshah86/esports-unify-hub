@@ -163,18 +163,21 @@ const TournamentRegistrationComponent: React.FC<TournamentRegistrationProps> = (
       )}
 
       {/* Registration Status Card */}
-      <Card className="bg-gray-800 border-gray-700">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-white">
-            <Users className="w-5 h-5" />
+      <Card className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 border-purple-500/30 backdrop-blur-sm shadow-xl relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+        <CardHeader className="relative z-10">
+          <CardTitle className="flex items-center gap-3 text-white text-xl drop-shadow-lg">
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+              <Users className="w-5 h-5 text-white drop-shadow-sm" />
+            </div>
             Tournament Registration
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
+        <CardContent className="space-y-4 relative z-10">
+          <div className="flex items-center justify-between p-4 bg-black/20 rounded-lg border border-purple-500/20">
             <div className="space-y-1">
-              <p className="font-medium text-white">Entry Fee: {tournament.entry_fee || 'Free'}</p>
-              <p className="text-sm text-gray-400">
+              <p className="font-bold text-white text-lg drop-shadow-sm">Entry Fee: {tournament.entry_fee || 'Free'}</p>
+              <p className="text-sm text-purple-200 font-medium">
                 {registrations.length} / {tournament.max_participants} participants
               </p>
             </div>
@@ -185,15 +188,15 @@ const TournamentRegistrationComponent: React.FC<TournamentRegistrationProps> = (
             <Button 
               onClick={handleRegister} 
               disabled={isLoading || registrations.length >= tournament.max_participants}
-              className="w-full"
+              className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white font-bold py-3 text-lg shadow-xl"
             >
               {isLoading ? 'Registering...' : 
                registrations.length >= tournament.max_participants ? 'Tournament Full' :
                isFree ? 'Register Now' : `Register & Pay ${tournament.entry_fee}`}
-              {!isFree && <CreditCard className="w-4 h-4 ml-2" />}
+              {!isFree && <CreditCard className="w-5 h-5 ml-2 drop-shadow-sm" />}
             </Button>
           ) : userRegistration.payment_status === 'pending' ? (
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full border-yellow-400/50 text-yellow-200 bg-yellow-500/10 hover:bg-yellow-500/20 font-bold py-3">
               <Clock className="w-4 h-4 mr-2" />
               Payment Pending
             </Button>
@@ -203,29 +206,34 @@ const TournamentRegistrationComponent: React.FC<TournamentRegistrationProps> = (
 
       {/* Room Details Card - Only show if registered and payment completed */}
       {userRegistration?.payment_status === 'completed' && roomDetails && (roomDetails.room_id || roomDetails.room_password) && (
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-white">
-              <Lock className="w-5 h-5" />
+        <Card className="bg-gradient-to-br from-green-900/40 via-emerald-900/30 to-teal-900/40 border-green-500/30 backdrop-blur-sm shadow-xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+          <CardHeader className="relative z-10">
+            <CardTitle className="flex items-center gap-3 text-white text-xl drop-shadow-lg">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+                <Lock className="w-5 h-5 text-white drop-shadow-sm" />
+              </div>
               Room Details
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-4 relative z-10">
             {roomDetails.room_id && (
-              <div>
-                <p className="text-sm font-medium text-gray-400">Room ID</p>
-                <p className="font-mono text-lg text-white">{roomDetails.room_id}</p>
+              <div className="p-4 bg-black/20 rounded-lg border border-green-500/20">
+                <p className="text-sm font-bold text-green-200 mb-2">Room ID</p>
+                <p className="font-mono text-xl text-white font-bold drop-shadow-sm">{roomDetails.room_id}</p>
               </div>
             )}
             {roomDetails.room_password && (
-              <div>
-                <p className="text-sm font-medium text-gray-400">Password</p>
-                <p className="font-mono text-lg text-white">{roomDetails.room_password}</p>
+              <div className="p-4 bg-black/20 rounded-lg border border-emerald-500/20">
+                <p className="text-sm font-bold text-emerald-200 mb-2">Password</p>
+                <p className="font-mono text-xl text-white font-bold drop-shadow-sm">{roomDetails.room_password}</p>
               </div>
             )}
-            <p className="text-sm text-gray-400">
-              Keep these details safe. You'll need them to join the tournament room.
-            </p>
+            <div className="p-3 bg-yellow-500/10 border border-yellow-400/30 rounded-lg">
+              <p className="text-sm text-yellow-200 font-medium drop-shadow-sm">
+                ⚠️ Keep these details safe. You'll need them to join the tournament room.
+              </p>
+            </div>
           </CardContent>
         </Card>
       )}

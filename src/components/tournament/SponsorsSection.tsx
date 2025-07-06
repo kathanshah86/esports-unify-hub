@@ -110,6 +110,9 @@ const SponsorsSection: React.FC<SponsorsSectionProps> = ({ className = "" }) => 
                      }} />
                 
                 <Card className={`bg-gradient-to-br ${gradient} border-2 ${borderColor} backdrop-blur-sm relative overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl h-40`}>
+                  {/* Dark overlay for better text contrast */}
+                  <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px] rounded-xl" />
+                  
                   <CardContent className="p-6 h-full flex flex-col justify-between relative z-10">
                     {/* Floating decorative elements */}
                     <div className="absolute top-3 right-3 w-6 h-6 bg-white/10 rounded-full animate-pulse" />
@@ -121,26 +124,26 @@ const SponsorsSection: React.FC<SponsorsSectionProps> = ({ className = "" }) => 
                         <img 
                           src={sponsor.logo} 
                           alt={sponsor.name}
-                          className="max-h-12 w-auto object-contain filter drop-shadow-lg transform group-hover:scale-110 transition-transform duration-300"
+                          className="max-h-14 w-auto object-contain filter drop-shadow-2xl shadow-black/50 transform group-hover:scale-110 transition-transform duration-300"
                         />
                       ) : (
                         <div className="text-center">
-                          <div className="w-12 h-12 bg-gradient-to-br from-white/20 to-white/10 rounded-xl flex items-center justify-center mx-auto mb-2">
-                            <Building className="w-6 h-6 text-white" />
+                          <div className="w-14 h-14 bg-gradient-to-br from-white/25 to-white/15 rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg">
+                            <Building className="w-7 h-7 text-white drop-shadow-lg" />
                           </div>
-                          <div className="font-bold text-white text-sm">{sponsor.name}</div>
+                          <div className="font-bold text-white text-base drop-shadow-lg">{sponsor.name}</div>
                         </div>
                       )}
                     </div>
                     
                     {/* Sponsor Details */}
                     <div className="text-center">
-                      <h4 className="text-white font-bold text-sm mb-1 drop-shadow-md">{sponsor.name}</h4>
+                      <h4 className="text-white font-bold text-base mb-1 drop-shadow-lg text-shadow-lg">{sponsor.name}</h4>
                       
                       {sponsor.description && (
-                        <p className="text-white/80 text-xs leading-tight mb-2 font-medium">
-                          {sponsor.description.length > 40 
-                            ? `${sponsor.description.substring(0, 40)}...` 
+                        <p className="text-white text-xs leading-tight mb-2 font-semibold drop-shadow-md">
+                          {sponsor.description.length > 35 
+                            ? `${sponsor.description.substring(0, 35)}...` 
                             : sponsor.description}
                         </p>
                       )}
@@ -151,11 +154,11 @@ const SponsorsSection: React.FC<SponsorsSectionProps> = ({ className = "" }) => 
                           href={sponsor.website} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="inline-flex items-center text-white/90 hover:text-white text-xs font-medium transition-colors duration-200 group-hover:scale-105 transform"
+                          className="inline-flex items-center text-white hover:text-white/90 text-xs font-bold transition-colors duration-200 group-hover:scale-105 transform drop-shadow-lg"
                         >
-                          <Globe className="w-3 h-3 mr-1" />
+                          <Globe className="w-3 h-3 mr-1 drop-shadow-md" />
                           Visit
-                          <ExternalLink className="w-3 h-3 ml-1" />
+                          <ExternalLink className="w-3 h-3 ml-1 drop-shadow-md" />
                         </a>
                       )}
                     </div>
