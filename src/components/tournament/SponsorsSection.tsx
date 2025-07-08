@@ -47,89 +47,93 @@ const SponsorsSection: React.FC<SponsorsSectionProps> = ({ className = "" }) => 
 
   return (
     <section className={`py-20 relative overflow-hidden bg-gradient-to-b from-gray-900/50 to-black/50 ${className}`}>
-      {/* Modern Background Effects */}
+      {/* Ultra Modern Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-cyan-500/15 via-blue-500/15 to-indigo-500/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-purple-500/15 via-pink-500/15 to-rose-500/15 rounded-full blur-3xl animate-pulse animation-delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-cyan-500/10 rounded-full blur-2xl animate-pulse animation-delay-500"></div>
       </div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Modern Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-6 shadow-lg">
-            <Sparkles className="w-6 h-6 text-white" />
+        {/* Ultra Modern Header */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-3xl mb-8 shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 hover:scale-110 hover:rotate-3">
+            <Sparkles className="w-8 h-8 text-white drop-shadow-lg" />
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
-              Our Sponsors
+          <h2 className="text-5xl md:text-6xl font-extrabold mb-8">
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
+              Our Amazing Sponsors
             </span>
           </h2>
           
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            Powered by industry leaders who believe in the future of esports and competitive gaming
+          <div className="w-32 h-1 bg-gradient-to-r from-cyan-400 via-blue-400 via-purple-400 to-pink-400 mx-auto rounded-full mb-6 shadow-lg" />
+          
+          <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed font-medium">
+            Partnering with visionary companies that fuel the future of competitive gaming and esports excellence
           </p>
         </div>
 
-        {/* Modern Sponsors Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {/* Ultra Modern Sponsors Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
           {sponsors.map((sponsor, index) => (
             <div key={sponsor.id} className="group relative">
-              {/* Modern Card */}
-              <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 h-40 flex flex-col items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105">
-                {/* Subtle glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              {/* Ultra Modern Card with Enhanced Animation */}
+              <div className="relative bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-2xl border border-white/20 rounded-3xl p-8 h-48 flex flex-col items-center justify-center hover:bg-gradient-to-br hover:from-cyan-500/20 hover:via-blue-500/20 hover:to-purple-500/20 hover:border-white/40 transition-all duration-700 hover:scale-110 hover:rotate-1 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20">
+                {/* Enhanced Glow Effects */}
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-purple-500/5 to-indigo-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 animation-delay-200"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full text-center">
-                  {/* Sponsor Logo */}
-                  <div className="flex items-center justify-center mb-3">
+                  {/* Enhanced Sponsor Logo */}
+                  <div className="flex items-center justify-center mb-4 transform group-hover:scale-110 transition-transform duration-500">
                     {sponsor.logo ? (
-                      <img 
-                        src={sponsor.logo} 
-                        alt={sponsor.name}
-                        className="max-h-12 w-auto object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300"
-                      />
+                      <div className="relative">
+                        <img 
+                          src={sponsor.logo} 
+                          alt={sponsor.name}
+                          className="max-h-16 w-auto object-contain filter brightness-90 group-hover:brightness-125 transition-all duration-500 drop-shadow-lg"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/0 to-purple-400/0 group-hover:from-cyan-400/20 group-hover:to-purple-400/20 rounded-lg transition-all duration-500 blur-sm"></div>
+                      </div>
                     ) : (
-                      <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl flex items-center justify-center">
-                        <Building className="w-6 h-6 text-white/80" />
+                      <div className="w-16 h-16 bg-gradient-to-br from-gray-600 via-gray-500 to-gray-700 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110">
+                        <Building className="w-8 h-8 text-white/90" />
                       </div>
                     )}
                   </div>
                   
-                  {/* Sponsor Details - Centered */}
-                  <div className="text-center space-y-2">
-                    {/* Brand Name - Always shown once, centered and bold */}
-                    <h4 className="text-white/90 font-semibold text-sm tracking-wide">{sponsor.name}</h4>
+                  {/* Enhanced Sponsor Details */}
+                  <div className="text-center space-y-3">
+                    <h4 className="text-white font-bold text-base tracking-wide group-hover:text-cyan-200 transition-colors duration-500">{sponsor.name}</h4>
                     
-                    {/* Description */}
                     {sponsor.description && (
-                      <p className="text-white/70 text-xs leading-tight">
-                        {sponsor.description.length > 30 
-                          ? `${sponsor.description.substring(0, 30)}...` 
+                      <p className="text-white/80 text-sm leading-relaxed group-hover:text-white transition-colors duration-500">
+                        {sponsor.description.length > 40 
+                          ? `${sponsor.description.substring(0, 40)}...` 
                           : sponsor.description}
                       </p>
                     )}
                     
-                    {/* Website Link */}
                     {sponsor.website && (
                       <a 
                         href={sponsor.website} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-white/60 hover:text-white text-xs transition-colors duration-200 group-hover:scale-105 transform mt-2"
+                        className="inline-flex items-center text-white/70 hover:text-cyan-300 text-sm font-medium transition-colors duration-300 group-hover:scale-105 transform mt-3 bg-white/10 px-3 py-1 rounded-full hover:bg-white/20"
                       >
-                        <Globe className="w-3 h-3 mr-1" />
-                        Visit
-                        <ExternalLink className="w-3 h-3 ml-1" />
+                        <Globe className="w-4 h-4 mr-1" />
+                        Visit Site
+                        <ExternalLink className="w-4 h-4 ml-1" />
                       </a>
                     )}
                   </div>
                   
-                  {/* Premium Badge for first few sponsors */}
+                  {/* Enhanced Premium Badge */}
                   {index < 2 && (
-                    <div className="absolute top-2 right-2">
-                      <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs px-2 py-1 font-bold shadow-lg border-0">
-                        ⭐ Premium
+                    <div className="absolute -top-2 -right-2">
+                      <Badge className="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 text-black text-xs px-3 py-1 font-bold shadow-2xl border-0 rounded-full animate-pulse">
+                        ⭐ Premium Partner
                       </Badge>
                     </div>
                   )}

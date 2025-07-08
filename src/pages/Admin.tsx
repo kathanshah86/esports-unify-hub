@@ -15,6 +15,9 @@ import SponsorsTab from '@/components/admin/SponsorsTab';
 import RoomsTab from '@/components/admin/RoomsTab';
 import TournamentContentEditor from '@/components/admin/TournamentContentEditor';
 import TournamentTimerAdmin from '@/components/admin/TournamentTimerAdmin';
+import WalletAdmin from '@/components/admin/WalletAdmin';
+import LiveMatchYouTubeAdmin from '@/components/admin/LiveMatchYouTubeAdmin';
+import PrizeDistributionAdmin from '@/components/admin/PrizeDistributionAdmin';
 
 const Admin = () => {
   const { toast } = useToast();
@@ -415,7 +418,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="tournaments" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-gray-800">
+          <TabsList className="grid w-full grid-cols-8 bg-gray-800">
             <TabsTrigger value="tournaments" className="data-[state=active]:bg-purple-500">
               <Trophy className="w-4 h-4 mr-2" />
               Tournaments
@@ -435,6 +438,18 @@ const Admin = () => {
             <TabsTrigger value="rooms" className="data-[state=active]:bg-purple-500">
               <Lock className="w-4 h-4 mr-2" />
               Rooms
+            </TabsTrigger>
+            <TabsTrigger value="live-youtube" className="data-[state=active]:bg-purple-500">
+              <Play className="w-4 h-4 mr-2" />
+              Live YouTube
+            </TabsTrigger>
+            <TabsTrigger value="prizes" className="data-[state=active]:bg-purple-500">
+              <Trophy className="w-4 h-4 mr-2" />
+              Prize Admin
+            </TabsTrigger>
+            <TabsTrigger value="wallet" className="data-[state=active]:bg-purple-500">
+              <Trophy className="w-4 h-4 mr-2" />
+              Wallet Admin
             </TabsTrigger>
           </TabsList>
 
@@ -1182,6 +1197,21 @@ const Admin = () => {
 
           <TabsContent value="rooms">
             <RoomsTab />
+          </TabsContent>
+
+          {/* Live YouTube Tab */}
+          <TabsContent value="live-youtube">
+            <LiveMatchYouTubeAdmin />
+          </TabsContent>
+
+          {/* Prize Distribution Admin Tab */}
+          <TabsContent value="prizes">
+            <PrizeDistributionAdmin />
+          </TabsContent>
+
+          {/* Wallet Admin Tab */}
+          <TabsContent value="wallet">
+            <WalletAdmin />
           </TabsContent>
         </Tabs>
       </div>
