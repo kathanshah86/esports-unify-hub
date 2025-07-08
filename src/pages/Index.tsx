@@ -352,64 +352,84 @@ const Index = () => {
             </p>
           </div>
           
-          {/* Modern Sponsor Grid */}
+          {/* Colorful Sponsor Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {sponsors.map((sponsor, index) => (
-              <div key={sponsor.id} className="group relative">
-                {/* Modern Card */}
-                <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 h-32 flex flex-col items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105">
-                  {/* Subtle glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {sponsor.website ? (
-                    <a 
-                      href={sponsor.website} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="relative z-10 flex flex-col items-center justify-center h-full w-full text-center group-hover:scale-110 transition-transform duration-300"
-                    >
-                      {sponsor.logo ? (
-                        <div className="flex flex-col items-center">
-                          <img 
-                            src={sponsor.logo} 
-                            alt={sponsor.name}
-                            className="h-12 w-auto object-contain mb-3 filter brightness-90 group-hover:brightness-110 transition-all duration-300"
-                          />
-                          <span className="text-white/90 text-sm font-medium tracking-wide">{sponsor.name}</span>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center">
-                          <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl flex items-center justify-center mb-3">
-                            <Building className="w-6 h-6 text-white/80" />
+            {sponsors.map((sponsor, index) => {
+              // Dynamic gradient colors for each sponsor
+              const gradientColors = [
+                'from-purple-500/30 via-purple-400/20 to-blue-500/30 border-purple-400/50',
+                'from-blue-500/30 via-blue-400/20 to-cyan-500/30 border-blue-400/50',
+                'from-green-500/30 via-green-400/20 to-emerald-500/30 border-green-400/50',
+                'from-orange-500/30 via-orange-400/20 to-red-500/30 border-orange-400/50',
+                'from-pink-500/30 via-pink-400/20 to-purple-500/30 border-pink-400/50',
+                'from-yellow-500/30 via-yellow-400/20 to-orange-500/30 border-yellow-400/50',
+                'from-indigo-500/30 via-indigo-400/20 to-purple-500/30 border-indigo-400/50',
+                'from-teal-500/30 via-teal-400/20 to-blue-500/30 border-teal-400/50'
+              ];
+              
+              const colorClass = gradientColors[index % gradientColors.length];
+              
+              return (
+                <div key={sponsor.id} className="group relative">
+                  {/* Colorful Card */}
+                  <div className={`relative bg-gradient-to-br ${colorClass} backdrop-blur-sm border-2 rounded-3xl p-6 h-32 flex flex-col items-center justify-center hover:scale-[1.02] transition-all duration-300 shadow-xl overflow-hidden`}>
+                    {/* Animated background glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    {/* Floating decorative elements */}
+                    <div className="absolute top-2 right-2 w-4 h-4 bg-white/20 rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-2 left-2 w-3 h-3 bg-white/10 rounded-full animate-pulse delay-500"></div>
+                    
+                    {sponsor.website ? (
+                      <a 
+                        href={sponsor.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="relative z-10 flex flex-col items-center justify-center h-full w-full text-center transform hover:scale-110 transition-transform duration-300"
+                      >
+                        {sponsor.logo ? (
+                          <div className="flex flex-col items-center">
+                            <img 
+                              src={sponsor.logo} 
+                              alt={sponsor.name}
+                              className="h-10 w-auto object-contain mb-2 filter brightness-100 group-hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                            />
+                            <span className="text-white text-xs font-bold tracking-wide drop-shadow-lg">{sponsor.name}</span>
                           </div>
-                          <span className="text-white/90 text-sm font-medium tracking-wide">{sponsor.name}</span>
-                        </div>
-                      )}
-                    </a>
-                  ) : (
-                    <div className="relative z-10 flex flex-col items-center justify-center h-full w-full text-center">
-                      {sponsor.logo ? (
-                        <div className="flex flex-col items-center">
-                          <img 
-                            src={sponsor.logo} 
-                            alt={sponsor.name}
-                            className="h-12 w-auto object-contain mb-3 filter brightness-90 group-hover:brightness-110 transition-all duration-300"
-                          />
-                          <span className="text-white/90 text-sm font-medium tracking-wide">{sponsor.name}</span>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center">
-                          <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl flex items-center justify-center mb-3">
-                            <Building className="w-6 h-6 text-white/80" />
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <div className="w-10 h-10 bg-gradient-to-br from-white/30 to-white/10 rounded-2xl flex items-center justify-center mb-2 shadow-lg">
+                              <Building className="w-5 h-5 text-white drop-shadow-lg" />
+                            </div>
+                            <span className="text-white text-xs font-bold tracking-wide drop-shadow-lg">{sponsor.name}</span>
                           </div>
-                          <span className="text-white/90 text-sm font-medium tracking-wide">{sponsor.name}</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        )}
+                      </a>
+                    ) : (
+                      <div className="relative z-10 flex flex-col items-center justify-center h-full w-full text-center">
+                        {sponsor.logo ? (
+                          <div className="flex flex-col items-center">
+                            <img 
+                              src={sponsor.logo} 
+                              alt={sponsor.name}
+                              className="h-10 w-auto object-contain mb-2 filter brightness-100 group-hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                            />
+                            <span className="text-white text-xs font-bold tracking-wide drop-shadow-lg">{sponsor.name}</span>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <div className="w-10 h-10 bg-gradient-to-br from-white/30 to-white/10 rounded-2xl flex items-center justify-center mb-2 shadow-lg">
+                              <Building className="w-5 h-5 text-white drop-shadow-lg" />
+                            </div>
+                            <span className="text-white text-xs font-bold tracking-wide drop-shadow-lg">{sponsor.name}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Modern CTA */}

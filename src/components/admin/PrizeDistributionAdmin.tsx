@@ -37,6 +37,15 @@ const PrizeDistributionAdmin = ({ tournamentId }: PrizeDistributionAdminProps) =
   const selectedTournament = tournaments.find(t => t.id === selectedTournamentId);
   const currentPrizes = selectedTournament?.prizes_content as PrizesContent || { positions: [], additional_rewards: [] };
 
+  // Initialize empty prizes_content if it doesn't exist
+  useEffect(() => {
+    if (selectedTournament && !selectedTournament.prizes_content) {
+      updateTournament(selectedTournamentId, {
+        prizes_content: { positions: [], additional_rewards: [] }
+      });
+    }
+  }, [selectedTournament, selectedTournamentId, updateTournament]);
+
   const getPositionColor = (position: number) => {
     switch (position) {
       case 1: return "from-yellow-400 to-yellow-600";
