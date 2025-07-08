@@ -21,7 +21,7 @@ const LiveMatchYouTubeAdmin = () => {
   const { toast } = useToast();
 
   const [form, setForm] = useState({
-    tournament_id: '',
+    tournament_id: "none",
     banner_url: '',
     title: '',
     description: '',
@@ -51,7 +51,7 @@ const LiveMatchYouTubeAdmin = () => {
 
   const resetForm = () => {
     setForm({
-      tournament_id: '',
+      tournament_id: "none",
       banner_url: '',
       title: '',
       description: '',
@@ -75,7 +75,7 @@ const LiveMatchYouTubeAdmin = () => {
 
       const matchData = {
         ...form,
-        tournament_id: form.tournament_id || undefined,
+        tournament_id: form.tournament_id === "none" ? undefined : form.tournament_id,
         banner_url: form.banner_url || undefined,
         description: form.description || undefined,
         youtube_live_url: form.youtube_live_url || undefined,
@@ -108,7 +108,7 @@ const LiveMatchYouTubeAdmin = () => {
 
   const handleEdit = (match: LiveMatchAdmin) => {
     setForm({
-      tournament_id: match.tournament_id || '',
+      tournament_id: match.tournament_id || "none",
       banner_url: match.banner_url || '',
       title: match.title,
       description: match.description || '',
@@ -179,12 +179,12 @@ const LiveMatchYouTubeAdmin = () => {
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Tournament (Optional)
                 </label>
-                <Select value={form.tournament_id} onValueChange={(value) => setForm({...form, tournament_id: value})}>
+                <Select value={form.tournament_id} onValueChange={(value) => setForm({...form, tournament_id: value === "none" ? "" : value})}>
                   <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                     <SelectValue placeholder="Select tournament" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">General (No specific tournament)</SelectItem>
+                    <SelectItem value="none">General (No specific tournament)</SelectItem>
                     {tournaments.map((tournament) => (
                       <SelectItem key={tournament.id} value={tournament.id}>
                         {tournament.name}

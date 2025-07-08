@@ -284,11 +284,11 @@ const PrizeDistributionAdmin = ({ tournamentId }: PrizeDistributionAdminProps) =
         </CardHeader>
         <CardContent>
           <select
-            value={selectedTournamentId}
-            onChange={(e) => setSelectedTournamentId(e.target.value)}
+            value={selectedTournamentId || "none"}
+            onChange={(e) => setSelectedTournamentId(e.target.value === "none" ? "" : e.target.value)}
             className="w-full p-2 bg-gray-700 border border-gray-600 text-white rounded"
           >
-            <option value="">Select a tournament</option>
+            <option value="none">Select a tournament</option>
             {tournaments.map((tournament) => (
               <option key={tournament.id} value={tournament.id}>
                 {tournament.name}
