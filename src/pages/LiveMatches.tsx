@@ -1,15 +1,33 @@
 
-import { useState } from 'react';
-import { Play, Clock, CheckCircle, Users, Calendar } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Play, Clock, CheckCircle, Users, Calendar, Youtube, ExternalLink, Image } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Layout from '@/components/layout/Layout';
 import { useGameStore } from '@/store/gameStore';
+import { liveMatchService, LiveMatchAdmin } from '@/services/liveMatchService';
 
 const LiveMatches = () => {
   const { matches } = useGameStore();
   const [selectedStatus, setSelectedStatus] = useState('all');
+  const [liveStreams, setLiveStreams] = useState<LiveMatchAdmin[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load live YouTube streams
+  useEffect(() => {
+    const loadLiveStreams = async () => {
+      try {
+        const streams = await liveMatchService.getActiveLiveMatches();
+        setLiveStreams(streams);
+      } catch (error) {
+        console.error('Failed to load live streams:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadLiveStreams();
+  }, []);
 
   const filteredMatches = matches.filter(match => 
     selectedStatus === 'all' || match.status === selectedStatus
@@ -70,8 +88,90 @@ const LiveMatches = () => {
           ))}
         </div>
 
+        {/* YouTube Live Streams Section */}
+        {liveStreams.length > 0 && (
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <Youtube className="w-8 h-8 text-red-500" />
+              <h2 className="text-3xl font-bold text-white">Live Streams</h2>
+              <Badge className="bg-red-500 text-white animate-pulse">
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                  LIVE
+                </div>
+              </Badge>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {liveStreams.map((stream) => (
+                <Card key={stream.id} className="bg-gradient-to-br from-red-900/30 via-purple-900/30 to-blue-900/30 border-2 border-red-500/50 hover:border-red-400/70 transition-all duration-300 group overflow-hidden">
+                  <CardContent className="p-0">
+                    {/* Stream Banner */}
+                    <div className="relative aspect-video overflow-hidden">
+                      {stream.banner_url ? (
+                        <img 
+                          src={stream.banner_url} 
+                          alt={stream.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-red-900/40 to-purple-900/40 flex items-center justify-center">
+                          <Youtube className="w-16 h-16 text-red-400" />
+                        </div>
+                      )}
+                      
+                      {/* Live indicator */}
+                      <div className="absolute top-3 left-3 flex items-center space-x-2">
+                        <div className="flex items-center space-x-1 bg-red-500/90 text-white px-2 py-1 rounded-full text-xs font-bold">
+                          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                          LIVE
+                        </div>
+                      </div>
+                      
+                      {/* Play overlay */}
+                      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="w-16 h-16 bg-red-500/80 rounded-full flex items-center justify-center">
+                          <Play className="w-8 h-8 text-white ml-1" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Stream Info */}
+                    <div className="p-4">
+                      <h3 className="text-white font-bold text-lg mb-2 line-clamp-2 group-hover:text-red-400 transition-colors">
+                        {stream.title}
+                      </h3>
+                      
+                      {stream.description && (
+                        <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                          {stream.description}
+                        </p>
+                      )}
+                      
+                      {/* Watch Button */}
+                      {stream.youtube_live_url && (
+                        <a
+                          href={stream.youtube_live_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Button className="w-full bg-red-500 hover:bg-red-600 text-white font-bold">
+                            <Youtube className="w-4 h-4 mr-2" />
+                            Watch Live Stream
+                            <ExternalLink className="w-3 h-3 ml-2" />
+                          </Button>
+                        </a>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Live Match Banner */}
-        {matches.some(match => match.status === 'live') && (
+        {(matches.some(match => match.status === 'live') || liveStreams.length > 0) && (
           <Card className="bg-gradient-to-r from-red-900/50 to-purple-900/50 border-red-500/50 mb-8">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -81,12 +181,23 @@ const LiveMatches = () => {
                     <span className="text-red-400 font-semibold">LIVE NOW</span>
                   </div>
                   <span className="text-white text-lg font-bold">
-                    {matches.filter(match => match.status === 'live').length} matches happening now
+                    {matches.filter(match => match.status === 'live').length + liveStreams.length} live content available
                   </span>
                 </div>
-                <Button className="bg-red-500 hover:bg-red-600">
-                  Watch Live
-                </Button>
+                <div className="flex gap-2">
+                  {liveStreams.length > 0 && liveStreams[0].youtube_live_url && (
+                    <a
+                      href={liveStreams[0].youtube_live_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button className="bg-red-500 hover:bg-red-600">
+                        <Youtube className="w-4 h-4 mr-2" />
+                        Watch Stream
+                      </Button>
+                    </a>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -166,11 +277,18 @@ const LiveMatches = () => {
           ))}
         </div>
 
-        {filteredMatches.length === 0 && (
+        {filteredMatches.length === 0 && liveStreams.length === 0 && !loading && (
           <div className="text-center py-12">
             <Play className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-400 mb-2">No matches found</h3>
-            <p className="text-gray-500">Try adjusting your filters or check back later</p>
+            <h3 className="text-xl font-semibold text-gray-400 mb-2">No live content found</h3>
+            <p className="text-gray-500">No matches or live streams are currently available. Check back later!</p>
+          </div>
+        )}
+
+        {loading && (
+          <div className="text-center py-12">
+            <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-400">Loading live content...</p>
           </div>
         )}
       </div>
